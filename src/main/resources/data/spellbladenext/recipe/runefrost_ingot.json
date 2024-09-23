@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "runes:frost_stone"
+  },
+  "base": {
+    "item": "minecraft:iron_block"
+  },
+  "result": {
+    "id": "spellbladenext:runefrost_ingot"
+  },
+  "template": {
+    "item": "minecraft:prismarine_crystals"
+  }
+}

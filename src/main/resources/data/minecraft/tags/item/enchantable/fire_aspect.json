@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "spellbladenext:arcane_blade",
+    "spellbladenext:frost_blade",
+    "spellbladenext:fire_blade",
+    "spellbladenext:arcane_claymore",
+    "spellbladenext:frost_claymore",
+    "spellbladenext:fire_claymore",
+    "spellbladenext:crystal_cutlass",
+    "spellbladenext:flaming_falchion",
+    "spellbladenext:glacial_gladius",
+    "spellbladenext:monkeystaff"
+
+
+  ]
+}
