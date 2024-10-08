@@ -2,6 +2,8 @@ package com.cleannrooster.spellblades.items.interfaces;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.Identifier;
+import net.spell_engine.api.spell.Spell;
 
 import java.util.List;
 
@@ -9,7 +11,11 @@ public interface PlayerDamageInterface {
     void setDamageMultiplier(float f);
     void repeat();
     int getRepeats();
-
+    List<Identifier> getSpellstrikeSpells();
+    void queueSpellStrikeSpell(Identifier spell);
+    void clearSpellstrikeSpells();
+    void setSpellstriking(boolean spellstriking);
+    boolean getSpellstriking();
     void resetRepeats();
     int getLasthurt();
     float getDamageAbsorbed();

@@ -9,7 +9,9 @@
 		"SpellRenderMixin",
 		"SpellCastMixin",
 		"SpellContainerMixin",
-		"LivingEntityRendererMixin"
+		"LivingEntityRendererMixin",
+		"ItemstackMixin",
+		"EntityAttributesMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

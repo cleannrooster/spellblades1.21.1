@@ -5,6 +5,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Identifier;
+import net.spell_engine.api.spell.Spell;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,8 +25,11 @@ public class PlayerMixin implements PlayerDamageInterface {
     public Entity lastAttacked;
     public int lasthurt;
     public float damageAbsorbed;
+    public boolean spellstriking;
     public int diebeamstacks;
     public int repeats = 0;
+    public List<Identifier> spells = new ArrayList<>();
+
     public boolean overrideDamageMultiplier = false;
     public boolean shouldUnFortify = false;
     public int timesincefirsthurt = 0;
@@ -46,10 +51,32 @@ public class PlayerMixin implements PlayerDamageInterface {
         return damageAbsorbed;
     }
 
+    public void setSpellstriking(boolean spellstriking) {
+        this.spellstriking = spellstriking;
+    }
+    public boolean getSpellstriking(){
+        return this.spellstriking;
+    }
+
     @Override
     public void resetDamageAbsorbed() {
         damageAbsorbed = 0;
         this.lasthurt = ((PlayerEntity) (Object) this).age;
+    }
+
+    @Override
+    public List<Identifier> getSpellstrikeSpells() {
+        return spells;
+    }
+
+    @Override
+    public void clearSpellstrikeSpells() {
+        spells = new ArrayList<>();
+    }
+
+    @Override
+    public void queueSpellStrikeSpell(Identifier spellstrikeSpell) {
+        this.spells.add(spellstrikeSpell);
     }
 
     @Override

@@ -5,6 +5,7 @@
     "tier": 1
   },
   "cast": {
+    "movement_speed": 1.1,
     "duration": 8,
     "animation": "spell_engine:spin",
     "channel_ticks": 4,

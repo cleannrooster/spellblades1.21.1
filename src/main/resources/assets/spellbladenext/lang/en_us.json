@@ -13,6 +13,8 @@
   "item.spellbladenext.ashes": "Ashes of the Stars",
   "item.spellbladenext.higherpurpose": "Higher Purpose",
   "item.spellbladenext.theavatar": "The Avatar",
+  "item.spellbladenext.lightning_battlemage_spell_book": "Lightning Techniques",
+
   "item.spellbladenext.thesis_spell_book": "Thesis of Awakening",
   "item.spellbladenext.thesis_spell_book.desc": "Fear not the mage who has cast a thousand different spells once, fear the mage who has cast a single spell a thousand times.",
   "item.spellbladenext.thesis_spell_book.desc2": "Awaken your spell at a spell binding table.",
@@ -72,19 +74,22 @@
   "entity.spellbladenext.cycloneentity": "Cyclone",
 
   "item.spellbladenext.monkeystaff": "Pillar of the Monkey King",
+  "spell.spellbladenext.lightningstep.name": "Surge",
+  "spell.spellbladenext.lightningstep.description": "Become invulnerable, surging towards the target direction and dealing {damage} lightning dps to very close enemies.",
+
   "spell.spellbladenext.thesis.name": "Awakened",
   "spell.spellbladenext.thesis.description": "You have dedicated your life to the casting of one particular spell. You have 50%% more spell power and spell haste.",
   "spell.spellbladenext.challenge.name": "Challenge",
-  "spell.spellbladenext.challenge.description": "Challenge an enemy, making them target only you for the duration. Challenged enemies when killed heal you up to full based on your fervor stacks and give you regeneration and resistance, while giving their nearby allies weakness.",
+  "spell.spellbladenext.challenge.description": "Challenge an enemy, making them target only you for the duration. You take 20%% less damage from enemies aside from your challenged enemies, and your challenged enemies deals 20%% less damage to anyone aside from you. Challenged enemies when killed heal you up to full based on your fervor stacks and give you regeneration and resistance, while giving their nearby allies weakness.",
   "spell.spellbladenext.overpower.name": "Overpower",
-  "spell.spellbladenext.overpower.description": "Deliver a devastating blow to your enemy, dealing {damage_1} physical damage and {damage_2} healing damage. A target with less armor than you is Sundered for six seconds, losing all armor stats and becoming immobile. Players are knocked prone for this duration.",
+  "spell.spellbladenext.overpower.description": "Charge forward, dragging nearby enemies along your path, dealing {damage_1} physical damage and {damage_2} healing damage at the end of the channel. Targets hit by the final hit are Sundered for six seconds, losing all armor stats and becoming immobile. Players are knocked prone for this duration.",
   "spell.spellbladenext.soul_of_vengeance.name": "Soul of Vengeance",
-  "spell.spellbladenext.soul_of_vengeance.description": "Passive: Upon you or your allies being hit, increase your stacks of Fervor by 1, up to 10. Active: Refresh your Fervor, increasing it by 1.",
+  "spell.spellbladenext.soul_of_vengeance.description": "Refresh your Fervor, setting it to 5 for 8 seconds.",
   "spell.spellbladenext.frostgrasp.name": "Winter's Grasp",
-  "spell.spellbladenext.frostgrasp.description": "Chill the target enemy with a frozen grasp, dealing {damage} frost damage.",
+  "spell.spellbladenext.frostgrasp.description": "Chill the target area with a frozen grasp, dealing {damage} frost damage.",
   "spell.spellbladenext.starfall.name": "Starfall",
   "spell.spellbladenext.starfall.description": "Four small amethyst meteors pelt the target area, each dealing {damage} arcane damage.",
-  "spell.spellbladenext.flamelance.name": "Flame lance",
+  "spell.spellbladenext.flamelance.name": "Flame Lance",
   "spell.spellbladenext.flamelance.description": "Incinerate a line in front of you, dealing {damage} fire damage to each enemy.",
 
   "spell.spellbladenext.monkeyreflect.name": "Rending Winds",
@@ -157,6 +162,10 @@
   "spell.spellbladenext.smite.name": "Divine Smite",
   "spell.spellbladenext.smite.description": "Passive: Your hits give you Fervor for 4 seconds, which gives you 10%% of your Attack Damage gained as Healing Power, up to 3 stacks. Active: Smite enemies in front of you in an area, dealing {damage_1} physical and {damage_2} extra healing damage to each enemy hit, sending nearby enemies flying.",
 
+  "spell.spellbladenext.spellstrike.name": "Spellstrike",
+  "spell.spellbladenext.spellstrike.description": "Activate to gain the Spellstrike buff for 16 seconds, granting 50%% spell haste. With this buff, any non-channeling spells cast as well as their cost will be deferred, instead being cast when you hit an enemy with a melee attack. When activating spells this way, all spells are cast at once. With no spells queued, the hit enemy is blasted with the elements.",
+
+  "attribute.name.spellbladenext.ephemeral" : "of Absorption Gained as Lightning Power",
   "spell.spellbladenext.maelstrom.name": "Maelstrom",
   "spell.spellbladenext.maelstrom.description": "Spin continuously, dealing {damage_1} physical damage and {damage_2} arcane damage per second. Gain 1 Haste and Strength per 4 arcane power.",
 
@@ -177,12 +186,29 @@
   "dimensiontype.spellbladenext.glassocean": "Glass Ocean",
   "travelerstitles.spellbladenext.glassocean": "Glass Ocean",
   "dimension.spellbladenext.glassocean": "Glass Ocean",
+  "spell.spellbladenext.lightningoverdrive.name": "Lightning Overdrive",
+  "spell.spellbladenext.lightningoverdrive.description": "{damage} Lightning damage in an area around you. Activates normally and on hit.",
+  "spell.spellbladenext.xslash.name": "Cross Slash",
+  "spell.spellbladenext.xslash.description": "Attack three times over half a second, dealing {damage_1} physical dps, plus {damage_2} lightning dps. You are invulnerable while attacking.",
+
+  "spell.spellbladenext.lightningslash.name": "Charge Slash",
+  "spell.spellbladenext.lightningslash.description": "{damage} Lightning DPS. Swing your weapon wildly, shooting charged, chaining projectiles.",
+
+  "spell.spellbladenext.lightningoverdrive.name": "Lightning Overdrive",
+  "spell.spellbladenext.lightningoverdrive.description": "{damage} Lightning damage in an area around you. Activates normally and on hit.",
+
+  "spell.spellbladenext.fireflourish.name": "Fire Flourish",
+  "spell.spellbladenext.fireflourish.description": "Spin rapidly, dealing {damage_1} physical damage, plus {damage_2} fire damage. Gain 1 Haste and Strength per 4 fire power.",
+  "spell.spellbladenext.fireflourish.name": "Fire Flourish",
+  "spell.spellbladenext.fireflourish.description": "Spin rapidly, dealing {damage_1} physical damage, plus {damage_2} fire damage. Gain 1 Haste and Strength per 4 fire power.",
 
   "spell.spellbladenext.fireflourish.name": "Fire Flourish",
   "spell.spellbladenext.fireflourish.description": "Spin rapidly, dealing {damage_1} physical damage, plus {damage_2} fire damage. Gain 1 Haste and Strength per 4 fire power.",
 
   "spell.spellbladenext.frostflourish.name": "Frost Flourish",
   "spell.spellbladenext.frostflourish.description": "Spin rapidly, dealing {damage_1} physical damage, plus {damage_2} frost damage. Gain 1 Haste and Strength per 4 frost power.",
+  "item.spellbladenext.ephemeral_edge": "Ephemeral Edge",
+
   "item.spellbladenext.runegleam_ingot": "Runegleam Ingot",
   "item.spellbladenext.runeblaze_ingot": "Runeblaze Ingot",
   "item.spellbladenext.runefrost_ingot": "Runefrost Ingot",
@@ -193,6 +219,8 @@
   "item.spellbladenext.runeblaze_plate": "Blazing Runeplates",
   "item.spellbladenext.runefrost_plate": "Frigid Runeplates",
   "effect.spellbladenext.runicabsorption": "Runic Absorption",
+  "effect.spellbladenext.spellstrike": "Spellstrike",
+
   "effect.spellbladenext.fervor": "Fervor",
   "effect.spellbladenext.deathchill": "Deathchill",
   "effect.spellbladenext.sundered": "Sundered",

@@ -88,6 +88,11 @@ public class Items {
             Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND, () -> Ingredient.ofItems(SpellbladesAndSuch.RUNEGLEAM)), 5F,SpellSchools.ARCANE)
             .attribute(ItemConfig.Attribute.bonus((SpellSchools.ARCANE).id, 3))
             .attribute(ItemConfig.Attribute.multiply(Identifier.of(ReabsorptionInit.MOD_ID,"converttoarcane"), 0.2F));
+    public static final Weapon.Entry ephemeral_edge = blade("ephemeral_edge",
+            Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND, () -> Ingredient.ofItems(net.minecraft.item.Items.BREEZE_ROD)), 5F,SpellSchools.LIGHTNING)
+            .attribute(ItemConfig.Attribute.bonus((SpellSchools.LIGHTNING.id), 3))
+            .attribute(ItemConfig.Attribute.multiply(Identifier.of(ReabsorptionInit.MOD_ID,"ephemeral"), 0.5F));
+
 
     private static Weapon.Entry claymore(String name, Weapon.CustomMaterial material, float damage, SpellSchool school) {
         return claymore(null, name, material, damage, school );

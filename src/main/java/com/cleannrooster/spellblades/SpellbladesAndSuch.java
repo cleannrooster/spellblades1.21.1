@@ -128,65 +128,76 @@ public class SpellbladesAndSuch implements ModInitializer {
 
 	public static ServerConfig config;
 	public static final ClampedEntityAttribute PURPOSE = new ClampedEntityAttribute("attribute.name.spellbladenext.purpose", 100,100,9999);
+	public static RegistryEntry<EntityAttribute> EPHEMERAL;
 
 	public static RegistryKey<ItemGroup> KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(),Identifier.of(SpellbladesAndSuch.MOD_ID,"generic"));
 	public static RegistryKey<ItemGroup> SPELLOILSKEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(),Identifier.of(SpellbladesAndSuch.MOD_ID,"oils"));
 	public static RegistryKey<ItemGroup> THESISKEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(),Identifier.of(SpellbladesAndSuch.MOD_ID,"thesis"));
 
-	public static Item RUNEBLAZE = new Item(new Item.Settings().maxCount(64));
-	public static Item RUNEFROST = new Item(new Item.Settings().maxCount(64));
-	public static Item RUNEGLEAM = new Item(new Item.Settings().maxCount(64));
+	public static Item RUNEBLAZE ;
+	public static Item RUNEFROST ;
+	public static Item RUNEGLEAM ;
 
 
-	public static Item MONKEYSTAFF = new MonkeyStaff(0,0,new Item.Settings());
-
+	public static Item MONKEYSTAFF ;
 /*
 	public static Item RIFLE = new Rifle(new Item.Settings()().maxDamage(2000));
 */
 
 
 
-	public static final RegistryEntry.Reference<StatusEffect> UNLEASH;
-	public static final RegistryEntry.Reference<StatusEffect> FERVOR;
+	public static  RegistryEntry.Reference<StatusEffect> UNLEASH;
+	public static  RegistryEntry.Reference<StatusEffect> FERVOR;
 
-	public static final RegistryEntry.Reference<StatusEffect> SLAMMING;
-	public static final RegistryEntry.Reference<StatusEffect> CHALLENGED;
+	public static  RegistryEntry.Reference<StatusEffect> SLAMMING;
+	public static  RegistryEntry.Reference<StatusEffect> CHALLENGED;
+	public static  RegistryEntry.Reference<StatusEffect> SPELLSTRIKE;
 
-	public static final RegistryEntry.Reference<StatusEffect> SUNDERED;
+	public static  RegistryEntry.Reference<StatusEffect> SUNDERED;
 
 	private static PacketByteBuf configSerialized = PacketByteBufs.create();
 
 
 
 
-	public static ConfigManager<ItemConfig> itemConfig = new ConfigManager<ItemConfig>
-			("items_v1", Default.itemConfig)
-			.builder()
-			.setDirectory(MOD_ID)
-			.sanitize(true)
-			.build();
-	public static final RegistryEntry.Reference<StatusEffect> PHOENIXCURSE;
-	public static final RegistryEntry.Reference<StatusEffect> DEATHCHILL;
+	public static ConfigManager<ItemConfig> itemConfig ;
+	public static RegistryEntry.Reference<StatusEffect> PHOENIXCURSE;
+	public static  RegistryEntry.Reference<StatusEffect> DEATHCHILL;
 static{
-	PHOENIXCURSE = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"phoenixcurse"),new PhoenixCurse(StatusEffectCategory.HARMFUL, 0xff4bdd,SpellRegistry.getSpell(Identifier.of(SpellbladesAndSuch.MOD_ID,"combustion"))));
-	DEATHCHILL = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"deathchill"),new Deathchill(StatusEffectCategory.HARMFUL, 0xff4edd,SpellRegistry.getSpell(Identifier.of(SpellbladesAndSuch.MOD_ID,"deathchill"))));
-	CHALLENGED = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"challenged"),new Challenged(StatusEffectCategory.HARMFUL, 0xff4bad,SpellRegistry.getSpell(Identifier.of(SpellbladesAndSuch.MOD_ID,"challenge"))));
-	SUNDERED = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"sundered"),new CustomEffect(StatusEffectCategory.HARMFUL, 0xff4bcd)
-			.addAttributeModifier(EntityAttributes.GENERIC_ARMOR,Identifier.of(MOD_ID,"overpower1"),-1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
-			.addAttributeModifier(EntityAttributes.GENERIC_ARMOR_TOUGHNESS,Identifier.of(MOD_ID,"overpower1"),-1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
-			.addAttributeModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED,Identifier.of(MOD_ID,"overpower1"),-1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
-			.addAttributeModifier(EntityAttributes.GENERIC_JUMP_STRENGTH,Identifier.of(MOD_ID,"overpower1"),-1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
-	;
-
-	UNLEASH =      Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"unleash"),new CustomEffect(StatusEffectCategory.BENEFICIAL, 0xff4add));
-	FERVOR = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"fervor"),new CustomEffect(StatusEffectCategory.BENEFICIAL, 0xffff00).addAttributeModifier(ReabsorptionInit.CONVERTTOHEAL,Identifier.of(MOD_ID,"fervor"),0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-
-	SLAMMING= Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"slamming"),new Slamming(StatusEffectCategory.BENEFICIAL, 0xff4cdd));
 
 }
 
 	@Override
 	public void onInitialize() {
+		PHOENIXCURSE = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"phoenixcurse"),new PhoenixCurse(StatusEffectCategory.HARMFUL, 0xff4bdd,SpellRegistry.getSpell(Identifier.of(SpellbladesAndSuch.MOD_ID,"combustion"))));
+		SPELLSTRIKE =  Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"spellstrike"),new Spellstrike(StatusEffectCategory.BENEFICIAL, 0xff4bdd).addAttributeModifier(SpellPowerMechanics.HASTE.attributeEntry,Identifier.of(MOD_ID,"haste"),0.5F,EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+
+		DEATHCHILL = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"deathchill"),new Deathchill(StatusEffectCategory.HARMFUL, 0xff4edd,SpellRegistry.getSpell(Identifier.of(SpellbladesAndSuch.MOD_ID,"deathchill"))));
+		CHALLENGED = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"challenged"),new Challenged(StatusEffectCategory.HARMFUL, 0xff4bad,SpellRegistry.getSpell(Identifier.of(SpellbladesAndSuch.MOD_ID,"challenge"))));
+		SUNDERED = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"sundered"),new CustomEffect(StatusEffectCategory.HARMFUL, 0xff4bcd)
+				.addAttributeModifier(EntityAttributes.GENERIC_ARMOR,Identifier.of(MOD_ID,"overpower1"),-1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+				.addAttributeModifier(EntityAttributes.GENERIC_ARMOR_TOUGHNESS,Identifier.of(MOD_ID,"overpower1"),-1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+				.addAttributeModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED,Identifier.of(MOD_ID,"overpower1"),-1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+				.addAttributeModifier(EntityAttributes.GENERIC_JUMP_STRENGTH,Identifier.of(MOD_ID,"overpower1"),-1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+		;
+		if(SpellSchools.LIGHTNING.attributeEntry != null) {
+			SpellSchools.LIGHTNING.attributeEntry.value().setTracked(true);
+		}
+		UNLEASH =      Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"unleash"),new CustomEffect(StatusEffectCategory.BENEFICIAL, 0xff4add));
+		FERVOR = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"fervor"),new Fervor(StatusEffectCategory.BENEFICIAL, 0xffff00).addAttributeModifier(ReabsorptionInit.CONVERTTOHEAL,Identifier.of(MOD_ID,"fervor"),0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+
+		SLAMMING= Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"slamming"),new Slamming(StatusEffectCategory.BENEFICIAL, 0xff4cdd));
+
+		itemConfig= new ConfigManager<ItemConfig>
+			("items_v2", Default.itemConfig)
+			.builder()
+			.setDirectory(MOD_ID)
+			.sanitize(true)
+			.build();
+		MONKEYSTAFF = new MonkeyStaff(0,0,new Item.Settings());
+		RUNEBLAZE                = new Item(new Item.Settings().maxCount(64));
+		RUNEFROST  = new Item(new Item.Settings().maxCount(64));
+		RUNEGLEAM= new Item(new Item.Settings().maxCount(64));
 		CYCLONEENTITY = Registry.register(
 				ENTITY_TYPE,
 				Identifier.of(MOD_ID, "cycloneentity"),
@@ -203,9 +214,16 @@ static{
 		AutoConfig.register(ServerConfigWrapper.class, PartitioningSerializer.wrap(JanksonConfigSerializer::new));
 
 		config = AutoConfig.getConfigHolder(ServerConfigWrapper.class).getConfig().server;
+		((ClampedEntityAttribute)(EPHEMERAL.value())).setTracked(true);
 
 		Spells.register();
-
+		SpellSchools.LIGHTNING.addSource(SpellSchool.Trait.POWER, SpellSchool.Apply.ADD	,(queryArgs -> {
+			double amount = 0;
+			if(queryArgs.entity().getAttributeValue(EPHEMERAL) - 100 > 0) {
+				amount +=  queryArgs.entity().getAbsorptionAmount() * 0.01 * (queryArgs.entity().getAttributeValue(EPHEMERAL) - 100);
+			}
+			return amount;
+		}));
 
 		Registry.register(Registries.ITEM,Identifier.of(MOD_ID,"runeblaze_ingot"),RUNEBLAZE);
 		Registry.register(Registries.ITEM,Identifier.of(MOD_ID,"runefrost_ingot"),RUNEFROST);
@@ -240,12 +258,15 @@ static{
 		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"fire_battlemage"),KEY);
 		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"arcane_battlemage"),KEY);
 		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"runic_echoes"),KEY);
+
 		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"phoenix"),KEY);
 		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"deathchill"),KEY);
 		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"vengeance"),KEY);
+		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"lightning_battlemage"),KEY);
 
 		ItemGroupEvents.modifyEntriesEvent(KEY).register((content) -> {
 			content.add(RUNEBLAZE);
+
 			content.add(RUNEGLEAM);
 			content.add(RUNEFROST);
 

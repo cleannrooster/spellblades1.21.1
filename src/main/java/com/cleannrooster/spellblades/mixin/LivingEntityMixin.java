@@ -5,6 +5,9 @@ import com.cleannrooster.spellblades.items.Orb;
 import com.cleannrooster.spellblades.items.interfaces.PlayerDamageInterface;
 import com.extraspellattributes.api.SpellStatusEffect;
 import com.extraspellattributes.api.SpellStatusEffectInstance;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
@@ -14,6 +17,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.damage.DamageTypes;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
@@ -50,6 +54,8 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import static com.cleannrooster.spellblades.SpellbladesAndSuch.*;
+import static com.extraspellattributes.ReabsorptionInit.CONVERTFROMFIRE;
+import static com.extraspellattributes.ReabsorptionInit.WARDING;
 import static net.spell_engine.internals.SpellHelper.ammoForSpell;
 import static net.spell_engine.internals.SpellHelper.impactTargetingMode;
 
@@ -96,7 +102,7 @@ public class LivingEntityMixin {
                 i = 0;
             }
             ((WorldScheduler) living.getWorld()).schedule(1, () -> {
-                        living.addStatusEffect(new StatusEffectInstance(SpellbladesAndSuch.FERVOR, 80, Math.min(i, 2)));
+                        living.addStatusEffect(new StatusEffectInstance(SpellbladesAndSuch.FERVOR, 80, Math.min(i, 2),false,false,true));
                     }
             );
         }
@@ -106,7 +112,15 @@ public class LivingEntityMixin {
     public void tick_SB_HEAD(CallbackInfo info) {
 
             LivingEntity living = (LivingEntity) (Object) this;
+            if(living instanceof PlayerDamageInterface damageInterface){
+                if(living.hasStatusEffect(SPELLSTRIKE) && !living.getWorld().isClient()){
+                    damageInterface.setSpellstriking(true);
+                }
+                else if(!living.hasStatusEffect(SPELLSTRIKE) && damageInterface.getSpellstriking() && !living.getWorld().isClient()){
+                    damageInterface.setSpellstriking(false);
 
+                }
+            }
             if(!living.getWorld().isClient() && living instanceof PlayerEntity player && living instanceof SpellCasterEntity caster && living instanceof PlayerDamageInterface damageInterface  &&
                 SpellContainerHelper.getEquipped(living.getMainHandStack(), player) != null && SpellContainerHelper.getEquipped(player.getMainHandStack(), player).spell_ids() != null && SpellContainerHelper.getEquipped(player.getMainHandStack(), player).spell_ids().contains("spellbladenext:echoes")){
             if(damageInterface.getDiebeamStacks() < 3 &&  living.age % 80 == 0) {
@@ -154,15 +168,6 @@ public class LivingEntityMixin {
         if(living instanceof PlayerEntity player && player instanceof SpellCasterEntity entity && entity.getCurrentSpell() != null && player.getMainHandStack().getItem() instanceof Orb) {
             return vec3d.multiply(6);
         }
-        else if(living instanceof PlayerEntity player && player instanceof SpellCasterEntity entity && entity.getCurrentSpell() != null &&(
-                entity.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(MOD_ID,"reckoning"))) ||
-                entity.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(MOD_ID,"whirlwind"))) ||
-                entity.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(MOD_ID,"maelstrom"))) ||
-                entity.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(MOD_ID,"tempest")))  ||
-                entity.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(MOD_ID,"inferno"))) )) {
-            return vec3d.multiply(18);
-
-        }
         else{
             return vec3d;
         }
@@ -177,53 +182,31 @@ public class LivingEntityMixin {
             }
         }
     }
+    @ModifyVariable(method = "damage", at = @At("HEAD"),  argsOnly = true)
+    private float hurtChallenged(float amount,final DamageSource player, float f) {
+        LivingEntity player2 = ((LivingEntity) (Object) this);
+        Registry<DamageType> registry = ((DamageSourcesAccessor)player2.getDamageSources()).getRegistry();
+        if(!player2.getWorld().isClient()) {
+            if (player.getAttacker() instanceof LivingEntity living && living.getStatusEffect(CHALLENGED) instanceof SpellStatusEffectInstance instance) {
+                if (instance.getOwner() != player2) {
+                    f *= 0.8F;
+                }
+            }
+            if (PlayerLookup.tracking(player2).stream().anyMatch((serverPlayerEntity) -> {
+                return serverPlayerEntity.getStatusEffect(CHALLENGED) instanceof SpellStatusEffectInstance instance && instance.getOwner().equals(player2);
+            }) && ((player.getAttacker() instanceof LivingEntity living && living.getStatusEffect(CHALLENGED) instanceof SpellStatusEffectInstance instance && !instance.getOwner().equals(player2))
+                    || (player2.getAttacker() instanceof LivingEntity livingEntity && !livingEntity.hasStatusEffect(CHALLENGED)))) {
+                f *= 0.8F;
 
-
+            }
+        }
+        return f;
+    }
     @Inject(at = @At("HEAD"), method = "damage", cancellable = true)
     private void hurtreal(final DamageSource player, float f, final CallbackInfoReturnable<Boolean> info) {
         LivingEntity player2 = ((LivingEntity) (Object) this);
         Registry<DamageType> registry = ((DamageSourcesAccessor)player2.getDamageSources()).getRegistry();
-        if(player2.getWorld() instanceof ServerWorld serverWorld) {
-            if(player2 instanceof PlayerEntity playerEntity) {
-                if (playerEntity instanceof SpellCasterEntity entity && SpellContainerHelper.getEquipped(playerEntity.getMainHandStack(), playerEntity) != null && SpellContainerHelper.getEquipped(playerEntity.getMainHandStack(), playerEntity).spell_ids().contains("spellbladenext:soul_of_vengeance")) {
-                    if (player.getAttacker() instanceof LivingEntity living && !TargetHelper.getRelation(living, playerEntity).equals(TargetHelper.Relation.ALLY) && playerEntity.distanceTo(player2) < 16 && TargetHelper.getRelation(playerEntity, player2).equals(TargetHelper.Relation.ALLY)) {
 
-                        if (playerEntity.getStatusEffect(FERVOR) instanceof SpellStatusEffectInstance instance) {
-                            int i = Math.min(9, instance.getAmplifier() + 1);
-                            ((WorldScheduler) serverWorld).schedule(1, () -> {
-
-                                playerEntity.addStatusEffect(new StatusEffectInstance(FERVOR, 160, i));
-                            });
-                        }
-                        {
-
-                            playerEntity.addStatusEffect(new StatusEffectInstance(FERVOR, 160, 0));
-
-                        }
-                    }
-                }
-            }
-            for (PlayerEntity playerEntity : PlayerLookup.tracking(player2)) {
-                if (playerEntity instanceof SpellCasterEntity entity && SpellContainerHelper.getEquipped(playerEntity.getMainHandStack(), playerEntity) != null && SpellContainerHelper.getEquipped(playerEntity.getMainHandStack(), playerEntity).spell_ids().contains("spellbladenext:soul_of_vengeance")) {
-
-                    Spell spell = SpellRegistry.getSpell(Identifier.of(MOD_ID, "soul_of_vengeance"));
-                    if (player.getAttacker() instanceof LivingEntity living && !TargetHelper.getRelation(living, playerEntity).equals(TargetHelper.Relation.ALLY) && playerEntity.distanceTo(player2) < 16 && TargetHelper.getRelation(playerEntity, player2).equals(TargetHelper.Relation.ALLY)) {
-                        if (playerEntity.getStatusEffect(FERVOR) instanceof SpellStatusEffectInstance instance) {
-                            int i = Math.min(9, instance.getAmplifier() + 1);
-                            ((WorldScheduler) serverWorld).schedule(1, () -> {
-
-                                playerEntity.addStatusEffect(new StatusEffectInstance(FERVOR, 160, i));
-                            });
-                        }
-                        {
-
-                            playerEntity.addStatusEffect(new StatusEffectInstance(FERVOR, 160, 0));
-
-                        }
-                    }
-                }
-            }
-        }
         if (player.getAttacker() instanceof PlayerEntity player1  && !player1.getWorld().isClient()) {
             ItemStack stack = player1.getMainHandStack();
 
@@ -236,7 +219,6 @@ public class LivingEntityMixin {
                     return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, player1, target2)
                     );
                 };
-
                 int i = 0;
                 List<Entity> targets = player1.getWorld().getOtherEntities(player1, player1.getBoundingBox().expand(spell.range), selectionPredicate);
 
@@ -264,8 +246,41 @@ public class LivingEntityMixin {
                 }
 
             }
+            if (player1 instanceof SpellCasterEntity entity && SpellContainerHelper.getEquipped(player1.getMainHandStack(),player1) != null && SpellContainerHelper.getEquipped(player1.getMainHandStack(),player1).spell_ids().contains("spellbladenext:lightningoverdrive") && ammoForSpell(player1, SpellRegistry.getSpell(Identifier.of(MOD_ID, "lightningoverdrive")), stack).satisfied() && !entity.getCooldownManager().isCoolingDown(Identifier.of(MOD_ID, "lightningoverdrive"))) {
+                Spell spell = SpellRegistry.getSpell(Identifier.of(MOD_ID, "lightningoverdrive"));
+
+                entity.getCooldownManager().set(Identifier.of(MOD_ID, "lightningoverdrive"), (int) (20 * SpellHelper.getCooldownDuration(player1, spell)));
+                Predicate<Entity> selectionPredicate = (target2) -> {
+                    return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, player1, target2)
+                    );
+                };
+                int i = 0;
+                List<Entity> targets = player1.getWorld().getOtherEntities(player1, player1.getBoundingBox().expand(spell.range), selectionPredicate);
 
 
+                SpellHelper.ImpactContext context = new SpellHelper.ImpactContext(1.0F, 1.0F, (Vec3d) null, SpellPower.getSpellPower(spell.school, player1), impactTargetingMode(spell));
+
+                for (Entity target1 : targets) {
+                    SpellInfo spell1 = new SpellInfo(SpellRegistry.getSpell(Identifier.of(MOD_ID, "lightningoverdrive")), Identifier.of(MOD_ID, "lightningoverdrive"));
+
+                    SpellHelper.performImpacts(player1.getWorld(), player1, target1, player1, spell1, new SpellHelper.ImpactContext());
+                }
+                ParticleHelper.sendBatches(player1, spell.release.particles);
+                SpellHelper.AmmoResult ammoResult = ammoForSpell(player1, spell, stack);
+                if (ammoResult.ammo() != null) {
+                    for (int ii = 0; ii < player1.getInventory().size(); ++ii) {
+                        ItemStack stack1 = player1.getInventory().getStack(ii);
+                        if (stack1.isOf(ammoResult.ammo().getItem())) {
+                            stack1.decrement(1);
+                            if (stack1.isEmpty()) {
+                                player1.getInventory().removeOne(stack1);
+                            }
+                            break;
+                        }
+                    }
+                }
+
+            }
             Spell spell2 = SpellRegistry.getSpell(Identifier.of(MOD_ID, "fireoverdrive"));
 
             if (player1 instanceof SpellCasterEntity entity && SpellContainerHelper.getEquipped(player1.getMainHandStack(),player1) != null && SpellContainerHelper.getEquipped(player1.getMainHandStack(),player1).spell_ids().contains("spellbladenext:fireoverdrive") &&  ammoForSpell(player1, spell2, stack).satisfied() && !entity.getCooldownManager().isCoolingDown(Identifier.of(MOD_ID, "fireoverdrive"))) {
@@ -343,8 +358,13 @@ public class LivingEntityMixin {
             }
 
         }
-        if (player2 instanceof SpellCasterEntity entity && (entity.getCurrentSpell() != null && (entity.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(MOD_ID, "eviscerate"))) || entity.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(MOD_ID, "monkeyslam")))))) {
+        if (player2 instanceof SpellCasterEntity entity && (entity.getCurrentSpell() != null && (entity.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(MOD_ID, "eviscerate"))) || entity.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(MOD_ID, "monkeyslam"))) || entity.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(MOD_ID, "xslash")))))) {
             info.setReturnValue(false);
         }
     }
+    @Inject(method = "createLivingAttributes", at = @At("RETURN"))
+    private static void addAttributesSpellblades_RETURN(final CallbackInfoReturnable<DefaultAttributeContainer.Builder> info) {
+        info.getReturnValue().add(EPHEMERAL);
+    }
+
 }

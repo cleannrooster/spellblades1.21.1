@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "P": {
+      "item": "minecraft:tinted_glass"
+    },
+    "S": {
+      "item": "minecraft:lightning_rod"
+    },
+    "G": {
+      "item": "minecraft:breeze_rod"
+    }
+  },
+  "pattern": [
+    "  P",
+    " S ",
+    "G  "
+  ],
+  "result": {
+    "id": "spellbladenext:ephemeral_edge"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "spellbladenext:item/holy_lightning_book"
+  }
+}

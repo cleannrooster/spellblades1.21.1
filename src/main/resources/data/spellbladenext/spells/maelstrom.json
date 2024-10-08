@@ -6,6 +6,8 @@
   },
   "cast": {
     "duration": 8,
+    "movement_speed": 1.1,
+
     "animation": "spell_engine:spin",
     "channel_ticks": 4,
     "sound": {

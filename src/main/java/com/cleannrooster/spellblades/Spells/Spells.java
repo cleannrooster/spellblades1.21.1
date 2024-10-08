@@ -48,6 +48,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import net.spell_engine.api.item.trinket.SpellBookItem;
+import net.spell_engine.api.item.trinket.SpellBookTrinketItem;
 import net.spell_engine.api.spell.*;
 import net.spell_engine.entity.SpellProjectile;
 import net.spell_engine.internals.SpellHelper;
@@ -185,23 +187,38 @@ public class Spells {
 
             return false;
         });
+
         CustomSpellHandler.register(Identifier.of(MOD_ID,"overpower"),(data) -> {
             CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            for (Entity entity : data1.targets()) {
+                double a = 0;
 
-            for(Entity entity: data1.targets()){
-                if(entity instanceof LivingEntity living){
-                    if(data1.caster().getArmor() > living.getArmor()){
-                        ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(SUNDERED,120,0,false,false,true,null));
-                        ((LivingEntity) entity).playSound(SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE,0.5F,0.8F);
-                    }
-                    knockbackNearbyEntities(data1.caster().getWorld(), data1.caster(),entity);
-
-                    SpellHelper.performImpacts(entity.getWorld(),data1.caster(),entity, data1.caster(), new SpellInfo(SpellRegistry.getSpell(Identifier.of(MOD_ID,"overpower")),Identifier.of(MOD_ID,"overpower")),data1.impactContext());
+                if (entity instanceof LivingEntity living2) {
+                    a = living2.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE);
                 }
-                return true;
+                if (entity instanceof LivingEntity living2 && !TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, data1.caster(), living2)) {
+                    a = 1;
 
+                }
+                double speed = data1.caster().getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)  * 8;
+                if(a < 1) {
+                    entity.setPos(data1.caster().getPos().getX(), data1.caster().getPos().getY(), data1.caster().getPos().getZ());
+                    entity.velocityDirty = true;
+                }
             }
+            if(data1.caster().horizontalCollision || data1.progress() == 1F) {
+                for (Entity entity : data1.targets()) {
+                    if (entity instanceof LivingEntity living) {
+                            ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(SUNDERED, 120, 0, false, false, true, null));
+                            ((LivingEntity) entity).playSound(SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, 0.5F, 0.8F);
+                        knockbackNearbyEntities(data1.caster().getWorld(), data1.caster(), entity);
 
+                        SpellHelper.performImpacts(entity.getWorld(), data1.caster(), entity, data1.caster(), new SpellInfo(SpellRegistry.getSpell(Identifier.of(MOD_ID, "overpower")), Identifier.of(MOD_ID, "overpower")), new SpellHelper.ImpactContext());
+                    }
+                    return true;
+
+                }
+            }
             return false;
         });
         CustomSpellHandler.register(Identifier.of(MOD_ID,"frostbloom0"),(data) -> {
@@ -240,6 +257,7 @@ public class Spells {
 
             return true;
         });
+
 
         CustomSpellHandler.register(Identifier.of(MOD_ID,"eldritchblast"),(data) -> {
             CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
@@ -283,7 +301,16 @@ public class Spells {
 
             return true;
         });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"lightningstep"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            for(Entity target: data1.targets()){
+                SpellHelper.performImpacts(target.getWorld(), data1.caster(), target, data1.caster(), new SpellInfo(SpellRegistry.getSpell(Identifier.of(MOD_ID,"lightningstep")),Identifier.of(MOD_ID,"lightningstep")),
+                        data1.impactContext());
+            }
 
+            return false;
+            }
+        );
         CustomSpellHandler.register(Identifier.of(MOD_ID,"frostvert"),(data) -> {
             SpellSchool actualSchool = SpellSchools.FIRE;
             CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
@@ -340,7 +367,6 @@ public class Spells {
             SpellPower.Result power2 = SpellPower.getSpellPower(actualSchool, (LivingEntity) data1.caster());
             spellbladePassive(data1.caster(),SpellSchools.ARCANE,49);
 
-            List<Entity> list = TargetHelper.targetsFromRaycast(data1.caster(),SpellRegistry.getSpell(Identifier.of(MOD_ID,"finalstrike")).range, Objects::nonNull);
 
             if(!data1.targets().isEmpty()) {
                 if(data1.targets().get(data1.targets().size()-1) instanceof LivingEntity living){
@@ -374,9 +400,9 @@ public class Spells {
             }
             else {
                 BlockHitResult result = data1.caster().getWorld().raycast(new RaycastContext(data1.caster().getEyePos(),data1.caster().getEyePos().add(data1.caster().getRotationVector().multiply(SpellRegistry.getSpell(Identifier.of(MOD_ID,"finalstrike")).range)), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE,data1.caster()));
-                if (!list.isEmpty()) {
-                    Attacks.attackAll(data1.caster(), list, (float) modifier);
-                    for (Entity entity : list) {
+                if (!data1.targets().isEmpty()) {
+                    Attacks.attackAll(data1.caster(), data1.targets(), (float) modifier);
+                    for (Entity entity : data1.targets()) {
                         SpellPower.Result power = SpellPower.getSpellPower(actualSchool, (LivingEntity) data1.caster());
                         SpellPower.Vulnerability vulnerability = SpellPower.Vulnerability.none;
                         if (entity instanceof LivingEntity living) {
@@ -434,7 +460,21 @@ public class Spells {
             }
             return true;
         });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"xslash"),(data) -> {
+            SpellSchool actualSchool = SpellSchools.LIGHTNING;
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            float modifier = SpellRegistry.getSpell(Identifier.of(MOD_ID,"xslash")).impact[0].action.damage.spell_power_coefficient;
+            float modifier2 = SpellRegistry.getSpell(Identifier.of(MOD_ID,"xslash")).impact[1].action.damage.spell_power_coefficient;
 
+            if(!data1.targets().isEmpty()) {
+                for (Entity entity : data1.targets()) {
+                    SpellHelper.performImpacts(entity.getWorld(),data1.caster(),entity,data1.caster(),new SpellInfo(SpellRegistry.getSpell(Identifier.of(MOD_ID,"xslash")),Identifier.of(MOD_ID,"xslash")),data1.impactContext());
+                }
+            }
+            SoundHelper.playSound(data1.caster().getWorld(), data1.caster(), SpellRegistry.getSpell(Identifier.of(MOD_ID,"xslash")).impact[0].sound);
+            spellbladePassive(data1.caster(),actualSchool,49);
+            return false;
+        });
         CustomSpellHandler.register(Identifier.of(MOD_ID,"frostblink"),(data) -> {
             SpellSchool actualSchool = SpellSchools.ARCANE;
             CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
@@ -916,6 +956,31 @@ public class Spells {
             return false;
         });
 
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"spellstrike"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+
+            if(data1.caster().getWorld() instanceof ServerWorld world && data1.caster() instanceof SpellCasterEntity caster){
+                if(data1.caster().hasStatusEffect(SPELLSTRIKE)){
+                    data1.caster().removeStatusEffect(SPELLSTRIKE);
+                    if(data1.caster() instanceof PlayerDamageInterface playerDamageInterface ){
+                        playerDamageInterface.clearSpellstrikeSpells();
+                        playerDamageInterface.setSpellstriking(false);
+                        int cooldown = (int)(SpellHelper.getCooldownDuration(data1.caster(),SpellRegistry.getSpell(Identifier.of(MOD_ID,"spellstrike")))*20);
+                        caster.getCooldownManager().set(Identifier.of(MOD_ID,"spellstrike"),cooldown);
+                    }
+                }
+                else{
+                    data1.caster().addStatusEffect(new StatusEffectInstance(SPELLSTRIKE,16*20,0,false,false,true));
+                    ((WorldScheduler) world).schedule(1,() -> {
+                                caster.getCooldownManager().set(Identifier.of(MOD_ID, "spellstrike"), 40,true);
+                            }
+
+                            );
+                }
+            }
+
+            return true;
+        });
         CustomSpellHandler.register(Identifier.of(MOD_ID,"maelstrom"),(data) -> {
             CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
 
@@ -942,6 +1007,7 @@ public class Spells {
 
             return false;
         });
+
         CustomSpellHandler.register(Identifier.of(MOD_ID,"inferno"),(data) -> {
             CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
 
@@ -1181,7 +1247,7 @@ public class Spells {
     }
     public static void spellbladePassive(LivingEntity entity, SpellSchool school, int max){
         SpellPower.Result power2 = SpellPower.getSpellPower(school, (LivingEntity) entity);
-        int amp = Math.min(max, (int) power2.randomValue() / 4 - 1);
+        int amp = Math.min(config.passive-1, (int)(entity.getAttributeValue(school.getAttributeEntry()) / 4 - 1));
         if (amp >= 0) {
 
             entity.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, (int) (4 * 20), amp));

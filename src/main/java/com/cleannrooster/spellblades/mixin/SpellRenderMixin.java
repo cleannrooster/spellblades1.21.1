@@ -7,6 +7,8 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.spell_engine.client.util.SpellRender;
 import net.spell_engine.internals.SpellContainerHelper;
+import net.spell_power.api.SpellPower;
+import net.spell_power.api.SpellSchools;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,6 +32,25 @@ public class SpellRenderMixin {
                     }
                 }
 
+            }
+            if (spellId.getPath().equals("spellstrike")) {
+                if (player.getStatusEffect(SpellbladesAndSuch.SPELLSTRIKE) != null) {
+                    double arcane = SpellPower.getSpellPower(SpellSchools.ARCANE, player).baseValue();
+                    double fire = SpellPower.getSpellPower(SpellSchools.FIRE, player).baseValue();
+                    double frost = SpellPower.getSpellPower(SpellSchools.FROST, player).baseValue();
+                    if (arcane > fire && arcane > frost) {
+                        identifier.setReturnValue(Identifier.of(MOD_ID, "textures/spell/" + "gleamingblade.png"));
+
+                    }
+                    if (frost > fire && frost > arcane) {
+                        identifier.setReturnValue(Identifier.of(MOD_ID, "textures/spell/" + "frozenblade.png"));
+
+                    }
+                    if (fire > arcane && fire > frost) {
+                        identifier.setReturnValue(Identifier.of(MOD_ID, "textures/spell/" + "searingblade.png"));
+
+                    }
+                }
             }
         }
     }

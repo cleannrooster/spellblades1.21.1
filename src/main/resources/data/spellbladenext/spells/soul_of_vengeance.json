@@ -27,14 +27,15 @@
         "status_effect": {
           "effect_id": "spellbladenext:fervor",
           "duration": 8,
-          "apply_mode": "ADD",
-          "amplifier": 9
+          "apply_mode": "SET",
+          "amplifier": 4,
+          "show_particles": false
         }
       }
     }
   ],
   "cost": {
     "exhaust": 0.3,
-    "cooldown_duration": 12
+    "cooldown_duration": 24
   }
 }
