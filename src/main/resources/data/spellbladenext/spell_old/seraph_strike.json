@@ -1,0 +1,167 @@
+{
+  "school": "HEALING",
+  "range": 3.5,
+  "learn": {
+    "tier": 1
+  },
+  "cast": {
+    "duration": 0,
+    "animation": "spell_engine:one_handed_projectile_charge",
+    "sound": {
+      "id": "spell_engine:generic_healing_casting",
+      "randomness": 0
+    },
+    "particles": [
+      {
+        "particle_id": "spell_engine:holy_spark_mini",
+        "shape": "PIPE",
+        "origin": "FEET",
+        "count": 1.0,
+        "min_speed": 0.05,
+        "max_speed": 0.1
+      }
+    ]
+  },
+  "release": {
+    "target": {
+      "type": "METEOR",
+      "meteor": {
+        "launch_height": 0,
+        "launch_properties": {
+          "velocity": 1.2
+        },
+        "projectile": {
+          "homing_angle": 1.0,
+          "client_data": {
+            "light_level": 15,
+            "travel_particles": [
+              {
+                "particle_id": "spell_engine:holy_spark",
+                "shape": "CIRCLE",
+                "rotation": "LOOK",
+                "origin": "CENTER",
+                "count": 5.0,
+                "min_speed": 0.0,
+                "max_speed": 0.1
+              },
+              {
+                "particle_id": "spell_engine:holy_spark_mini",
+                "shape": "CIRCLE",
+                "rotation": "LOOK",
+                "origin": "CENTER",
+                "count": 4.0,
+                "min_speed": 0.0,
+                "max_speed": 0.1
+              }
+            ],
+            "model": {
+              "light_emission": "RADIATE",
+              "scale": 1.2,
+              "light_level": 10
+            }
+          }
+        }
+      }
+    },
+    "animation": "spellbladenext:seraph_strike",
+    "sound": {
+      "id": "spell_engine:generic_healing_release"
+    }
+  },
+  "impact": [
+    {
+      "school": "PHYSICAL_MELEE",
+
+      "target_conditions": [
+        {
+          "entity_type": "#minecraft:undead",
+          "modifier": {
+            "power_multiplier": 0.5
+          }
+        }
+      ],
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 1.2
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:holy_hit",
+          "shape": "SPHERE",
+          "origin": "CENTER",
+          "count": 25.0,
+          "min_speed": 0.2,
+          "max_speed": 1.0
+        }
+      ]
+    },
+    {"target_conditions": [
+        {
+          "entity_type": "#spell_engine:mechanical",
+          "allow_action": false
+        }
+      ],
+      "action": {
+        "type": "HEAL",
+        "heal": {
+          "spell_power_coefficient": 1.2
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:healing_ascend",
+          "shape": "PILLAR",
+          "origin": "FEET",
+          "count": 30,
+          "min_speed": 0.02,
+          "max_speed": 0.15
+        }
+      ],
+      "sound": {
+        "id": "spell_engine:generic_healing_impact_1"
+      }
+    }
+  ],
+  "area_impact": {
+    "radius": 6,
+    "area": {
+      "distance_dropoff": "NONE"
+    },
+    "particles": [
+      {
+        "particle_id": "spell_engine:holy_spark",
+        "shape": "SPHERE",
+        "origin": "CENTER",
+        "count": 100.0,
+        "min_speed": 0.4,
+        "max_speed": 0.5
+      },
+      {
+        "particle_id": "spell_engine:holy_spark_mini",
+        "shape": "SPHERE",
+        "origin": "CENTER",
+        "count": 100.0,
+        "min_speed": 0.2,
+        "max_speed": 0.4
+      },
+      {
+        "particle_id": "smoke",
+        "shape": "SPHERE",
+        "origin": "CENTER",
+        "count": 50.0,
+        "min_speed": 0.1,
+        "max_speed": 0.3
+      }
+    ],
+    "sound": {
+      "id": "paladins:judgement_impact",
+      "volume": 1.5
+    }
+  },
+  "cost": {
+    "item_id": "runes:healing_stone",
+    "cooldown_duration": 8
+  }
+}

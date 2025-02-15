@@ -3,6 +3,10 @@
   "values": [
     "spellbladenext:runeblaze_head",
     "spellbladenext:runegleam_head",
-    "spellbladenext:runefrost_head"
+    "spellbladenext:runefrost_head",
+    "spellbladenext:end_city_guardian_head",
+    "spellbladenext:temple_guardian_head",
+    "spellbladenext:bastion_guardian_head"
+
   ]
 }

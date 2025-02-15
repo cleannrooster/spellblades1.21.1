@@ -1,0 +1,135 @@
+{
+  "school": "spell_power:fire",
+  "range": 64.0,
+  "tier": 1,
+  "learn": {},
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "SPELL_IMPACT_SPECIFIC",
+        "chance": 0.25,
+        "spell": {
+          "id": "spellbladenext:feather_lash"
+        }
+      }
+    ]
+  },
+  "release": {
+    "animation": "spellbladenext:wand_cast_projectile_1",
+    "sound": {
+      "id": "spell_engine:generic_fire_release"
+    }
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "deliver": {
+    "type": "PROJECTILE",
+    "projectile": {
+      "direction_offsets": [
+        {
+          "yaw": -45.0
+        },
+        {},
+        {
+          "yaw": 45.0
+        }
+      ],
+      "launch_properties": {
+        "extra_launch_count": 2
+      },
+      "projectile": {
+        "divergence": 15.0,
+        "homing_angle": 60.0,
+        "homing_after_absolute_distance": 8.0,
+        "homing_after_relative_distance": 0.4,
+        "client_data": {
+          "travel_particles": [
+            {
+              "particle_id": "spell_engine:flame",
+              "origin": "CENTER",
+              "shape": "SPHERE",
+              "count": 3.0,
+              "min_speed": 0.05,
+              "max_speed": 0.1,
+              "angle": 360.0
+            },
+            {
+              "particle_id": "spell_engine:flame_medium_a",
+              "origin": "CENTER",
+              "shape": "SPHERE",
+              "count": 1.0,
+              "min_speed": 0.05,
+              "max_speed": 0.1,
+              "angle": 360.0
+            },
+            {
+              "particle_id": "spell_engine:flame_medium_b",
+              "origin": "CENTER",
+              "shape": "SPHERE",
+              "count": 1.0,
+              "min_speed": 0.05,
+              "max_speed": 0.1,
+              "angle": 360.0
+            },
+            {
+              "particle_id": "minecraft:smoke",
+              "origin": "CENTER",
+              "shape": "SPHERE",
+              "count": 2.0,
+              "min_speed": 0.05,
+              "max_speed": 0.1,
+              "angle": 360.0
+            }
+          ],
+          "model": {
+            "model_id": "spellbladenext:projectile/feather"
+          }
+        }
+      }
+    }
+  },
+  "impacts": [
+    {
+      "school": "spell_power:fire",
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.4,
+          "knockback": 0.0
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:flame_spark",
+          "origin": "CENTER",
+          "shape": "CIRCLE",
+          "rotation": "LOOK",
+          "count": 20.0,
+          "min_speed": 0.2,
+          "max_speed": 0.7,
+          "angle": 360.0
+        },
+        {
+          "particle_id": "minecraft:smoke",
+          "origin": "CENTER",
+          "shape": "CIRCLE",
+          "rotation": "LOOK",
+          "count": 20.0,
+          "min_speed": 0.2,
+          "max_speed": 0.7,
+          "angle": 360.0
+        }
+      ],
+      "sound": {
+        "id": "minecraft:entity.player.hurt_on_fire"
+      }
+    }
+  ],
+  "cost": {
+    "item": {
+      "id": "runes:fire_stone"
+    }
+  }
+}

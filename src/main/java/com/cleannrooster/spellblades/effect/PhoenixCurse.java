@@ -2,38 +2,40 @@ package com.cleannrooster.spellblades.effect;
 
 import com.extraspellattributes.api.SpellStatusEffect;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageType;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.player.PlayerEntity;
-import net.spell_engine.api.spell.Spell;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
 import net.spell_power.api.SpellDamageSource;
+import net.spell_power.api.SpellSchools;
+import net.spell_power.mixin.DamageSourcesAccessor;
 
-public class PhoenixCurse extends SpellStatusEffect {
-    public PhoenixCurse(StatusEffectCategory category, int color, Spell spell) {
-        super(category, color, spell);
+import static com.cleannrooster.spellblades.SpellbladesAndSuch.MOD_ID;
+
+public class PhoenixCurse extends StatusEffect {
+    public PhoenixCurse(StatusEffectCategory category, int color) {
+        super(category, color);
     }
 
+
+
     @Override
-    public boolean canApplySpellEffect(int duration, int amplifier){
+    public boolean canApplyUpdateEffect(int duration, int amplifier) {
         if(duration % 10 == 1){
             return true;
         }
         return super.canApplyUpdateEffect(duration, amplifier);
+
     }
 
-    @Override
-    public boolean canApplyUpdateEffect(int duration, int amplifier) {
-        return true;
-    }
+
 
     @Override
-    public void applySpellEffect(LivingEntity entity,LivingEntity owner, int amplifier, float spellPower, Spell spell) {
+    public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
 
-        if(owner != null && owner instanceof PlayerEntity player  &&  spell != null && spellPower > 0){
-            entity.hurtTime = 0;
-            entity.timeUntilRegen = 0;
-            entity.damage(SpellDamageSource.player(spell.school,player),spellPower*spell.impact[0].action.damage.spell_power_coefficient);
-            entity.hurtTime = 0;
-            entity.timeUntilRegen = 0;
-        }
+        return super.applyUpdateEffect(entity, amplifier);
     }
 }

@@ -1,0 +1,51 @@
+{
+  "school": "spell_power:physical_melee",
+  "range": 0.0,
+  "range_mechanic": "MELEE",
+  "tier": 2,
+  "learn": {},
+  "active": {
+    "scroll": {},
+    "cast": {
+      "duration": 2.0,
+      "channel_ticks": 4,
+      "animation": "spellbladenext:staffspin",
+      "movement_speed": 1.0,
+      "sound": {
+        "id": "spell_engine:generic_frost_casting"
+      }
+    }
+  },
+  "target": {
+    "type": "AREA",
+    "area": {}
+  },
+  "impacts": [
+    {
+      "school": "spell_power:physical_melee",
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 4.0,
+          "knockback": 0.2
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "minecraft:poof",
+          "origin": "FEET",
+          "shape": "SPHERE",
+          "count": 3.0,
+          "min_speed": 0.1,
+          "max_speed": 0.2,
+          "angle": 360.0
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 4.0
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "school": "spell_power:frost",
+  "range": 8.0,
+  "tier": 4,
+  "learn": {},
+  "active": {
+    "scroll": {},
+    "cast": {
+      "duration": 2.0,
+      "channel_ticks": 2,
+      "animation": "spellbladenext:staffspin",
+      "movement_speed": 1.0,
+      "sound": {
+        "id": "spell_engine:generic_frost_casting"
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_frost_spell_ascend",
+          "origin": "FEET",
+          "shape": "WIDE_PIPE",
+          "count": 1.0,
+          "min_speed": 0.05,
+          "max_speed": 0.1
+        }
+      ]
+    }
+  },
+  "target": {
+    "type": "AREA",
+    "area": {}
+  },
+  "deliver": {
+    "type": "CUSTOM",
+    "custom": {
+      "handler": "spellbladenext:eviscerate"
+    }
+  },
+  "impacts": [
+    {
+      "school": "spell_power:frost",
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 2.0,
+          "knockback": 0.2
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_frost_impact_burst",
+          "origin": "CENTER",
+          "shape": "CIRCLE",
+          "rotation": "LOOK",
+          "count": 20.0,
+          "min_speed": 0.2,
+          "max_speed": 0.7,
+          "angle": 360.0
+        }
+      ],
+      "sound": {
+        "id": "spell_engine:generic_frost_impact"
+      }
+    },
+    {
+      "school": "spell_power:physical_melee",
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 1.8,
+          "knockback": 0.2
+        }
+      }
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 4.0
+    },
+    "item": {
+      "id": "runes:frost_stone"
+    }
+  }
+}

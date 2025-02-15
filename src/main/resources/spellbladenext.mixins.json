@@ -8,10 +8,13 @@
 		"PlayerMixin",
 		"SpellRenderMixin",
 		"SpellCastMixin",
-		"SpellContainerMixin",
 		"LivingEntityRendererMixin",
 		"ItemstackMixin",
-		"EntityAttributesMixin"
+		"EntityAttributesMixin",
+		"SpellSchoolsMixin",
+		"AnimationHelperMixin",
+		"SpellContainerHelperMixin"
+
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -3,6 +3,10 @@
   "values": [
     "spellbladenext:runeblaze_feet",
     "spellbladenext:runegleam_feet",
-    "spellbladenext:runefrost_feet"
+    "spellbladenext:runefrost_feet",
+    "spellbladenext:end_city_guardian_feet",
+    "spellbladenext:temple_guardian_feet",
+    "spellbladenext:bastion_guardian_feet"
+
   ]
 }

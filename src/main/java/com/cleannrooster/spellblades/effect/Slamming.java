@@ -12,11 +12,13 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.spell.Spell;
-import net.spell_engine.api.spell.SpellInfo;
+import net.spell_engine.api.spell.fx.Sound;
+import net.spell_engine.api.spell.registry.SpellRegistry;
+import net.spell_engine.fx.ParticleHelper;
 import net.spell_engine.internals.SpellHelper;
-import net.spell_engine.internals.SpellRegistry;
 import net.spell_engine.internals.casting.SpellCast;
-import net.spell_engine.particle.ParticleHelper;
+import net.spell_engine.internals.target.EntityRelations;
+import net.spell_engine.internals.target.SpellTarget;
 import net.spell_engine.utils.AnimationHelper;
 import net.spell_engine.utils.SoundHelper;
 import net.spell_engine.utils.TargetHelper;
@@ -49,7 +51,7 @@ public class Slamming extends StatusEffect {
                 Collection<ServerPlayerEntity> playerEntities = PlayerLookup.tracking((PlayerEntity) entity);
                 return playerEntities;
             });
-            AnimationHelper.sendAnimation((PlayerEntity) entity, (Collection) trackingPlayers.get(), SpellCast.Animation.RELEASE, SpellRegistry.getSpell(Identifier.of(MOD_ID, "frostvert")).cast.animation, 1);
+            AnimationHelper.sendAnimation((PlayerEntity) entity, (Collection) trackingPlayers.get(), SpellCast.Animation.RELEASE, SpellRegistry.from(entity.getWorld()).get(Identifier.of(MOD_ID, "dragon_slam")).active.cast.animation, 1);
         }
         super.onApplied(entity, amplifier);
     }
@@ -66,17 +68,18 @@ public class Slamming extends StatusEffect {
     @Override
     public boolean applyUpdateEffect(LivingEntity player, int amplifier) {
         player.fallDistance = 0;
+        RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(player.getWorld()).getEntry(Identifier.of(MOD_ID, "dragon_slam")).get();
+
         if( player.isOnGround() && player instanceof PlayerEntity && !player.getWorld().isClient()){
 
             player.removeStatusEffect(SLAMMING);
             if(player instanceof PlayerEntity && !player.getWorld().isClient()) {
-                List<Entity> list = TargetHelper.targetsFromArea(player,player.getEyePos(), SpellRegistry.getSpell(Identifier.of(MOD_ID, "frostvert")).range,new Spell.Release.Target.Area(), target -> TargetHelper.allowedToHurt(player,target) );
+                List<Entity> list = TargetHelper.targetsFromArea(player,player.getEyePos(),spellRegistryEntry.value().range,new Spell.Target.Area(), target -> EntityRelations.allowedToHurt(player,target) );
                 for(Entity entity : list) {
                     if (entity instanceof LivingEntity living) {
-                        SpellHelper.ImpactContext context = new SpellHelper.ImpactContext(1.0F, 1.0F, null, SpellPower.getSpellPower(SpellSchools.FIRE,player), TargetHelper.TargetingMode.AREA);
-                        SpellInfo spell = new SpellInfo(SpellRegistry.getSpell (Identifier.of(MOD_ID, "frostvert")),Identifier.of(MOD_ID, "frostvert"));
+                        SpellHelper.ImpactContext context = new SpellHelper.ImpactContext(1.0F, 1.0F, null, SpellPower.getSpellPower(SpellSchools.FIRE,player), SpellTarget.FocusMode.AREA,0);
 
-                        SpellHelper.performImpacts(player.getWorld(), player, entity, player, spell, context);
+                        SpellHelper.performImpacts(player.getWorld(), player, entity, player, spellRegistryEntry,spellRegistryEntry.value().impacts, context);
 
                     }
                 }
@@ -85,9 +88,9 @@ public class Slamming extends StatusEffect {
                     return playerEntities;
                 });
 
-                ParticleHelper.sendBatches(player, SpellRegistry.getSpell(Identifier.of(MOD_ID, "frostvert")).release.particles);
-                SoundHelper.playSound(player.getWorld(), player, SpellRegistry.getSpell(Identifier.of(MOD_ID, "frostvert")).release.sound);
-                AnimationHelper.sendAnimation((PlayerEntity) player, (Collection)trackingPlayers.get(), SpellCast.Animation.RELEASE, SpellRegistry.getSpell(Identifier.of(MOD_ID, "frostvert")).release.animation, 1);
+                ParticleHelper.sendBatches(player, spellRegistryEntry.value().release.particles);
+                SoundHelper.playSound(player.getWorld(), player, spellRegistryEntry.value().release.sound);
+                AnimationHelper.sendAnimation((PlayerEntity) player, (Collection)trackingPlayers.get(), SpellCast.Animation.RELEASE, "spell_engine:two_handed_slam_spellblade_2", 1);
             }
         }
         return super.applyUpdateEffect(player, amplifier);

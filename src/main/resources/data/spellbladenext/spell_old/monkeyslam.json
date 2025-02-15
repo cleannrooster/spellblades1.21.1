@@ -1,0 +1,76 @@
+{
+  "school": "PHYSICAL_MELEE",
+  "range": 4,
+  "learn": {
+    "tier": 2
+  },
+  "scroll":{
+    "generate": false
+  },
+  "cast": {
+    "movement_speed": 1.1,
+
+    "duration": 1.25,
+    "animation": "spellbladenext:leapslamstaff1",
+    "sound": {
+      "id": "spell_engine:generic_frost_casting",
+      "randomness": 0
+    }
+  },
+  "release": {
+    "animation": "spellbladenext:leapslamstaff2",
+
+    "target": {
+      "type": "AREA",
+      "area": {
+        "vertical_range_multiplier": 0.5
+      }
+    },
+    "particles": [
+      {
+        "particle_id": "smoke",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 40.0,
+        "min_speed": 0.2,
+        "max_speed": 0.6
+      },
+      {
+        "particle_id": "cloud",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 120.0,
+        "min_speed": 0.5,
+        "max_speed": 0.9
+      }
+    ],
+    "sound": {
+      "id": "minecraft:entity.player.attack.crit"
+    }
+  },
+  "impact": [
+    {
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "knockback": 2,
+          "spell_power_coefficient": 6
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "poof",
+          "shape": "SPHERE",
+          "origin": "CENTER",
+          "count": 3
+        }
+      ],
+      "sound": {
+        "id": "minecraft:entity.player.attack.crit"
+      }
+    }
+  ],
+  "cost": {
+    "cooldown_duration": 4
+  }
+}

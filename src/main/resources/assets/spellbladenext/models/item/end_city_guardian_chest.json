@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "spellbladenext:item/end_city_guardian_chestplate"
+  }
+}

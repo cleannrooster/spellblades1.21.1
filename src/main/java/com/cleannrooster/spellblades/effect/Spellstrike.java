@@ -5,18 +5,18 @@ import com.google.common.base.Suppliers;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.spell.Spell;
-import net.spell_engine.api.spell.SpellInfo;
+import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.internals.SpellHelper;
-import net.spell_engine.internals.SpellRegistry;
 import net.spell_engine.internals.casting.SpellCast;
 import net.spell_engine.internals.casting.SpellCasterEntity;
-import net.spell_engine.particle.ParticleHelper;
 import net.spell_engine.utils.AnimationHelper;
 import net.spell_engine.utils.SoundHelper;
 import net.spell_engine.utils.TargetHelper;
@@ -41,22 +41,29 @@ public class Spellstrike extends StatusEffect {
     }
 
 
+    @Override
+    public void onApplied(LivingEntity entity, int amplifier) {
 
-
-
-
-
-
+        super.onApplied(entity, amplifier);
+    }
 
     @Override
     public boolean applyUpdateEffect(LivingEntity player, int amplifier) {
 
         if(player instanceof PlayerDamageInterface playerDamageInterface && player instanceof SpellCasterEntity caster){
             playerDamageInterface.clearSpellstrikeSpells();
-            int cooldown = (int)(SpellHelper.getCooldownDuration(player,SpellRegistry.getSpell(Identifier.of(MOD_ID,"spellstrike")))*20);
+            int cooldown = (int)(SpellHelper.getCooldownDuration(player, SpellRegistry.from(player.getWorld()).get(Identifier.of(MOD_ID,"spellstrike")))*20);
             caster.getCooldownManager().set(Identifier.of(MOD_ID,"spellstrike"),cooldown);
 
         }
+        if(player instanceof PlayerEntity  && !player.getWorld().isClient()){
+            AnimationHelper.sendAnimation((PlayerEntity) player, PlayerLookup.tracking(player), SpellCast.Animation.RELEASE, SpellRegistry.from(player.getWorld()).get(Identifier.of(MOD_ID, "spellstrike2")).release.animation, 1F);
+            if (player instanceof ServerPlayerEntity serverPlayerEntity) {
+                AnimationHelper.sendAnimation((PlayerEntity) player, List.of(serverPlayerEntity), SpellCast.Animation.RELEASE, SpellRegistry.from(player.getWorld()).get(Identifier.of(MOD_ID, "spellstrike2")).release.animation, 1F);
+            }
+        }
         return super.applyUpdateEffect(player, amplifier);
     }
+
+
 }

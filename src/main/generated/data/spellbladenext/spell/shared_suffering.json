@@ -1,0 +1,87 @@
+{
+  "school": "spell_power:frost",
+  "range": 16.0,
+  "tier": 2,
+  "learn": {},
+  "tooltip": {
+    "description": {
+      "color": "dark_green",
+      "show_in_compact": false
+    }
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "SPELL_IMPACT_SPECIFIC",
+        "spell": {
+          "id": "spellbladenext:wintertide"
+        }
+      }
+    ]
+  },
+  "release": {
+    "animation": "spell_engine:one_handed_area_release",
+    "sound": {
+      "id": "spell_engine:generic_frost_release"
+    }
+  },
+  "target": {
+    "type": "AREA",
+    "area": {
+      "angle_degrees": 360.0
+    }
+  },
+  "impacts": [
+    {
+      "school": "spell_power:frost",
+      "target_modifiers": [
+        {
+          "conditions": [
+            {
+              "entity_predicate_id": "spell_engine:has_effect",
+              "entity_predicate_param": "spellbladenext:deathchill"
+            }
+          ],
+          "execute": "ALLOW"
+        }
+      ],
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.5,
+          "knockback": 0.0
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:snowflake",
+          "origin": "FEET",
+          "shape": "PIPE",
+          "count": 30.0,
+          "min_speed": 0.1,
+          "max_speed": 0.3
+        },
+        {
+          "particle_id": "spell_engine:frost_shard",
+          "origin": "FEET",
+          "shape": "PIPE",
+          "count": 10.0,
+          "min_speed": 0.1,
+          "max_speed": 0.3
+        },
+        {
+          "particle_id": "spell_engine:magic_frost_spell_ascend",
+          "origin": "FEET",
+          "shape": "PIPE",
+          "count": 10.0,
+          "min_speed": 0.1,
+          "max_speed": 0.3
+        }
+      ],
+      "sound": {
+        "id": "spell_engine:generic_frost_impact"
+      }
+    }
+  ]
+}

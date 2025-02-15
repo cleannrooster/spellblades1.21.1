@@ -1,0 +1,64 @@
+{
+  "school": "spell_power:physical_melee",
+  "range": 6.0,
+  "tier": 3,
+  "learn": {},
+  "active": {
+    "scroll": {},
+    "cast": {
+      "duration": 1.25,
+      "animation": "spellbladenext:leapslamstaff1",
+      "movement_speed": 1.0,
+      "sound": {
+        "id": "spell_engine:generic_frost_casting"
+      }
+    }
+  },
+  "release": {
+    "animation": "spellbladenext:leapslamstaff2",
+    "particles": [
+      {
+        "particle_id": "minecraft:smoke",
+        "origin": "FEET",
+        "shape": "CIRCLE",
+        "count": 40.0,
+        "min_speed": 0.2,
+        "max_speed": 0.6,
+        "angle": 360.0
+      },
+      {
+        "particle_id": "minecraft:cloud",
+        "origin": "FEET",
+        "shape": "CIRCLE",
+        "count": 120.0,
+        "min_speed": 0.5,
+        "max_speed": 0.9,
+        "angle": 360.0
+      }
+    ],
+    "sound": {
+      "id": "minecraft:entity.player.attack.crit"
+    }
+  },
+  "target": {
+    "type": "AREA",
+    "area": {}
+  },
+  "impacts": [
+    {
+      "school": "spell_power:physical_melee",
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 6.0,
+          "knockback": 4.0
+        }
+      }
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 4.0
+    }
+  }
+}

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-
+    "#spellbladenext:guardian_armor",
     "#spellbladenext:rune_armor"
   ]
 }

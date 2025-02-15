@@ -21,7 +21,7 @@ public class CycloneModel<T extends CycloneEntity> extends GeoModel<CycloneEntit
             return Identifier.of(SpellbladesAndSuch.MOD_ID, "textures/mob/maelstrom.png");
         }
         else if (reaver.getColor() == 3){
-            return Identifier.of(SpellbladesAndSuch.MOD_ID, "textures/mob/tempest.png");
+            return Identifier.of(SpellbladesAndSuch.MOD_ID, "textures/mob/riptide.png");
         }
         else if (reaver.getColor() == 4){
             return Identifier.of(SpellbladesAndSuch.MOD_ID, "textures/mob/inferno.png");

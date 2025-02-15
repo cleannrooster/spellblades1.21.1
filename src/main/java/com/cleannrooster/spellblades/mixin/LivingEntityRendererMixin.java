@@ -6,7 +6,6 @@ import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
-import net.spell_engine.internals.SpellRegistry;
 import net.spell_engine.internals.casting.SpellCasterClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,11 +18,7 @@ public class LivingEntityRendererMixin<T extends LivingEntity> {
     public void render(T entity, float f, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo info) {
         if(entity instanceof SpellCasterClient caster) {
 
-            if (caster.getCurrentSpell() != null && (caster.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(SpellbladesAndSuch.MOD_ID, "eviscerate"))) || (caster.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(SpellbladesAndSuch.MOD_ID, "monkeyslam"))) && caster.getSpellCastProgress() != null && caster.getSpellCastProgress().ratio() > 17 / 160F))) {
 
-                info.cancel();
-
-            }
 
         }
     }

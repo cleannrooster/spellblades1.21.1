@@ -1,0 +1,90 @@
+{
+  "school": "HEALING",
+  "range": 4,
+  "learn": {
+    "tier": 4
+  },
+  "cast": {
+    "channel_ticks": 1,
+    "duration": 1,
+    "animation": "spellbladenext:charge"
+  },
+  "release": {
+    "custom_impact": true,
+    "target": {
+      "type": "AREA",
+      "area": {
+        "vertical_range_multiplier": 1
+      }
+    },
+    "particles": [
+      {
+        "particle_id": "cloud",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 130.0,
+        "min_speed": 0.5,
+        "max_speed": 0.9
+      }
+    ],
+    "sound": {
+      "id": "minecraft:entity.player.attack.knockback"
+    },
+    "animation": "spell_engine:two_handed_slam_spellblade_2"
+  },
+  "impact": [
+    {
+      "school": "PHYSICAL_MELEE",
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "knockback": 1,
+          "spell_power_coefficient": 0.8
+        }
+      }
+    },
+    {
+      "target_conditions": [
+        {
+          "entity_type": "#minecraft:undead",
+          "modifier": {
+            "critical_chance_bonus": 1
+          }
+        }
+      ],
+      "action": {
+        "school": "HEALING",
+        "type": "DAMAGE",
+        "damage": {
+          "knockback": 1,
+          "spell_power_coefficient": 0.8
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:holy_hit",
+          "shape": "SPHERE",
+          "origin": "CENTER",
+          "count": 15,
+          "min_speed": 0.2,
+          "max_speed": 0.7
+        },
+        {
+          "particle_id": "spell_engine:holy_spark",
+          "shape": "SPHERE",
+          "origin": "CENTER",
+          "count": 10,
+          "min_speed": 0.05,
+          "max_speed": 0.2
+        }
+      ],
+      "sound": {
+        "id": "spell_engine:generic_healing_impact_1"
+      }
+    }
+  ],
+  "cost": {
+    "rpgmana": 30,
+    "cooldown_duration": 16
+  }
+}

@@ -97,8 +97,8 @@ public class Orb extends SpellWeaponItem implements GeoItem {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("Orbweaver's Grace").formatted(Formatting.LIGHT_PURPLE));
-        tooltip.add(Text.translatable("Move normally while casting").formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable("desc.spellbladenext.orb1").formatted(Formatting.LIGHT_PURPLE));
+        tooltip.add(Text.translatable("desc.spellbladenext.orb2").formatted(Formatting.GRAY));
 
         super.appendTooltip(stack, context, tooltip, type);
     }

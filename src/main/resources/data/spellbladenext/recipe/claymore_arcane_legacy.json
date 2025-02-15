@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spellbladenext:arcane_claymore"
+    }
+  ],
+  "result": {
+    "id": "spellbladenext:arcane_claymore_legacy"
+  }
+}

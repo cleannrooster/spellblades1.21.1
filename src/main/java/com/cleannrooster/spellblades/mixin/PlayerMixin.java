@@ -73,7 +73,17 @@ public class PlayerMixin implements PlayerDamageInterface {
     public void clearSpellstrikeSpells() {
         spells = new ArrayList<>();
     }
+    public boolean second = false;
+    @Override
+    public void nextSwing() {
+        this.second = !this.second;
 
+    }
+    @Override
+    public boolean isSecondSwing() {
+        return this.second;
+
+    }
     @Override
     public void queueSpellStrikeSpell(Identifier spellstrikeSpell) {
         this.spells.add(spellstrikeSpell);

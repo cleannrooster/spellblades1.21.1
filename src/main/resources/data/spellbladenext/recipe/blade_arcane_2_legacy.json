@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spellbladenext:crystal_cutlass"
+    }
+  ],
+  "result": {
+    "id": "spellbladenext:crystal_cutlass_legacy"
+  }
+}

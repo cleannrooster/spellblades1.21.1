@@ -1,0 +1,108 @@
+{
+  "school": "spell_power:frost",
+  "range": 16.0,
+  "tier": 3,
+  "learn": {},
+  "active": {
+    "scroll": {},
+    "cast": {
+      "duration": 2.0,
+      "animation": "spell_engine:one_handed_area_charge",
+      "sound": {
+        "id": "spell_engine:generic_frost_casting"
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_frost_spell_ascend",
+          "origin": "FEET",
+          "shape": "WIDE_PIPE",
+          "count": 1.0,
+          "min_speed": 0.05,
+          "max_speed": 0.1
+        }
+      ]
+    }
+  },
+  "release": {
+    "particles": [
+      {
+        "particle_id": "spell_engine:snowflake",
+        "origin": "FEET",
+        "shape": "PIPE",
+        "count": 30.0,
+        "min_speed": 0.1,
+        "max_speed": 0.3
+      },
+      {
+        "particle_id": "spell_engine:frost_shard",
+        "origin": "FEET",
+        "shape": "PIPE",
+        "count": 10.0,
+        "min_speed": 0.1,
+        "max_speed": 0.3
+      },
+      {
+        "particle_id": "spell_engine:magic_frost_spell_ascend",
+        "origin": "FEET",
+        "shape": "PIPE",
+        "count": 10.0,
+        "min_speed": 0.1,
+        "max_speed": 0.3
+      }
+    ],
+    "sound": {
+      "id": "spell_engine:generic_frost_release"
+    }
+  },
+  "target": {
+    "type": "AREA",
+    "area": {
+      "angle_degrees": 360.0
+    }
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "spellbladenext:deathchill",
+          "duration": 8.0
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:snowflake",
+          "origin": "FEET",
+          "shape": "PIPE",
+          "count": 30.0,
+          "min_speed": 0.1,
+          "max_speed": 0.3
+        },
+        {
+          "particle_id": "spell_engine:frost_shard",
+          "origin": "FEET",
+          "shape": "PIPE",
+          "count": 10.0,
+          "min_speed": 0.1,
+          "max_speed": 0.3
+        },
+        {
+          "particle_id": "spell_engine:magic_frost_spell_ascend",
+          "origin": "FEET",
+          "shape": "PIPE",
+          "count": 10.0,
+          "min_speed": 0.1,
+          "max_speed": 0.3
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 2.0
+    },
+    "item": {
+      "id": "runes:frost_stone"
+    }
+  }
+}

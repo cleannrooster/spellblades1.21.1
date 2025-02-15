@@ -18,13 +18,16 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.spell_engine.api.spell.SpellInfo;
+import net.spell_engine.api.spell.Spell;
+import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.internals.SpellHelper;
-import net.spell_engine.internals.SpellRegistry;
 import net.spell_engine.internals.casting.SpellCasterEntity;
+import net.spell_engine.internals.target.EntityRelations;
+import net.spell_engine.internals.target.SpellTarget;
 import net.spell_engine.utils.TargetHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,11 +89,11 @@ public class CycloneEntity extends Entity implements GeoEntity, Ownable {
         if(this.getOwner() instanceof SpellCasterEntity caster){
             if(this.getColor() != 5) {
                 this.setPos(this.getOwner().getX(), this.getOwner().getY(), this.getOwner().getZ());
-                if (caster.getCurrentSpell() != null && !caster.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(MOD_ID, "whirlwind")))
-                        && !caster.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(MOD_ID, "reckoning")))
-                        && !caster.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(MOD_ID, "inferno")))
-                        && !caster.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(MOD_ID, "maelstrom")))
-                        && !caster.getCurrentSpell().equals(SpellRegistry.getSpell(Identifier.of(MOD_ID, "tempest")))) {
+                if (caster.getCurrentSpell() != null && !caster.getCurrentSpell().equals(SpellRegistry.from(this.getWorld()).get(Identifier.of(MOD_ID, "whirlwind")))
+                        && !caster.getCurrentSpell().equals(SpellRegistry.from(this.getWorld()).get(Identifier.of(MOD_ID, "reckoning")))
+                        && !caster.getCurrentSpell().equals(SpellRegistry.from(this.getWorld()).get(Identifier.of(MOD_ID, "inferno")))
+                        && !caster.getCurrentSpell().equals(SpellRegistry.from(this.getWorld()).get(Identifier.of(MOD_ID, "maelstrom")))
+                        && !caster.getCurrentSpell().equals(SpellRegistry.from(this.getWorld()).get(Identifier.of(MOD_ID, "tempest")))) {
                     if (!this.getWorld().isClient()) {
                         this.discard();
                     }
@@ -114,11 +117,11 @@ public class CycloneEntity extends Entity implements GeoEntity, Ownable {
 
                     List<LivingEntity> list = this.getWorld().getEntitiesByClass(LivingEntity.class, this.getBoundingBox(), Entity::isAlive);
                     for (LivingEntity entity : list) {
-                        SpellInfo spell = new SpellInfo(SpellRegistry.getSpell (Identifier.of(MOD_ID, "bladestorm")),Identifier.of(MOD_ID, "bladestorm"));
-                        if (spell != null  && this.context != null) {
-                            if(TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL,living,entity) || (this.target != null && this.target == entity)) {
+                        RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(this.getWorld()).getEntry(Identifier.of(MOD_ID, "bladestorm")).get();
+                        if (spellRegistryEntry != null  && this.context != null) {
+                            if(EntityRelations.actionAllowed(SpellTarget.FocusMode.AREA, SpellTarget.Intent.HARMFUL,living,entity) || (this.target != null && this.target == entity)) {
 
-                                SpellHelper.performImpacts(entity.getWorld(), living, entity, this.getOwner(), spell,
+                                SpellHelper.performImpacts(entity.getWorld(), living, entity, this.getOwner(), spellRegistryEntry, spellRegistryEntry.value().impacts,
                                         this.context, false);
                             }
                         }

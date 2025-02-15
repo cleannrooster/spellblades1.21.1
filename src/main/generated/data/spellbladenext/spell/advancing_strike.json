@@ -1,0 +1,68 @@
+{
+  "school": "spell_power:physical_melee",
+  "range": 8.0,
+  "tier": 1,
+  "learn": {},
+  "active": {
+    "scroll": {},
+    "cast": {
+      "animation": "spell_engine:two_handed_slam_spellblade_2",
+      "sound": {
+        "id": "spell_engine:generic_frost_casting"
+      }
+    }
+  },
+  "release": {
+    "animation": "spell_engine:two_handed_slam_spellblade_2",
+    "sound": {
+      "id": "minecraft:entity.player.attack.crit"
+    }
+  },
+  "target": {
+    "type": "AREA",
+    "area": {
+      "angle_degrees": 135.0,
+      "include_caster": true
+    }
+  },
+  "impacts": [
+    {
+      "school": "spell_power:physical_melee",
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 2.5,
+          "knockback": 2.0
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "minecraft:poof",
+          "origin": "FEET",
+          "shape": "SPHERE",
+          "count": 3.0,
+          "min_speed": 0.1,
+          "max_speed": 0.2,
+          "angle": 360.0
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "TELEPORT",
+        "apply_to_caster": true,
+        "teleport": {
+          "mode": "FORWARD",
+          "forward": {
+            "distance": 2.0
+          }
+        }
+      }
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 2.0
+    }
+  }
+}

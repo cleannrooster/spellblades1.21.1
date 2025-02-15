@@ -1,0 +1,96 @@
+{
+  "school": "spell_power:fire",
+  "range": 8.0,
+  "tier": 4,
+  "learn": {},
+  "active": {
+    "scroll": {},
+    "cast": {
+      "duration": 2.0,
+      "animation": "spell_engine:one_handed_projectile_charge",
+      "sound": {
+        "id": "spell_engine:generic_fire_casting"
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:flame",
+          "origin": "FEET",
+          "shape": "WIDE_PIPE",
+          "count": 1.0,
+          "min_speed": 0.05,
+          "max_speed": 0.1
+        }
+      ]
+    }
+  },
+  "release": {
+    "sound": {
+      "id": "minecraft:entity.player.attack.sweep"
+    }
+  },
+  "target": {
+    "type": "AREA",
+    "area": {}
+  },
+  "deliver": {
+    "type": "CUSTOM",
+    "custom": {
+      "handler": "spellbladenext:flickering_flame"
+    }
+  },
+  "impacts": [
+    {
+      "school": "spell_power:fire",
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.6,
+          "knockback": 0.4
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:flame_spark",
+          "origin": "CENTER",
+          "shape": "CIRCLE",
+          "rotation": "LOOK",
+          "count": 20.0,
+          "min_speed": 0.2,
+          "max_speed": 0.7,
+          "angle": 360.0
+        },
+        {
+          "particle_id": "minecraft:smoke",
+          "origin": "CENTER",
+          "shape": "CIRCLE",
+          "rotation": "LOOK",
+          "count": 20.0,
+          "min_speed": 0.2,
+          "max_speed": 0.7,
+          "angle": 360.0
+        }
+      ],
+      "sound": {
+        "id": "minecraft:entity.player.hurt_on_fire"
+      }
+    },
+    {
+      "school": "spell_power:physical_melee",
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.5,
+          "knockback": 0.4
+        }
+      }
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 12.0
+    },
+    "item": {
+      "id": "runes:fire_stone"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spellbladenext:fire_claymore"
+    }
+  ],
+  "result": {
+    "id": "spellbladenext:fire_claymore_legacy"
+  }
+}

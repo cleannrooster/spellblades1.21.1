@@ -1,0 +1,165 @@
+{
+  "school": "FIRE",
+  "range": 8,
+  "learn": {
+    "tier": 2
+  },
+  "cast": {
+    "movement_speed": 1.0,
+    "animation": "spell_engine:one_handed_area_charge",
+    "sound": {
+      "id": "spell_engine:generic_fire_casting",
+      "randomness": 0
+    },
+    "particles": [
+      {
+        "particle_id": "spell_engine:flame",
+        "shape": "PIPE",
+        "origin": "FEET",
+        "count": 1.0,
+        "min_speed": 0.05,
+        "max_speed": 0.1
+      },
+      {
+        "particle_id": "spell_engine:flame",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 2.0,
+        "min_speed": 0.2,
+        "max_speed": 0.6
+      },
+      {
+        "particle_id": "minecraft:smoke",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 2.0,
+        "min_speed": 0.5,
+        "max_speed": 0.9
+      }
+    ],
+    "duration": 1
+  },
+  "release": {
+    "animation": "spell_engine:one_handed_area_release",
+    "target": {
+      "type": "CLOUD",
+      "cloud": {
+        "volume": {
+          "radius": 6,
+          "area": {
+            "vertical_range_multiplier": 0.5
+          }
+        },
+        "impact_tick_interval": 10,
+        "time_to_live_seconds": 8,
+        "client_data": {
+          "particles": [
+            {
+              "particle_id": "spell_engine:flame_ground",
+              "shape": "PILLAR",
+              "origin": "FEET",
+              "count": 8.0,
+              "min_speed": 0.05,
+              "max_speed": 0.1
+            },
+            {
+              "particle_id": "spell_engine:flame_medium_b",
+              "shape": "PILLAR",
+              "origin": "FEET",
+              "count": 8.0,
+              "min_speed": 0.05,
+              "max_speed": 0.1
+            },
+            {
+              "particle_id": "spell_engine:flame_medium_a",
+              "shape": "PILLAR",
+              "origin": "FEET",
+              "count": 8.0,
+              "min_speed": 0.05,
+              "max_speed": 0.1
+            },
+            {
+              "particle_id": "spell_engine:flame",
+              "shape": "PILLAR",
+              "origin": "FEET",
+              "count": 8.0,
+              "min_speed": 0.05,
+              "max_speed": 0.1
+            }
+          ]
+        }
+      }
+    },
+    "particles": [
+      {
+        "particle_id": "spell_engine:flame",
+        "shape": "SPHERE",
+        "origin": "FEET",
+        "count": 30,
+        "min_speed": 0.2,
+        "max_speed": 0.3
+      },
+      {
+        "particle_id": "spell_engine:flame",
+        "shape": "CIRCLE",
+        "origin": "FEET",
+        "count": 40.0,
+        "min_speed": 0.4,
+        "max_speed": 0.4
+      }
+      ],
+    "sound": {
+      "id": "spell_engine:generic_fire_release"
+    }
+  },
+  "impact": [
+    {
+      "target_conditions": [
+        {
+          "entity_type": "#minecraft:freeze_immune_entity_types",
+          "modifier": {
+            "critical_chance_bonus": 0.3
+          }
+        }
+      ],
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "knockback": 0,
+          "spell_power_coefficient": 0.35
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:flame",
+          "shape": "SPHERE",
+          "origin": "CENTER",
+          "count": 30,
+          "min_speed": 0.2,
+          "max_speed": 0.3
+        },
+        {
+          "particle_id": "spell_engine:flame",
+          "shape": "CIRCLE",
+          "origin": "CENTER",
+          "count": 40.0,
+          "min_speed": 0.4,
+          "max_speed": 0.4
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "FIRE",
+        "fire": {
+          "duration": 2
+        }
+      }
+    }
+  ],
+  "cost": {
+    "cooldown_duration": 2,
+    "rpgmana": 30,
+    "item_id": "runes:fire_stone"
+  }
+}

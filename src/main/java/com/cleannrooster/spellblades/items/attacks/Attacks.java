@@ -14,7 +14,6 @@ import net.minecraft.item.BowItem;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.predicate.item.EnchantmentsPredicate;
 import net.minecraft.util.math.Vec3d;
-import net.spell_engine.api.spell.CustomSpellHandler;
 import net.spell_engine.internals.casting.SpellCasterEntity;
 import net.spell_power.api.SpellDamageSource;
 import net.spell_power.api.SpellPower;
@@ -62,7 +61,7 @@ public class Attacks {
         Vec3d vec3 = new Vec3d(Axx * x + Axy * y + Axz * z,Ayx * x + Ayy * y + Ayz * z,Azx * x + Azy * y + Azz * z);
         return vec3;
     }
-    public static void eleWhirlwind(CustomSpellHandler.Data data1) {
+/*    public static void eleWhirlwind(CustomSpellHandler.Data data1) {
         if(((SpellCasterEntity) data1.caster()).getCurrentSpell() != null){
         SpellSchool actualSchool = ((SpellCasterEntity) data1.caster()).getCurrentSpell().school;
         float modifier = ((SpellCasterEntity) data1.caster()).getCurrentSpell().impact[0].action.damage.spell_power_coefficient;
@@ -94,5 +93,5 @@ public class Attacks {
 
     public static void flourish(CustomSpellHandler.Data data1) {
 
-    }
+    }*/
 }

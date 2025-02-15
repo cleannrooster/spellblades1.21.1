@@ -1,0 +1,59 @@
+{
+  "school": "spell_power:lightning",
+  "range": 6.0,
+  "group": "primary",
+  "tier": 0,
+  "learn": {},
+  "tooltip": {
+    "description": {
+      "color": "dark_green",
+      "show_in_compact": false
+    }
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "MELEE_IMPACT",
+        "spell": {
+          "archetype": "MAGIC"
+        }
+      }
+    ]
+  },
+  "release": {
+    "sound": {
+      "id": "spell_engine:generic_lightning_release"
+    }
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "impacts": [
+    {
+      "school": "spell_power:arcane",
+      "action": {
+        "type": "DAMAGE",
+        "min_power": 2.0,
+        "damage": {
+          "spell_power_coefficient": 0.4
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_white_impact_burst",
+          "origin": "CENTER",
+          "shape": "CIRCLE",
+          "rotation": "LOOK",
+          "count": 20.0,
+          "min_speed": 0.2,
+          "max_speed": 0.7,
+          "angle": 360.0
+        }
+      ],
+      "sound": {
+        "id": "spell_engine:generic_lightning_release"
+      }
+    }
+  ]
+}

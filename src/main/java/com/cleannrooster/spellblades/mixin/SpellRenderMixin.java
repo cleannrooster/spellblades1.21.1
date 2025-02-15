@@ -5,8 +5,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
+import net.spell_engine.api.spell.container.SpellContainerHelper;
 import net.spell_engine.client.util.SpellRender;
-import net.spell_engine.internals.SpellContainerHelper;
 import net.spell_power.api.SpellPower;
 import net.spell_power.api.SpellSchools;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,12 +19,12 @@ import static com.cleannrooster.spellblades.SpellbladesAndSuch.MOD_ID;
 
 @Mixin(SpellRender.class)
 public class SpellRenderMixin {
-    @Inject(at = @At("HEAD"), method = "iconTexture", cancellable = true)
+   /* @Inject(at = @At("HEAD"), method = "iconTexture", cancellable = true)
     private static void iconTextureReplaceSpellblade(Identifier spellId, CallbackInfoReturnable<Identifier> identifier) {
         if(MinecraftClient.getInstance() != null) {
 
             PlayerEntity player = MinecraftClient.getInstance().player;
-            if (player != null && SpellContainerHelper.getEquipped(player.getMainHandStack(),player) != null && SpellContainerHelper.getEquipped(player.getMainHandStack(), player).spell_ids() != null && SpellContainerHelper.getEquipped(player.getMainHandStack(), player).spell_ids().contains("spellbladenext:echoes")) {
+            if (player != null && SpellContainerHelper.getAvailable(player) != null && SpellContainerHelper.getAvailable( player).spell_ids() != null && SpellContainerHelper.getAvailable( player).spell_ids().contains("spellbladenext:echoes")) {
 
                 if (spellId.getPath().equals("echoes")) {
                     if(player.getStatusEffect(SpellbladesAndSuch.UNLEASH) != null) {
@@ -39,19 +39,19 @@ public class SpellRenderMixin {
                     double fire = SpellPower.getSpellPower(SpellSchools.FIRE, player).baseValue();
                     double frost = SpellPower.getSpellPower(SpellSchools.FROST, player).baseValue();
                     if (arcane > fire && arcane > frost) {
-                        identifier.setReturnValue(Identifier.of(MOD_ID, "textures/spell/" + "gleamingblade.png"));
+                        identifier.setReturnValue(Identifier.of(MOD_ID, "textures/spell/" + "arcane_spellstrike.png"));
 
                     }
                     if (frost > fire && frost > arcane) {
-                        identifier.setReturnValue(Identifier.of(MOD_ID, "textures/spell/" + "frozenblade.png"));
+                        identifier.setReturnValue(Identifier.of(MOD_ID, "textures/spell/" + "frost_spellstrike.png"));
 
                     }
                     if (fire > arcane && fire > frost) {
-                        identifier.setReturnValue(Identifier.of(MOD_ID, "textures/spell/" + "searingblade.png"));
+                        identifier.setReturnValue(Identifier.of(MOD_ID, "textures/spell/" + "fire_spellstrike.png"));
 
                     }
                 }
             }
         }
-    }
+    }*/
 }

@@ -3,8 +3,8 @@ package com.cleannrooster.spellblades.effect;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.util.Identifier;
-import net.spell_engine.internals.SpellRegistry;
-import net.spell_engine.particle.ParticleHelper;
+import net.spell_engine.api.spell.registry.SpellRegistry;
+import net.spell_engine.fx.ParticleHelper;
 
 import static com.cleannrooster.spellblades.SpellbladesAndSuch.MOD_ID;
 
@@ -20,7 +20,7 @@ public class Fervor extends CustomEffect{
 
     @Override
     public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
-        ParticleHelper.play(entity.getWorld(),entity, SpellRegistry.getSpell(Identifier.of(MOD_ID,"particlesholy")).release.target.cloud.client_data.particles);
+        ParticleHelper.play(entity.getWorld(),entity, SpellRegistry.from(entity.getWorld()).get(Identifier.of(MOD_ID,"particlesholy")).deliver.clouds.get(0).client_data.particles);
         return super.applyUpdateEffect(entity, amplifier);
     }
 }

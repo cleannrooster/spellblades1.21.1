@@ -14,6 +14,8 @@ public interface PlayerDamageInterface {
     List<Identifier> getSpellstrikeSpells();
     void queueSpellStrikeSpell(Identifier spell);
     void clearSpellstrikeSpells();
+    void nextSwing();
+    boolean isSecondSwing();
     void setSpellstriking(boolean spellstriking);
     boolean getSpellstriking();
     void resetRepeats();

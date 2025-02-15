@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spellbladenext:flaming_falchion"
+    }
+  ],
+  "result": {
+    "id": "spellbladenext:flaming_falchion_legacy"
+  }
+}

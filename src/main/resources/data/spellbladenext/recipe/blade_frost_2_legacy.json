@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "spellbladenext:glacial_gladius"
+    }
+  ],
+  "result": {
+    "id": "spellbladenext:glacial_gladius_legacy"
+  }
+}

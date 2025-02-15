@@ -2,8 +2,8 @@ package com.cleannrooster.spellblades.items.loot;
 
 import com.cleannrooster.spellblades.items.Items;
 import com.cleannrooster.spellblades.items.armor.Armors;
-import net.spell_engine.api.item.ItemConfig;
-import net.spell_engine.api.loot.LootConfig;
+import net.spell_engine.api.config.ConfigFile;
+import net.spell_engine.rpg_series.loot.LootConfig;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Default {
-    public final static ItemConfig itemConfig;
+    public final static ConfigFile.Equipment itemConfig;
     public final static LootConfig lootConfig;
     static {
-        itemConfig = new ItemConfig();
+        itemConfig = new ConfigFile.Equipment();
         for (var weapon : Items.entries) {
             itemConfig.weapons.put(weapon.name(), weapon.defaults());
         }

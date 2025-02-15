@@ -1,0 +1,105 @@
+{
+  "school": "spell_power:fire",
+  "range": 0.0,
+  "tier": 2,
+  "learn": {},
+  "active": {
+    "scroll": {},
+    "cast": {
+      "duration": 1.0,
+      "animation": "spell_engine:one_handed_area_charge",
+      "sound": {
+        "id": "spell_engine:generic_fire_casting"
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:flame",
+          "origin": "FEET",
+          "shape": "WIDE_PIPE",
+          "count": 1.0,
+          "min_speed": 0.05,
+          "max_speed": 0.1
+        }
+      ]
+    }
+  },
+  "release": {
+    "animation": "spell_engine:one_handed_area_release",
+    "sound": {
+      "id": "spell_engine:generic_fire_release"
+    }
+  },
+  "deliver": {
+    "type": "STASH_EFFECT",
+    "stash_effect": {
+      "id": "spellbladenext:feather",
+      "amplifier": 7,
+      "duration": 30.0,
+      "triggers": [
+        {
+          "type": "SPELL_IMPACT_SPECIFIC",
+          "spell": {
+            "id": "spellbladenext:feather_lash"
+          }
+        }
+      ]
+    }
+  },
+  "impacts": [
+    {
+      "school": "spell_power:fire",
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 1.2
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:flame_spark",
+          "origin": "CENTER",
+          "shape": "CIRCLE",
+          "rotation": "LOOK",
+          "count": 20.0,
+          "min_speed": 0.2,
+          "max_speed": 0.7,
+          "angle": 360.0
+        },
+        {
+          "particle_id": "minecraft:smoke",
+          "origin": "CENTER",
+          "shape": "CIRCLE",
+          "rotation": "LOOK",
+          "count": 20.0,
+          "min_speed": 0.2,
+          "max_speed": 0.7,
+          "angle": 360.0
+        }
+      ],
+      "sound": {
+        "id": "minecraft:entity.player.hurt_on_fire"
+      }
+    }
+  ],
+  "area_impact": {
+    "radius": 2.0,
+    "particles": [
+      {
+        "particle_id": "spell_engine:fire_explosion",
+        "origin": "CENTER",
+        "shape": "CIRCLE",
+        "count": 2.0,
+        "min_speed": 0.05,
+        "angle": 360.0
+      }
+    ]
+  },
+  "cost": {
+    "cooldown": {
+      "duration": 4.0
+    },
+    "item": {
+      "id": "runes:fire_stone"
+    }
+  }
+}

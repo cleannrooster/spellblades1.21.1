@@ -1,0 +1,51 @@
+{
+  "school": "HEALING",
+  "range": 8,
+  "learn": {
+    "tier": 3
+  },
+  "cast": {
+    "duration": 0
+  },
+  "release": {
+    "target": {
+      "type": "CURSOR",
+      "cursor": {
+        "use_caster_as_fallback": true
+      }
+    },
+    "animation": "spell_engine:one_handed_area_release",
+    "sound": {
+      "id": "spell_engine:generic_healing_release"
+    },
+    "particles": [
+      {
+        "particle_id": "spell_engine:holy_ascend",
+        "shape": "PIPE",
+        "origin": "FEET",
+        "count": 20.0,
+        "min_speed": 0.01,
+        "max_speed": 0.1
+      }
+    ]
+  },
+  "impact": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "spellbladenext:symbol_of_hope",
+          "duration": 12,
+          "apply_mode": "ADD",
+          "amplifier": 2,
+          "show_particles": false
+        }
+      }
+    }
+  ],
+  "cost": {
+    "exhaust": 0.3,
+    "item_id": "runes:healing_stone",
+    "cooldown_duration": 1
+  }
+}
