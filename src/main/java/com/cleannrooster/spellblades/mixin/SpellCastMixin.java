@@ -4,20 +4,30 @@ import com.cleannrooster.spellblades.SpellbladesAndSuch;
 import com.cleannrooster.spellblades.items.interfaces.PlayerDamageInterface;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import net.spell_engine.api.effect.SpellEngineEffects;
 import net.spell_engine.api.spell.ExternalSpellSchools;
 import net.spell_engine.api.spell.Spell;
+import net.spell_engine.api.spell.fx.Sound;
 import net.spell_engine.api.spell.registry.SpellRegistry;
+import net.spell_engine.fx.ParticleHelper;
+import net.spell_engine.fx.SpellEngineSounds;
 import net.spell_engine.internals.SpellHelper;
 import net.spell_engine.internals.casting.SpellCast;
 import net.spell_engine.internals.casting.SpellCasterEntity;
+import net.spell_engine.internals.container.SpellContainerSource;
+import net.spell_engine.internals.target.SpellTarget;
 import net.spell_engine.utils.AnimationHelper;
 import net.spell_engine.utils.SoundHelper;
 import net.spell_engine.utils.TargetHelper;
+import net.spell_power.api.SpellPowerMechanics;
 import net.spell_power.api.SpellSchools;
 import net.spell_power.mixin.attributes.CrossEntityAttributeInstance;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,29 +43,41 @@ import static com.cleannrooster.spellblades.SpellbladesAndSuch.MOD_ID;
 @Mixin(SpellHelper.class)
 public class SpellCastMixin {
    
-   /* @Inject(at = @At("TAIL"), method = "performSpell", cancellable = true)
-    private static void performSpellBladesEchp(World world, PlayerEntity player, Identifier spellId, TargetHelper.SpellTargetResult targets, SpellCast.Action action, float progress, CallbackInfo callbackInfo) {
-        if (!player.isSpectator()) {
-            Spell spell = SpellRegistry.from(player.getWorld()).get(spellId);
-            if(spell != null && !(spellId.equals(Identifier.of(MOD_ID,"blastarcane")) ||
-                    spellId.equals(Identifier.of(MOD_ID,"blastfrost")) ||
-                    spellId.equals(Identifier.of(MOD_ID,"blastfire")) ||
-                    spellId.equals(Identifier.of(MOD_ID,"blastlightning")) ||
-                    spellId.equals(Identifier.of(MOD_ID,"blastsoul"))) && !spellId.equals(Identifier.of(MOD_ID,"spellstrike"))&&!action.equals(SpellCast.Action.CHANNEL) &&!(targets.entities().isEmpty()  && spell.release.target.type.equals(Spell.Release.Target.Type.CURSOR)) && player.hasStatusEffect(SpellbladesAndSuch.UNLEASH) && player instanceof SpellCasterEntity caster && player instanceof PlayerDamageInterface playerDamageInterface){
-                int repeats = player.getStatusEffect(SpellbladesAndSuch.UNLEASH).getAmplifier()+1;
-                player.removeStatusEffect(SpellbladesAndSuch.UNLEASH);
-                playerDamageInterface.resetDiebeamStack();
-                for(int i = 0; i < repeats; i++){
-                    ((WorldScheduler)player.getWorld()).schedule((i+1)*4, () -> {
-                        caster.getCooldownManager().set(spellId,0,true);
-                        player.removeStatusEffect(SpellbladesAndSuch.UNLEASH);
-                        playerDamageInterface.resetDiebeamStack();
+    @Inject(at = @At("HEAD"), method = "performSpell", cancellable = true)
+    private static void performSpellSpellstrike(World world, PlayerEntity player, RegistryEntry<Spell> spellEntry, SpellTarget.SearchResult targetResult, SpellCast.Action action, float progress, CallbackInfo callbackInfo) {
+        if (action.equals(SpellCast.Action.RELEASE)) {
+            if (player instanceof PlayerDamageInterface playerInterface ) {
 
-                        SpellHelper.performSpell(world,player,spellId,targets,action,progress);
-                    });
+                if (playerInterface.getSpellstrikeSpells().stream().anyMatch(spell -> spell.toString().equals(spellEntry.getIdAsString()))) {
+                    player.sendMessage(Text.translatable("spellbladenext:spellstrike_error"));
+                    callbackInfo.cancel();
                 }
-
             }
         }
+
+
+    if(action.equals(SpellCast.Action.RELEASE) &&  SpellContainerSource.passiveSpellsOf(player).stream().anyMatch(spell -> spell.isIn(TagKey.of(SpellRegistry.KEY,Identifier.of(MOD_ID,"spellstrike")))) &&  spellEntry.value().type.equals(Spell.Type.ACTIVE) && spellEntry.value().active.cast.channel_ticks == 0){
+            if(player instanceof PlayerDamageInterface playerInterface ) {
+                if(!spellEntry.isIn(TagKey.of(SpellRegistry.KEY,Identifier.of(MOD_ID,"technique")))) {
+                    if(spellEntry.value().impacts.stream().noneMatch(impact -> impact.school != null &&  impact.school.equals(ExternalSpellSchools.PHYSICAL_MELEE))) {
+                        if(!spellEntry.value().target.type.equals(Spell.Target.Type.CASTER)) {
+                            if (playerInterface.getSpellstrikeSpells().stream().noneMatch(spell -> spell.toString().equals(spellEntry.getIdAsString()))) {
+
+                                playerInterface.queueSpellStrikeSpell(Identifier.tryParse(spellEntry.getIdAsString()));
+                                SoundHelper.playSound(world,player,new Sound(SpellEngineSounds.BIND_SPELL.id()));
+                                AnimationHelper.sendAnimation(player, PlayerLookup.tracking(player), SpellCast.Animation.RELEASE, spellEntry.value().release.animation, 1.0F);
+                                AnimationHelper.sendAnimation(player, List.of((ServerPlayerEntity) player), SpellCast.Animation.RELEASE, spellEntry.value().release.animation, 1.0F);
+
+                                ParticleHelper.play(world, player, spellEntry.value().release.particles);
+                                SpellHelper.imposeCooldown(player,SpellContainerSource.getFirstSourceOfSpell(Identifier.tryParse(spellEntry.getIdAsString()),player),Identifier.tryParse(spellEntry.getIdAsString()),spellEntry,1.0F);
+                                callbackInfo.cancel();
+                            }
+                        }
+                    }
+                }
+
+         }
+     }
+
     }
-*/}
+}

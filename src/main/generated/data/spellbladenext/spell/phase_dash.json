@@ -1,0 +1,59 @@
+{
+  "school": "spell_power:arcane",
+  "range": 0.0,
+  "tier": 2,
+  "sub_tier": 2,
+  "learn": {},
+  "tooltip": {
+    "description": {
+      "color": "dark_green",
+      "show_in_compact": false
+    }
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "ROLL",
+        "spell": {
+          "archetype": "MAGIC"
+        }
+      }
+    ]
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "apply_to_caster": true,
+        "status_effect": {
+          "effect_id": "spellbladenext:phase_dash",
+          "duration": 0.2
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_arcane_spell_float",
+          "origin": "FEET",
+          "shape": "WIDE_PIPE",
+          "count": 12.0,
+          "min_speed": 0.05,
+          "max_speed": 0.1,
+          "angle": 360.0
+        },
+        {
+          "particle_id": "spell_engine:magic_arcane_spark_float",
+          "origin": "FEET",
+          "shape": "WIDE_PIPE",
+          "count": 12.0,
+          "min_speed": 0.05,
+          "max_speed": 0.1,
+          "angle": 360.0
+        }
+      ]
+    }
+  ]
+}

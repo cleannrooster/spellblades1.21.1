@@ -1,7 +1,7 @@
 {
   "school": "spell_power:fire",
   "range": 6.0,
-  "group": "primary",
+  "group": "spellstrike",
   "tier": 0,
   "learn": {},
   "tooltip": {
@@ -29,14 +29,35 @@
   "target": {
     "type": "FROM_TRIGGER"
   },
+  "deliver": {
+    "type": "CUSTOM",
+    "custom": {
+      "handler": "spellbladenext:spellstrike"
+    }
+  },
   "impacts": [
     {
       "school": "spell_power:fire",
+      "target_modifiers": [
+        {
+          "conditions": [
+            {
+              "entity_type": "#minecraft:freeze_immune_entity_types"
+            }
+          ],
+          "modifier": {
+            "critical_chance_bonus": 0.3
+          }
+        }
+      ],
       "action": {
-        "type": "DAMAGE",
+        "type": "CUSTOM",
         "min_power": 2.0,
         "damage": {
           "spell_power_coefficient": 0.4
+        },
+        "custom": {
+          "handler": "spellbladenext:spellstrike"
         }
       },
       "particles": [

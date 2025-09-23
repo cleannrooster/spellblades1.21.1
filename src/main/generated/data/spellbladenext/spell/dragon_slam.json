@@ -63,10 +63,22 @@
   "impacts": [
     {
       "school": "spell_power:fire",
+      "target_modifiers": [
+        {
+          "conditions": [
+            {
+              "entity_type": "#minecraft:freeze_immune_entity_types"
+            }
+          ],
+          "modifier": {
+            "critical_chance_bonus": 0.3
+          }
+        }
+      ],
       "action": {
         "type": "DAMAGE",
         "damage": {
-          "spell_power_coefficient": 1.2
+          "spell_power_coefficient": 1.6
         }
       },
       "particles": [

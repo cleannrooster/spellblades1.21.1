@@ -5,11 +5,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.internals.casting.SpellCasterEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -23,6 +25,16 @@ public class EntityMixin {
         Entity entity = (Entity) (Object) this;
         if(entity instanceof LivingEntity living && living.getStatusEffect(SpellbladesAndSuch.PHOENIXCURSE) != null){
             ci.cancel();
+        }
+    }
+    @ModifyVariable(at = @At("HEAD"), method = "addVelocity", index = 1)
+    public Vec3d addVelocitySpellblades(Vec3d velocity) {
+        Entity entity = (Entity) (Object) this;
+        if(entity instanceof LivingEntity living && living.getStatusEffect(SpellbladesAndSuch.PHASEDASH) != null ){
+            return new Vec3d(velocity.getX(),0, velocity.getY());
+        }
+        else{
+            return velocity;
         }
     }
 

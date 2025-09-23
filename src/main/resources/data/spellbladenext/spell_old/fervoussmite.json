@@ -40,7 +40,7 @@
     "sound": {
       "id": "spell_engine:generic_fire_release"
     },
-    "animation": "spell_engine:one_handed_area_release"
+    "animation": "spellbladenext:one_handed_area_release"
 
   },
   "impact": [

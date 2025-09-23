@@ -13,7 +13,8 @@
 		"EntityAttributesMixin",
 		"SpellSchoolsMixin",
 		"AnimationHelperMixin",
-		"SpellContainerHelperMixin"
+		"SpellContainerHelperMixin",
+		"SpellBindingScreenHandlerMixin"
 
 	],
 	"injectors": {

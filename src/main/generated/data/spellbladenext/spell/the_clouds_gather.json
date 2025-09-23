@@ -1,0 +1,57 @@
+{
+  "school": "spell_power:air",
+  "range": 0.0,
+  "range_mechanic": "MELEE",
+  "tier": 2,
+  "learn": {},
+  "active": {
+    "scroll": {},
+    "cast": {
+      "duration": 8.0,
+      "channel_ticks": 1,
+      "animation": "spellbladenext:levitate",
+      "sound": {
+        "id": "spell_engine:generic_frost_casting"
+      }
+    }
+  },
+  "release": {
+    "animation": "spellbladenext:one_handed_area_release",
+    "sound": {
+      "id": "spell_engine:generic_frost_release"
+    }
+  },
+  "target": {
+    "type": "AREA",
+    "area": {
+      "include_caster": true
+    }
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "minecraft:levitation",
+          "duration": 0.25
+        }
+      }
+    },
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "apply_to_caster": true,
+        "status_effect": {
+          "effect_id": "minecraft:levitation",
+          "duration": 0.25
+        }
+      }
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 8.0,
+      "proportional": true
+    }
+  }
+}

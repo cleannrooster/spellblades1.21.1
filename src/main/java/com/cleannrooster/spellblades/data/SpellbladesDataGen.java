@@ -1,11 +1,17 @@
 package com.cleannrooster.spellblades.data;
 
 import com.cleannrooster.spellblades.Spells.SpellbladeSpells;
+import com.cleannrooster.spellblades.Spells.compat.ElementalSpells;
+import com.cleannrooster.spellblades.items.Items;
+import com.cleannrooster.spellblades.items.armor.Armors;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.registry.RegistryWrapper;
 import net.spell_engine.api.datagen.SpellGenerator;
+import net.spell_engine.internals.container.SpellContainerSource;
+import net.spell_engine.rpg_series.datagen.RPGSeriesDataGen;
+import net.spell_engine.rpg_series.tags.RPGSeriesItemTags;
 import org.apache.commons.lang3.builder.Builder;
 
 import java.util.concurrent.CompletableFuture;
@@ -15,6 +21,7 @@ public class SpellbladesDataGen implements DataGeneratorEntrypoint {
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
         pack.addProvider(SpellbladesSpellGen::new);
+        pack.addProvider(ItemTagGenerator::new);
     }
 
 
@@ -29,8 +36,21 @@ public class SpellbladesDataGen implements DataGeneratorEntrypoint {
             for (var entry: SpellbladeSpells.entries) {
                 builder.add(entry.id(), entry.spell());
             }
+            for (var entry: ElementalSpells.entries) {
+                builder.add(entry.id(), entry.spell());
+            }
         }
     }
+    public static class ItemTagGenerator extends RPGSeriesDataGen.ItemTagGenerator {
+        public ItemTagGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+            super(output, registriesFuture);
+        }
 
+        @Override
+        protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+            generateWeaponTags(Items.entries);
+            generateArmorTags(Armors.entries, RPGSeriesItemTags.ArmorMetaType.MAGIC);
+        }
+    }
 
 }

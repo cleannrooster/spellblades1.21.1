@@ -1,7 +1,7 @@
 {
   "school": "spell_power:lightning",
   "range": 6.0,
-  "group": "primary",
+  "group": "spellstrike",
   "tier": 0,
   "learn": {},
   "tooltip": {
@@ -31,7 +31,7 @@
   },
   "impacts": [
     {
-      "school": "spell_power:arcane",
+      "school": "spell_power:lightning",
       "action": {
         "type": "DAMAGE",
         "min_power": 2.0,

@@ -6,8 +6,8 @@
   "active": {
     "scroll": {},
     "cast": {
-      "duration": 2.0,
-      "animation": "spell_engine:one_handed_projectile_charge",
+      "duration": 0.25,
+      "animation": "spellbladenext:one_handed_projectile_charge",
       "sound": {
         "id": "spell_engine:generic_fire_casting"
       },
@@ -24,6 +24,7 @@
     }
   },
   "release": {
+    "animation": "spellbladenext:flourish",
     "sound": {
       "id": "minecraft:entity.player.attack.sweep"
     }
@@ -41,11 +42,23 @@
   "impacts": [
     {
       "school": "spell_power:fire",
+      "target_modifiers": [
+        {
+          "conditions": [
+            {
+              "entity_type": "#minecraft:freeze_immune_entity_types"
+            }
+          ],
+          "modifier": {
+            "critical_chance_bonus": 0.3
+          }
+        }
+      ],
       "action": {
         "type": "DAMAGE",
         "damage": {
-          "spell_power_coefficient": 0.6,
-          "knockback": 0.4
+          "spell_power_coefficient": 0.9,
+          "knockback": 0.1
         }
       },
       "particles": [
@@ -79,15 +92,15 @@
       "action": {
         "type": "DAMAGE",
         "damage": {
-          "spell_power_coefficient": 0.5,
-          "knockback": 0.4
+          "spell_power_coefficient": 0.6,
+          "knockback": 0.1
         }
       }
     }
   ],
   "cost": {
     "cooldown": {
-      "duration": 12.0
+      "duration": 0.25
     },
     "item": {
       "id": "runes:fire_stone"

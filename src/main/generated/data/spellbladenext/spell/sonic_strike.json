@@ -41,7 +41,9 @@
       "school": "spell_power:arcane",
       "action": {
         "type": "DAMAGE",
-        "damage": {}
+        "damage": {
+          "spell_power_coefficient": 4.0
+        }
       },
       "particles": [
         {
@@ -64,7 +66,7 @@
       "action": {
         "type": "DAMAGE",
         "damage": {
-          "spell_power_coefficient": 1.2
+          "spell_power_coefficient": 2.2
         }
       }
     },

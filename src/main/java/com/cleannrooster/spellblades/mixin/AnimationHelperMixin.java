@@ -8,9 +8,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.SwordItem;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.spell_engine.api.spell.container.SpellContainerHelper;
+import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.internals.SpellHelper;
 import net.spell_engine.internals.casting.SpellCast;
 import net.spell_engine.internals.casting.SpellCasterEntity;
+import net.spell_engine.internals.container.SpellContainerSource;
 import net.spell_engine.utils.AnimationHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
@@ -23,6 +26,7 @@ import java.util.Objects;
 public class AnimationHelperMixin {
     @Inject(at = @At("HEAD"), method = "sendAnimation", cancellable =   true)
     private static  void sendAnimationSpellblades(PlayerEntity animatedPlayer, Collection<ServerPlayerEntity> trackingPlayers, SpellCast.Animation type, String name, float speed, CallbackInfo info) {
+
         if(name != null && animatedPlayer instanceof PlayerDamageInterface playerInterface&&  name.equals( Identifier.of(SpellbladesAndSuch.MOD_ID,"sword_swing_first").toString())){
             if(playerInterface.isSecondSwing()) {
                 AnimationHelper.sendAnimation(animatedPlayer, trackingPlayers, type, Identifier.of(SpellbladesAndSuch.MOD_ID, "sword_swing_second").toString(), speed);

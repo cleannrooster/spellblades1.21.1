@@ -42,8 +42,11 @@ import net.spell_engine.utils.SoundHelper;
 import net.spell_engine.utils.TargetHelper;
 import net.spell_engine.utils.WorldScheduler;
 import net.spell_power.api.SpellPower;
+import net.spell_power.api.SpellPowerMechanics;
 import net.spell_power.api.SpellSchool;
 import net.spell_power.api.SpellSchools;
+import net.spell_power.api.statuseffects.SpellVulnerabilityStatusEffect;
+import net.spell_power.api.statuseffects.VulnerabilityEffect;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -54,13 +57,47 @@ import java.util.function.Supplier;
 import static com.cleannrooster.spellblades.SpellbladesAndSuch.MOD_ID;
 import static com.cleannrooster.spellblades.SpellbladesAndSuch.SLAMMING;
 import static net.spell_engine.api.spell.event.SpellHandlers.registerCustomDelivery;
+import static net.spell_engine.api.spell.event.SpellHandlers.registerCustomImpact;
 import static net.spell_engine.internals.SpellHelper.imposeCooldown;
 import static net.spell_engine.utils.SoundHelper.*;
+import static net.spell_power.api.SpellPower.vulnerabilitySources;
 
 public class SpellCustomDelivery {
+    public static class  Spellstrike implements SpellHandlers.CustomDelivery {
+        @Override
+        public boolean onSpellDelivery(World world, RegistryEntry<Spell> registryEntry, PlayerEntity playerEntity, List<SpellHelper.DeliveryTarget> list, SpellHelper.ImpactContext impactContext, @Nullable Vec3d vec3d) {
+            boolean bool = false;
+
+            if(playerEntity instanceof PlayerDamageInterface damageInterface && !list.isEmpty()){
+                damageInterface.setSpellstriking(true);
+                if(!damageInterface.getSpellstrikeSpells().isEmpty()){
+                    int i = 0;
+                    if(playerEntity.getStatusEffect(SpellbladesAndSuch.SPELLSTRIKE) != null){
+                        i += playerEntity.getStatusEffect(SpellbladesAndSuch.SPELLSTRIKE).getAmplifier()+1;
+                    }
+                    playerEntity.addStatusEffect(new StatusEffectInstance(SpellbladesAndSuch.SPELLSTRIKE,80,Math.min(4,i),false,false));
+
+                }
+
+                for(Identifier spell : damageInterface.getSpellstrikeSpells()){
+
+                        RegistryEntry<Spell> realSpell = SpellRegistry.from(playerEntity.getWorld()).getEntry(spell).get();
+                        SpellSchool.QueryArgs args = new SpellSchool.QueryArgs(playerEntity);
+                        bool = SpellHelper.deliver(world,realSpell,playerEntity,list,
+                                impactContext.power(new SpellPower.Result(realSpell.value().school, realSpell.value().school.getValue(SpellSchool.Trait.POWER, args), 1.0F, realSpell.value().school.getValue(SpellSchool.Trait.CRIT_DAMAGE, args))),
+                                vec3d,(deliveryCompletion -> {}));
+
+                }
+                damageInterface.clearSpellstrikeSpells();
+                damageInterface.setSpellstriking(false);
+
+            }
+            return bool;
+        }
+    }
     public static class  DragonSlam implements SpellHandlers.CustomDelivery {
         @Override
-        public boolean onSpellDelivery(World world, RegistryEntry<Spell> registryEntry, PlayerEntity playerEntity, List<SpellHelper.TargetWithContext> targets, SpellHelper.ImpactContext impactContext, @Nullable Vec3d vec3d) {
+        public boolean onSpellDelivery(World world, RegistryEntry<Spell> registryEntry, PlayerEntity playerEntity, List<SpellHelper.DeliveryTarget> targets, SpellHelper.ImpactContext impactContext, @Nullable Vec3d vec3d) {
             SpellSchool actualSchool = SpellSchools.FIRE;
             RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(playerEntity.getWorld()).getEntry(Identifier.of(MOD_ID, "dragon_slam")).get();
             if(!playerEntity.isOnGround()) {
@@ -84,7 +121,7 @@ public class SpellCustomDelivery {
                 playerEntity.setOnGround(false);
 
                 playerEntity.addStatusEffect(new StatusEffectInstance(SLAMMING, 100, 0, false, false));
-                imposeCooldown(playerEntity, SpellContainerSource.getFirstSourceOfSpell(Identifier.of(MOD_ID, "dragon_slam"), playerEntity), Identifier.of(MOD_ID, "dragon_slam"), SpellRegistry.from(playerEntity.getWorld()).get(Identifier.of(MOD_ID, "dragon_slam")), 1.0F);
+                imposeCooldown(playerEntity, SpellContainerSource.getFirstSourceOfSpell(Identifier.of(MOD_ID, "dragon_slam"), playerEntity), Identifier.of(MOD_ID, "dragon_slam"), SpellRegistry.from(playerEntity.getWorld()).getEntry(Identifier.of(MOD_ID, "dragon_slam")).get(), 1.0F);
 
             }
             else{
@@ -112,12 +149,12 @@ public class SpellCustomDelivery {
     }
     public static class  ReverbBrand implements SpellHandlers.CustomDelivery {
         @Override
-        public boolean onSpellDelivery(World world, RegistryEntry<Spell> registryEntry, PlayerEntity playerEntity, List<SpellHelper.TargetWithContext> targets, SpellHelper.ImpactContext impactContext, @Nullable Vec3d vec3d) {
+        public boolean onSpellDelivery(World world, RegistryEntry<Spell> registryEntry, PlayerEntity playerEntity, List<SpellHelper.DeliveryTarget> targets, SpellHelper.ImpactContext impactContext, @Nullable Vec3d vec3d) {
             if(!targets.isEmpty()){
-                for(SpellHelper.TargetWithContext context : targets) {
+                for(SpellHelper.DeliveryTarget context : targets) {
                     for (int i = 0; i < 30 ;i++) {
                         ((WorldScheduler) context.entity().getWorld()).schedule(20 * i + 1, () -> {
-                            SpellHelper.performImpacts(context.entity().getWorld(), playerEntity, context.entity(), context.entity(), registryEntry, registryEntry.value().impacts, impactContext, false);
+                            SpellHelper.performImpacts(context.entity().getWorld(), playerEntity, context.entity(), context.entity(), registryEntry, registryEntry.value().impacts, impactContext);
                         });
                     }
                 }
@@ -131,56 +168,52 @@ public class SpellCustomDelivery {
     }
             public static class  FlickeringFlame implements SpellHandlers.CustomDelivery {
         @Override
-        public boolean onSpellDelivery(World world, RegistryEntry<Spell> registryEntry, PlayerEntity playerEntity, List<SpellHelper.TargetWithContext> targets, SpellHelper.ImpactContext impactContext, @Nullable Vec3d vec3d) {
+        public boolean onSpellDelivery(World world, RegistryEntry<Spell> registryEntry, PlayerEntity playerEntity, List<SpellHelper.DeliveryTarget> targets, SpellHelper.ImpactContext impactContext, @Nullable Vec3d vec3d) {
 
-    
-            if(playerEntity instanceof PlayerDamageInterface player) {
-                List<Entity> list = new ArrayList<>();
-                int i = 0;
-                for(SpellHelper.TargetWithContext context : targets){
-                    if(context.entity() != null){
-                        list.add(context.entity());
-                    }
-                }
-                if (!list.stream().toList().isEmpty()) {
-                    while (i < 16) {
-                        for (Entity entity : list.stream().filter(target -> target instanceof LivingEntity).toList()) {
-                            int finalI = i;
-                            ((WorldScheduler) entity.getWorld()).schedule((int) Math.ceil((i + 1) * (5/playerEntity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_SPEED))), () -> {
-                                        Vec3d vec31 = new Vec3d(1-2*entity.getRandom().nextFloat(), 0, 1-2*entity.getRandom().nextFloat()).normalize();
-                                        Vec3d vec3 = entity.getPos().subtract(vec31.multiply(1 + 0.5 + (entity.getBoundingBox().getLengthX() / 2))).add(0,0.6,0);
-                                        if(entity instanceof LivingEntity living && living.isAlive()) {
-                                            if (!playerEntity.getWorld().getBlockState(new BlockPos((int) vec3.x, (int) vec3.y, (int) vec3.z)).shouldSuffocate(playerEntity.getWorld(), new BlockPos((int) vec3.x, (int) vec3.y, (int) vec3.z))) {
-                                                playerEntity.requestTeleport(vec3.getX(), vec3.getY(), vec3.getZ());
-                                            }
-                                            playerEntity.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, entity.getEyePos());
-                                            SpellHelper.performImpacts(playerEntity.getWorld(), playerEntity, entity, playerEntity, registryEntry,SpellRegistry.from(playerEntity.getWorld()).get(Identifier.of(MOD_ID,"flickering_flame")).impacts, impactContext);
-                                            if (finalI % 2 == 0) {
-                                                AnimationHelper.sendAnimation(playerEntity, PlayerLookup.tracking(playerEntity), SpellCast.Animation.RELEASE, "spellbladenext:sword_swing_first", 1.0F);
-                                                AnimationHelper.sendAnimation(playerEntity, List.of((ServerPlayerEntity) playerEntity), SpellCast.Animation.RELEASE, "spellbladenext:sword_swing_first", 1.0F);
-                                            } else {
-                                                AnimationHelper.sendAnimation(playerEntity, PlayerLookup.tracking(playerEntity), SpellCast.Animation.RELEASE, "spellbladenext:sword_swing_second", 1.0F);
-                                                AnimationHelper.sendAnimation(playerEntity, List.of((ServerPlayerEntity) playerEntity), SpellCast.Animation.RELEASE, "spellbladenext:sword_swing_second", 1.0F);
-
-                                            }
-                                            ParticleHelper.sendBatches(playerEntity, SpellRegistry.from(playerEntity.getWorld()).get(Identifier.of(MOD_ID, "flickering_flame")).release.particles, true);
-                                            SoundHelper.playSound(entity.getWorld(),playerEntity,registryEntry.value().release.sound);
-
-                                        }
-                                    }
-                            );
-                            i++;
-                        }
-                    }
+            List<LivingEntity> livingEntities = new ArrayList<>();
+            for(SpellHelper.DeliveryTarget entity : targets){
+                if(entity.entity() instanceof LivingEntity living && (living.getLastAttacker() != playerEntity || living.age - living.getLastAttackedTime() > 80) &&  living.isAlive()){
+                    livingEntities.add(living);
                 }
             }
+            Entity entity = playerEntity.getWorld().getClosestEntity(livingEntities,TargetPredicate.DEFAULT,playerEntity,playerEntity.getX(),playerEntity.getY(),playerEntity.getZ());
+            if(entity != null){
+                LivingEntity living = (LivingEntity) entity;
+                Vec3d vec31 = new Vec3d(1-entity.getRandom().nextFloat()*2, 0, 1-entity.getRandom().nextFloat()*2).normalize();
+                Vec3d vec3 = entity.getPos().subtract(vec31.multiply(1 + 0.5 + (entity.getBoundingBox().getLengthX() / 2))).add(0,0.6,0);
+                if(!playerEntity.getWorld().getBlockState(BlockPos.ofFloored(vec3)).shouldSuffocate(playerEntity.getWorld(),BlockPos.ofFloored(vec3))) {
+                    playerEntity.requestTeleport(vec3.getX(), vec3.getY(), vec3.getZ());
+                }
+                playerEntity.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, entity.getEyePos());
+                SpellHelper.performImpacts(playerEntity.getWorld(), playerEntity, entity, playerEntity, SpellRegistry.from(playerEntity.getWorld()).getEntry(Identifier.of(MOD_ID,"flickering_flame")).get(),SpellRegistry.from(playerEntity.getWorld()).get(Identifier.of(MOD_ID,"flickering_flame")).impacts, impactContext);
+                SpellCasterEntity caster = (SpellCasterEntity) playerEntity;
+                ((WorldScheduler)playerEntity.getWorld()).schedule(1+(int)Math.ceil(4/playerEntity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_SPEED)),()->{
+                    caster.getCooldownManager().set(Identifier.of(MOD_ID, "flickering_flame"),0,true);
+
+                    SpellHelper.performSpell(playerEntity.getWorld(),playerEntity,registryEntry, SpellTarget.SearchResult.of(TargetHelper.targetsFromArea(playerEntity,playerEntity.getPos(),SpellRegistry.from(playerEntity.getWorld()).get(Identifier.of(MOD_ID,"flickering_flame")).range,SpellRegistry.from(playerEntity.getWorld()).get(Identifier.of(MOD_ID, "flickering_flame")).target.area,
+                            target -> EntityRelations.actionAllowed(SpellTarget.FocusMode.AREA, SpellTarget.Intent.HARMFUL.HARMFUL,playerEntity,target))), SpellCast.Action.RELEASE,1F);
+                });
+                return true;
+            }
+            SpellCasterEntity caster = (SpellCasterEntity) playerEntity;
+            ((WorldScheduler)playerEntity.getWorld()).schedule(1,()-> {
+
+                caster.getCooldownManager().set(Identifier.of(MOD_ID, "flickering_flame"), (int) (10*(1/playerEntity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_SPEED))+20 * (SpellHelper.getCooldownDuration(playerEntity, SpellRegistry.from(playerEntity.getWorld()).getEntry(Identifier.of(MOD_ID,"flickering_flame")).get()))));
+            });
+            ((ServerWorld)playerEntity.getWorld()).iterateEntities().forEach(iteratedEntity ->{
+                if(iteratedEntity instanceof LivingEntity living){
+                    if(living.getLastAttacker()==playerEntity){
+                        living.setAttacker(null);
+                    }
+                }
+            });
             return true;
         }
     }
     
     public static class  Riptide implements SpellHandlers.CustomDelivery {
         @Override
-        public boolean onSpellDelivery(World world, RegistryEntry<Spell> registryEntry, PlayerEntity playerEntity, List<SpellHelper.TargetWithContext> list, SpellHelper.ImpactContext impactContext, @Nullable Vec3d vec3d) {
+        public boolean onSpellDelivery(World world, RegistryEntry<Spell> registryEntry, PlayerEntity playerEntity, List<SpellHelper.DeliveryTarget> list, SpellHelper.ImpactContext impactContext, @Nullable Vec3d vec3d) {
             SpellSchool actualSchool = SpellSchools.FIRE;
             playerEntity.velocityDirty = true;
             playerEntity.velocityModified = true;
@@ -213,7 +246,7 @@ public class SpellCustomDelivery {
 
     public static class  Massacre implements SpellHandlers.CustomDelivery {
         @Override
-        public boolean onSpellDelivery(World world, RegistryEntry<Spell> registryEntry, PlayerEntity playerEntity, List<SpellHelper.TargetWithContext> list, SpellHelper.ImpactContext impactContext, @Nullable Vec3d vec3d) {
+        public boolean onSpellDelivery(World world, RegistryEntry<Spell> registryEntry, PlayerEntity playerEntity, List<SpellHelper.DeliveryTarget> list, SpellHelper.ImpactContext impactContext, @Nullable Vec3d vec3d) {
             SpellSchool actualSchool = SpellSchools.FROST;
 
             if(list.isEmpty()){
@@ -227,7 +260,7 @@ public class SpellCustomDelivery {
                 if(((PlayerDamageInterface) playerEntity).getLastAttacked() != null) {
                     List<LivingEntity> list2 = new ArrayList<>();
 
-                    for(SpellHelper.TargetWithContext entity1 : list){
+                    for(SpellHelper.DeliveryTarget entity1 : list){
                         if(entity1.entity() instanceof LivingEntity living2 && living2 != ((PlayerDamageInterface) playerEntity).getLastAttacked()){
                             list2.add(living2);
                         }
@@ -294,7 +327,7 @@ public class SpellCustomDelivery {
                 Entity entity = playerDamageInterface.getLastAttacked();
                 List<LivingEntity> list2 = new ArrayList<>();
                 boolean bool = false;
-                for(SpellHelper.TargetWithContext entity1 : list){
+                for(SpellHelper.DeliveryTarget entity1 : list){
                     if(entity1.entity() instanceof LivingEntity living){
                         list2.add(living);
                     }
@@ -337,6 +370,7 @@ public class SpellCustomDelivery {
         }
     }
     public static void registerDeliveries(){
+        registerCustomDelivery(Identifier.of(MOD_ID,"spellstrike"),new Spellstrike());
         registerCustomDelivery(Identifier.of(MOD_ID,"riptide"),new Riptide());
         registerCustomDelivery(Identifier.of(MOD_ID,"eviscerate"),new Massacre());
         registerCustomDelivery(Identifier.of(MOD_ID,"flickering_flame"),new FlickeringFlame());

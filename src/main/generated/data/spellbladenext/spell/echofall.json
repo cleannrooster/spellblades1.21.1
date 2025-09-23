@@ -25,7 +25,7 @@
     }
   },
   "release": {
-    "animation": "spell_engine:one_handed_area_release",
+    "animation": "spellbladenext:one_handed_area_release",
     "sound": {
       "id": "spell_engine:generic_arcane_release"
     }

@@ -7,7 +7,7 @@
     "scroll": {},
     "cast": {
       "duration": 2.0,
-      "animation": "spell_engine:one_handed_area_charge",
+      "animation": "spellbladenext:one_handed_area_charge",
       "sound": {
         "id": "spell_engine:generic_frost_casting"
       },
@@ -24,6 +24,7 @@
     }
   },
   "release": {
+    "animation": "spellbladenext:one_handed_area_release",
     "particles": [
       {
         "particle_id": "spell_engine:snowflake",

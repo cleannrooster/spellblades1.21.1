@@ -2,6 +2,10 @@
   "values": [
     "spellbladenext:arcane_burst",
     "spellbladenext:arcane_blink",
+    {
+      "id": "spellbladenext:phase_dash",
+      "required": false
+    },
     "spellbladenext:amethyst_slash",
     "spellbladenext:sonic_strike"
   ]

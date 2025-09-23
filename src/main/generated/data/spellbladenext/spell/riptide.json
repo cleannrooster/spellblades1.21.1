@@ -7,7 +7,7 @@
     "scroll": {},
     "cast": {
       "duration": 0.5,
-      "animation": "spell_engine:one_handed_projectile_charge",
+      "animation": "spellbladenext:one_handed_projectile_charge",
       "sound": {
         "id": "spell_engine:generic_frost_casting"
       },
@@ -38,9 +38,33 @@
   "impacts": [
     {
       "school": "spell_power:frost",
+      "target_modifiers": [
+        {
+          "conditions": [
+            {
+              "entity_type": "#minecraft:freeze_hurts_extra_types"
+            }
+          ],
+          "modifier": {
+            "power_multiplier": -0.3
+          }
+        },
+        {
+          "conditions": [
+            {
+              "entity_type": "#minecraft:freeze_hurts_extra_types"
+            }
+          ],
+          "modifier": {
+            "power_multiplier": 0.3
+          }
+        }
+      ],
       "action": {
         "type": "DAMAGE",
-        "damage": {}
+        "damage": {
+          "spell_power_coefficient": 1.8
+        }
       },
       "particles": [
         {
@@ -63,7 +87,7 @@
       "action": {
         "type": "DAMAGE",
         "damage": {
-          "spell_power_coefficient": 1.2
+          "spell_power_coefficient": 1.5
         }
       }
     }

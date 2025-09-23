@@ -1,0 +1,82 @@
+{
+  "school": "spell_power:fire",
+  "range": 8.0,
+  "tier": 4,
+  "learn": {},
+  "active": {
+    "scroll": {},
+    "cast": {
+      "duration": 1.0,
+      "animation": "spell_engine:phoenixdive",
+      "sound": {
+        "id": "spell_engine:generic_fire_casting"
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:flame",
+          "origin": "FEET",
+          "shape": "WIDE_PIPE",
+          "count": 1.0,
+          "min_speed": 0.05,
+          "max_speed": 0.1
+        }
+      ]
+    }
+  },
+  "release": {
+    "particles": [
+      {
+        "particle_id": "spell_engine:flame",
+        "origin": "FEET",
+        "shape": "CIRCLE",
+        "count": 30.0,
+        "min_speed": 0.8
+      },
+      {
+        "particle_id": "spell_engine:flame_medium_a",
+        "origin": "FEET",
+        "shape": "CIRCLE",
+        "count": 10.0,
+        "min_speed": 0.5
+      },
+      {
+        "particle_id": "spell_engine:flame_medium_b",
+        "origin": "FEET",
+        "shape": "CIRCLE",
+        "count": 10.0,
+        "min_speed": 0.5
+      }
+    ],
+    "sound": {
+      "id": "minecraft:entity.player.attack.knockback"
+    }
+  },
+  "target": {
+    "type": "AREA",
+    "area": {
+      "include_caster": true
+    }
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "TELEPORT",
+        "apply_to_caster": true,
+        "teleport": {
+          "mode": "FORWARD",
+          "forward": {
+            "distance": 12.0
+          }
+        }
+      }
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 12.0
+    },
+    "item": {
+      "id": "runes:fire_stone"
+    }
+  }
+}

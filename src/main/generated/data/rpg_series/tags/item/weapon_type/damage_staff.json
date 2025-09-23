@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "spellbladenext:frost_orb",
+      "required": false
+    },
+    {
+      "id": "spellbladenext:fire_orb",
+      "required": false
+    },
+    {
+      "id": "spellbladenext:arcane_orb",
+      "required": false
+    }
+  ]
+}

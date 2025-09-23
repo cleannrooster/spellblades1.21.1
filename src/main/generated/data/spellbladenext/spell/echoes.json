@@ -14,6 +14,18 @@
     "triggers": [
       {
         "type": "SPELL_IMPACT_SPECIFIC",
+        "spell": {
+          "id": "spellbladenext:reverberation_brand"
+        },
+        "impact": {
+          "impact_type": "DAMAGE"
+        }
+      },
+      {
+        "type": "SPELL_IMPACT_SPECIFIC",
+        "spell": {
+          "id": "spellbladenext:echofall"
+        },
         "impact": {
           "impact_type": "DAMAGE"
         }
@@ -21,7 +33,6 @@
     ]
   },
   "release": {
-    "animation": "spell_engine:one_handed_area_release",
     "sound": {
       "id": "spell_engine:generic_arcane_release"
     }
@@ -29,104 +40,37 @@
   "target": {
     "type": "FROM_TRIGGER"
   },
+  "deliver": {
+    "delay": 40
+  },
   "impacts": [
     {
       "school": "spell_power:arcane",
-      "target_modifiers": [
-        {
-          "all_required": true,
-          "conditions": [
-            {
-              "entity_predicate_id": "spell_engine:has_effect",
-              "entity_predicate_param": "spellbladenext:collapse"
-            }
-          ],
-          "execute": "DENY"
-        },
-        {
-          "all_required": true,
-          "conditions": [
-            {
-              "entity_predicate_id": "spell_engine:has_effect",
-              "entity_predicate_param": "spellbladenext:resonating"
-            }
-          ],
-          "execute": "DENY"
-        }
-      ],
       "action": {
-        "type": "STATUS_EFFECT",
-        "status_effect": {
-          "effect_id": "spellbladenext:collapse",
-          "duration": 2.0,
-          "amplifier_power_multiplier": 0.6,
-          "refresh_duration": false,
-          "show_particles": true
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.2,
+          "knockback": 0.0
         }
       },
       "particles": [
         {
-          "particle_id": "spell_engine:magic_arcane_spark_float",
+          "particle_id": "spell_engine:magic_arcane_impact_burst",
           "origin": "CENTER",
-          "shape": "SPHERE",
+          "shape": "CIRCLE",
+          "rotation": "LOOK",
           "count": 20.0,
-          "min_speed": 0.05,
-          "max_speed": 0.1,
+          "min_speed": 0.2,
+          "max_speed": 0.7,
           "angle": 360.0
-        },
-        {
-          "particle_id": "spell_engine:magic_arcane_spark_float",
-          "origin": "CENTER",
-          "shape": "SPHERE",
-          "count": 20.0,
-          "min_speed": 0.05,
-          "max_speed": 0.1,
-          "angle": 360.0
-        }
-      ]
-    },
-    {
-      "school": "spell_power:arcane",
-      "target_modifiers": [
-        {
-          "conditions": [
-            {
-              "entity_predicate_id": "spell_engine:has_effect",
-              "entity_predicate_param": "spellbladenext:resonating"
-            }
-          ],
-          "execute": "ALLOW"
         }
       ],
-      "action": {
-        "type": "STATUS_EFFECT",
-        "status_effect": {
-          "effect_id": "spellbladenext:collapse",
-          "duration": 0.5,
-          "refresh_duration": false,
-          "show_particles": true
-        }
-      },
-      "particles": [
-        {
-          "particle_id": "spell_engine:magic_arcane_spark_float",
-          "origin": "CENTER",
-          "shape": "SPHERE",
-          "count": 20.0,
-          "min_speed": 0.05,
-          "max_speed": 0.1,
-          "angle": 360.0
-        },
-        {
-          "particle_id": "spell_engine:magic_arcane_spark_float",
-          "origin": "CENTER",
-          "shape": "SPHERE",
-          "count": 20.0,
-          "min_speed": 0.05,
-          "max_speed": 0.1,
-          "angle": 360.0
-        }
-      ]
+      "sound": {
+        "id": "spell_engine:generic_arcane_release"
+      }
     }
-  ]
+  ],
+  "cost": {
+    "durability": 0
+  }
 }

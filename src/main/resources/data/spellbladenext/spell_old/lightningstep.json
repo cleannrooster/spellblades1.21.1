@@ -9,7 +9,7 @@
     "duration": 0.5,
     "movement_speed": 2,
     "haste_affected": false,
-    "animation": "spell_engine:one_handed_area_charge",
+    "animation": "spellbladenext:one_handed_area_charge",
     "channel_ticks": 2,
     "sound": {
       "id": "spell_engine:generic_lightning_casting",
@@ -38,7 +38,7 @@
     ]
   },
   "release": {
-    "animation": "spell_engine:one_handed_area_release",
+    "animation": "spellbladenext:one_handed_area_release",
 
     "custom_impact": true,
     "target": {

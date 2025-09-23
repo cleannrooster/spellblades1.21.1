@@ -21,7 +21,7 @@
     ]
   },
   "release": {
-    "animation": "spell_engine:one_handed_area_release",
+    "animation": "spellbladenext:one_handed_area_release",
     "sound": {
       "id": "spell_engine:generic_frost_release"
     }
@@ -44,6 +44,26 @@
             }
           ],
           "execute": "ALLOW"
+        },
+        {
+          "conditions": [
+            {
+              "entity_type": "#minecraft:freeze_hurts_extra_types"
+            }
+          ],
+          "modifier": {
+            "power_multiplier": -0.3
+          }
+        },
+        {
+          "conditions": [
+            {
+              "entity_type": "#minecraft:freeze_hurts_extra_types"
+            }
+          ],
+          "modifier": {
+            "power_multiplier": 0.3
+          }
         }
       ],
       "action": {

@@ -50,18 +50,6 @@ public class Spellstrike extends StatusEffect {
     @Override
     public boolean applyUpdateEffect(LivingEntity player, int amplifier) {
 
-        if(player instanceof PlayerDamageInterface playerDamageInterface && player instanceof SpellCasterEntity caster){
-            playerDamageInterface.clearSpellstrikeSpells();
-            int cooldown = (int)(SpellHelper.getCooldownDuration(player, SpellRegistry.from(player.getWorld()).get(Identifier.of(MOD_ID,"spellstrike")))*20);
-            caster.getCooldownManager().set(Identifier.of(MOD_ID,"spellstrike"),cooldown);
-
-        }
-        if(player instanceof PlayerEntity  && !player.getWorld().isClient()){
-            AnimationHelper.sendAnimation((PlayerEntity) player, PlayerLookup.tracking(player), SpellCast.Animation.RELEASE, SpellRegistry.from(player.getWorld()).get(Identifier.of(MOD_ID, "spellstrike2")).release.animation, 1F);
-            if (player instanceof ServerPlayerEntity serverPlayerEntity) {
-                AnimationHelper.sendAnimation((PlayerEntity) player, List.of(serverPlayerEntity), SpellCast.Animation.RELEASE, SpellRegistry.from(player.getWorld()).get(Identifier.of(MOD_ID, "spellstrike2")).release.animation, 1F);
-            }
-        }
         return super.applyUpdateEffect(player, amplifier);
     }
 

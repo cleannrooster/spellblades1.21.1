@@ -6,7 +6,7 @@
   },
   "cast": {
     "duration": 0.5,
-    "animation": "spell_engine:one_handed_area_charge",
+    "animation": "spellbladenext:one_handed_area_charge",
     "sound": {
       "id": "spell_engine:generic_frost_casting",
       "randomness": 0
@@ -23,7 +23,7 @@
     ]
   },
   "release": {
-    "animation": "spell_engine:one_handed_area_release",
+    "animation": "spellbladenext:one_handed_area_release",
 
     "custom_impact": true,
     "target": {

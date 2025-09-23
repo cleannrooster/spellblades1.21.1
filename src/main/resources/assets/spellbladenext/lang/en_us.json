@@ -18,6 +18,18 @@
   "item.spellbladenext.theavatar": "The Avatar",
   "item.spellbladenext.lightning_battlemage_spell_book": "Lightning Techniques",
 
+  "item.spellbladenext.wind_blade": "Wind Spellblade",
+  "item.spellbladenext.water_blade": "Water Spellblade",
+  "item.spellbladenext.earth_blade": "Earth Spellblade",
+
+  "item.spellbladenext.surging_saber": "Surging Saber",
+  "item.spellbladenext.rippling_rapier": "Rippling Rapier",
+  "item.spellbladenext.stone_scimitar": "Stone Scimitar",
+
+  "item.spellbladenext.wind_battlemage_spell_book": "Way of Wind",
+  "item.spellbladenext.water_battlemage_spell_book": "Way of Water",
+  "item.spellbladenext.earth_battlemage_spell_book": "Way of Earth",
+
   "item.spellbladenext.thesis_spell_book": "Thesis of Awakening",
   "item.spellbladenext.thesis_spell_book.desc": "Fear not the mage who has cast a thousand different spells once, fear the mage who has cast a single spell a thousand times.",
   "item.spellbladenext.thesis_spell_book.desc2": "Awaken your spell at a spell binding table.",
@@ -99,6 +111,16 @@
   "entity.spellbladenext.cycloneentity": "Cyclone",
 
   "item.spellbladenext.monkeystaff": "Monkey's Cudgel",
+
+  "spell.spellbladenext.wind_burst.name": "Wind Burst",
+  "spell.spellbladenext.wind_burst.description": "On melee hit, deal {damage} wind damage to nearby enemies and slightly launch yourself and nearby enemies upwards. Grants you slow falling for 4 seconds.",
+  "spell.spellbladenext.the_clouds_gather.name": "The Clouds Gather...",
+  "spell.spellbladenext.the_clouds_gather.description": "While channeling, you and nearby enemies levitate slowly upwards.",
+  "spell.spellbladenext.the_wind_rises.name": "The Wind Rises...",
+  "spell.spellbladenext.the_wind_rises.description": "Launch yourself and nearby enemies into the sky, dealing {damage_1} physical and {damage_2} wind damage.",
+  "spell.spellbladenext.the_heavens_descend.name": "...And the Heavens Descend",
+  "spell.spellbladenext.the_heavens_descend.description": "Hit enemies in front of you with a downwards strike, launching them downwards at a high velocity, if they are airborne. Afflicts enemies with Crashing for 4 seconds, doubling falling damage taken. Grants you slow falling for 6 seconds",
+
   "spell.spellbladenext.lightningstep.name": "Surge",
   "spell.spellbladenext.lightningstep.description": "Become invulnerable, surging towards the target direction and dealing {damage} lightning dps to very close enemies.",
 
@@ -117,7 +139,7 @@
   "spell.spellbladenext.reverberation_brand.name": "Reverberation Brand",
   "spell.spellbladenext.reverberation_brand.description": "Brand an enemy for 30 seconds, making them take {damage} arcane damage every second.",
   "spell.spellbladenext.resonance.name": "Resonance",
-  "spell.spellbladenext.resonance.description": "Apply Resonance to a target and also to yourself, granting 400%% Spell Haste. Your Echoes last a fourth of the duration on Resonating enemies, while also reapplying immediately after expiring.",
+  "spell.spellbladenext.resonance.description": "Give yourself the Resonance buff, halving your Spell Haste but doubling your Arcane Power.",
 
   "spell.spellbladenext.flamelance.name": "Flame Lance",
   "spell.spellbladenext.flamelance.description": "Incinerate a line in front of you, dealing {damage} fire damage to each enemy.",
@@ -138,6 +160,12 @@
   "spell.spellbladenext.exploding_feathers.description": "Your next 8 hits of Feather Lash explode, dealing {damage} in a small area. With this buff, you have 5%% increased fire power and spell haste per remaining feather.",
   "spell.spellbladenext.healing_feathers.name": "Rejuvenating Feathers",
   "spell.spellbladenext.healing_feathers.description": "Your next 8 hits of Feather Lash heal you, restoring {heal} points of health. With this buff, you have 0.5 additional healing power per remaining feather.",
+  "spell.spellbladenext.encore.name": "Encore",
+  "spell.spellbladenext.encore.description": "Reset all your Arcane cooldowns.",
+  "spell.spellbladenext.arctic_armor.name": "Arctic Armor",
+  "spell.spellbladenext.arctic_armor.description": "Give yourself a buff that retaliates with cold damage against enemies nearby enemies that damage you, dealing {damage} frost damage, heavy knockback, and inflicting Wintertide.",
+  "spell.spellbladenext.phoenix_dive.name": "Phoenix Dive",
+  "spell.spellbladenext.phoenix_dive.description": "Blink towards the target direction, performing a nova for {damage} fire damage upon landing.",
 
   "spell.spellbladenext.combustion.name": "Phoenix Curse",
   "spell.spellbladenext.combustion.description": "Passive: On a cooldown, Your damage sets enemies on fire for 2 seconds and gives them Phoenix's Curse for the same duration, dealing {damage} fire spell damage 4 times over 2 seconds. Enemies that have Phoenix Curse count as being On Fire, if not already On Fire. Active: Set the ground on fire, dealing the same damage 16 times over 8 seconds in an area.",
@@ -162,6 +190,8 @@
   "spell.spellbladenext.grandstanding.description": "Give everyone nearby (including enemies) Strength based on your Healing Power for 12 seconds.",
   "spell.spellbladenext.bulwark.name": "Bulwark of the Weak",
   "spell.spellbladenext.bulwark.description": "Give yourself the Bulwark of the Weak status for 16 seconds. During this duration, you glow and are 25%% larger, and heal allies in an area every 2 seconds. Cooldown is shared between all party members.",
+  "spell.spellbladenext.phase_dash.name": "Phase Rush",
+  "spell.spellbladenext.phase_dash.description": "Change your combat roll to a floating dash, greatly reducing gravity.",
 
   "spell.spellbladenext.sniper.name": "Runeblaze Round",
   "spell.spellbladenext.sniper.description": "Charge and shoot your rifle, dealing 2x ranged damage and an additional {damage} ranged physical damage.",
@@ -172,7 +202,7 @@
   "spell.spellbladenext.eldritchblast.name": "Reverberating Ray",
   "spell.spellbladenext.eldritchblast.description": "Fire a blast in the target direction, dealing {damage} arcane damage to all enemies in a line.",
   "spell.spellbladenext.echoes.name": "Echoes",
-  "spell.spellbladenext.echoes.description": "On spell hit, apply {buff} stacks of Echoes based on your arcane power for 4 seconds.  When Echoes expires, the enemy takes 1.6 arcane damage per echo stack.",
+  "spell.spellbladenext.echoes.description": "Two seconds after another spell from this spell book hits an enemy, this spell deals {damage} arcane damage to the same enemy.",
   "spell.spellbladenext.bladestorm.name": "Echostorm",
   "spell.spellbladenext.bladestorm.description": "Conjure a reverberating vortex, which homes into your target if you selected one, dealing {damage} arcane damage every half second.",
 
@@ -193,17 +223,18 @@
   "spell.spellbladenext.sonic_strike.name": "Sonic Strike",
   "spell.spellbladenext.sonic_strike.description": "Charge up a deadly attack against all enemies in a line, teleporting behind the last one and dealing {damage_1} physical damage plus an additional {damage_2} arcane spell damage. ",
 
-  "spell.spellbladenext.eviscerate.name": "Massacre",
-  "spell.spellbladenext.eviscerate.description": "Become intangible, attacking the nearest enemy five times over a second, dealing {damage_1} physical damage and {damage_2} frost damage over 1 second. If this kills the enemy, this spell continues on the next nearest enemy. ",
+  "spell.spellbladenext.eviscerate.name": "Eviscerate",
+  "spell.spellbladenext.eviscerate.description": "Attack the nearest enemy five times over a second, dealing {damage_1} physical damage and {damage_2} frost damage over 1 second. If this kills the enemy, this spell continues on the next nearest enemy. ",
 
   "spell.spellbladenext.riptide.name": "Riptide",
   "spell.spellbladenext.riptide.description": "Aim and launch yourself as if with a riptide-enchanted trident",
 
   "spell.spellbladenext.flickering_flame.name": "Flickering Flame",
-  "spell.spellbladenext.flickering_flame.description": "Unleash a series of sixteen teleporting strikes on nearby enemies, distributed equally among them. Deals {damage_1} physical damage plus an additional {damage_2} fire damage per hit, at 4x your normal attack speed.",
+  "spell.spellbladenext.flickering_flame.description": "Become invincible for an instant, attacking the nearest enemy that has not been hit by you within the last four seconds, dealing {damage_1} fire damage and {damage_2} physical damage. The cooldown resets and the spell repeats until there is no eligible enemy within range. Your list of enemies hit refreshes upon failing to find a target. Has additional cooldown equal to 0.5x your Attack Time.",
 
   "spell.spellbladenext.arcane_blink.name": "Arcane Flicker",
   "spell.spellbladenext.arcane_blink.description": "Teleport behind an enemy, dealing {damage_1} physical damage plus an additional {damage_2} arcane damage.",
+  "spellbladenext:spellstrike_error": "Hit an enemy with your spellblade to perform this spell.",
 
   "spell.spellbladenext.mass_hypothermia.name": "Mass Hypothermia",
   "spell.spellbladenext.mass_hypothermia.description": "All enemies in an area take {damage} frost damage if they are inflicted with Wintertide.",
@@ -228,11 +259,11 @@
 
 
   "spell.spellbladenext.frost_spellstrike.name": "Frost Spellstrike",
-  "spell.spellbladenext.frost_spellstrike.description": "On melee hit, deal {damage} extra frost damage.",
+  "spell.spellbladenext.frost_spellstrike.description": "Non-channeling or self-targeted magic spells you cast instead are instead deferred. Your next melee attack triggers all deferred spells at once. A successful spellstrike grants you 20%% spell haste for 4 seconds, stacking up to 100%%.",
   "spell.spellbladenext.fire_spellstrike.name": "Fire Spellstrike",
-  "spell.spellbladenext.fire_spellstrike.description": "On melee hit, deal {damage} extra fire damage.",
+  "spell.spellbladenext.fire_spellstrike.description": "Non-channeling or self-targeted magic spells you cast instead are instead deferred. Your next melee attack triggers all deferred spells at once. A successful spellstrike grants you 20%% spell haste for 4 seconds, stacking up to 100%%.",
   "spell.spellbladenext.arcane_spellstrike.name": "Arcane Spellstrike",
-  "spell.spellbladenext.arcane_spellstrike.description": "On melee hit, deal {damage} extra arcane damage.",
+  "spell.spellbladenext.arcane_spellstrike.description": "Non-channeling or self-targeted magic spells you cast instead are instead deferred. Your next melee attack triggers all deferred spells at once. A successful spellstrike grants you 20%% spell haste for 4 seconds, stacking up to 100%%.",
 
   "spell.spellbladenext.lightning_spellstrike.name": "Lightning Spellstrike",
   "spell.spellbladenext.lightning_spellstrike.description": "On melee hit, deal {damage} extra lightning damage.",
@@ -347,6 +378,22 @@
   "item.spellbladenext.runegleam_chest": "Runegleam Chestplate",
   "item.spellbladenext.runegleam_legs": "Runegleam Leggings",
   "item.spellbladenext.runegleam_feet": "Runegleam Boots",
+  "item.spellbladenext.runegleam_legs": "Runegleam Leggings",
+  "item.spellbladenext.runegleam_feet": "Runegleam Boots",
+
+  "item.spellbladenext.runeblaze_netherite_head":  "Netherite Runeblaze Helmet",
+  "item.spellbladenext.runeblaze_netherite_chest": "Netherite Runeblaze Chestplate",
+  "item.spellbladenext.runeblaze_netherite_legs":  "Netherite Runeblaze Leggings",
+  "item.spellbladenext.runeblaze_netherite_feet":  "Netherite Runeblaze Boots",
+  "item.spellbladenext.runefrost_netherite_head":  "Netherite Runefrost Helmet",
+  "item.spellbladenext.runefrost_netherite_chest": "Netherite Runefrost Chestplate",
+  "item.spellbladenext.runefrost_netherite_legs":  "Netherite Runefrost Leggings",
+  "item.spellbladenext.runefrost_netherite_feet":  "Netherite Runefrost Boots",
+  "item.spellbladenext.runegleam_netherite_head":  "Netherite Runegleam Helmet",
+  "item.spellbladenext.runegleam_netherite_chest": "Netherite Runegleam Chestplate",
+  "item.spellbladenext.runegleam_netherite_legs":  "Netherite Runegleam Leggings",
+  "item.spellbladenext.runegleam_netherite_feet":  "Netherite Runegleam Boots",
+
   "item.spellbladenext.bastion_guardian_head":  "Bastion Guardian Helmet",
   "item.spellbladenext.bastion_guardian_chest": "Bastion Guardian Chestplate",
   "item.spellbladenext.bastion_guardian_legs":  "Bastion Guardian Leggings",

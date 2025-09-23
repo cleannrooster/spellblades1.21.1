@@ -122,7 +122,7 @@ public class CycloneEntity extends Entity implements GeoEntity, Ownable {
                             if(EntityRelations.actionAllowed(SpellTarget.FocusMode.AREA, SpellTarget.Intent.HARMFUL,living,entity) || (this.target != null && this.target == entity)) {
 
                                 SpellHelper.performImpacts(entity.getWorld(), living, entity, this.getOwner(), spellRegistryEntry, spellRegistryEntry.value().impacts,
-                                        this.context, false);
+                                        this.context);
                             }
                         }
                     }

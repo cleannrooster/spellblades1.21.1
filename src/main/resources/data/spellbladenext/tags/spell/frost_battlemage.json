@@ -2,6 +2,10 @@
   "values": [
     "spellbladenext:frost_burst",
     "spellbladenext:riptide",
+    {
+      "id": "spellbladenext:phase_dash",
+      "required": false
+    },
     "spellbladenext:frost_slash",
     "spellbladenext:eviscerate"
   ]

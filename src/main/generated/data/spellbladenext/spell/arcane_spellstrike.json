@@ -1,7 +1,7 @@
 {
   "school": "spell_power:arcane",
   "range": 6.0,
-  "group": "primary",
+  "group": "spellstrike",
   "tier": 0,
   "learn": {},
   "tooltip": {
@@ -29,14 +29,23 @@
   "target": {
     "type": "FROM_TRIGGER"
   },
+  "deliver": {
+    "type": "CUSTOM",
+    "custom": {
+      "handler": "spellbladenext:spellstrike"
+    }
+  },
   "impacts": [
     {
       "school": "spell_power:arcane",
       "action": {
-        "type": "DAMAGE",
+        "type": "CUSTOM",
         "min_power": 2.0,
         "damage": {
           "spell_power_coefficient": 0.4
+        },
+        "custom": {
+          "handler": "spellbladenext:spellstrike"
         }
       },
       "particles": [

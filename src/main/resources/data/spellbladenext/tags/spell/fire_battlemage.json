@@ -2,6 +2,10 @@
   "values": [
     "spellbladenext:flame_burst",
     "spellbladenext:dragon_slam",
+    {
+      "id": "spellbladenext:phase_dash",
+      "required": false
+    },
     "spellbladenext:flame_slash",
     "spellbladenext:flickering_flame"
   ]

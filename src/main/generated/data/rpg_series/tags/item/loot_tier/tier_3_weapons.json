@@ -1,0 +1,44 @@
+{
+  "values": [
+    {
+      "id": "spellbladenext:glacial_gladius",
+      "required": false
+    },
+    {
+      "id": "spellbladenext:flaming_falchion",
+      "required": false
+    },
+    {
+      "id": "spellbladenext:crystal_cutlass",
+      "required": false
+    },
+    {
+      "id": "spellbladenext:ephemeral_edge",
+      "required": false
+    },
+    {
+      "id": "spellbladenext:frost_claymore",
+      "required": false
+    },
+    {
+      "id": "spellbladenext:fire_claymore",
+      "required": false
+    },
+    {
+      "id": "spellbladenext:arcane_claymore",
+      "required": false
+    },
+    {
+      "id": "spellbladenext:frost_orb",
+      "required": false
+    },
+    {
+      "id": "spellbladenext:fire_orb",
+      "required": false
+    },
+    {
+      "id": "spellbladenext:arcane_orb",
+      "required": false
+    }
+  ]
+}

@@ -49,13 +49,41 @@
 					"parent": "bipedBody",
 					"pivot": [0, 24, 0],
 					"cubes": [
-						{"origin": [-5, 14, -3], "size": [10, 2, 6], "uv": [40, 16]},
+						{"origin": [-5, 14, -3], "size": [10, 2, 6], "uv": [40, 16]}
+					]
+				},
+				{
+					"name": "waistFront",
+					"parent": "bipedWaist",
+					"pivot": [0, 14.02925, -3.79024],
+					"cubes": [
 						{"origin": [-5, 7, -5], "size": [5.5, 7, 1], "pivot": [0, 10, -2], "rotation": [-12.5, 12.5, 0], "uv": [80, 0]},
-						{"origin": [-0.5, 7, -5], "size": [5.5, 7, 1], "pivot": [0, 10, -2], "rotation": [-12.5, -12.5, 0], "uv": [80, 22]},
-						{"origin": [0, 7, 2], "size": [6, 7, 1], "pivot": [3, 10, 0], "rotation": [12.5, 90, 0], "uv": [64, 74]},
-						{"origin": [-0.5, 7, 4], "size": [5.5, 7, 1], "pivot": [0, 10, 2], "rotation": [12.5, 12.5, 0], "uv": [80, 30]},
-						{"origin": [-5, 7, 4], "size": [5.5, 7, 1], "pivot": [0, 10, 2], "rotation": [12.5, -12.5, 0], "uv": [32, 80]},
+						{"origin": [-0.5, 7, -5], "size": [5.5, 7, 1], "pivot": [0, 10, -2], "rotation": [-12.5, -12.5, 0], "uv": [80, 22]}
+					]
+				},
+				{
+					"name": "waistRight",
+					"parent": "bipedWaist",
+					"pivot": [-5.33252, 14.02925, 0],
+					"cubes": [
 						{"origin": [-6, 7, 2], "size": [6, 7, 1], "pivot": [-3, 10, 0], "rotation": [12.5, -90, 0], "uv": [76, 39]}
+					]
+				},
+				{
+					"name": "waistLeft",
+					"parent": "bipedWaist",
+					"pivot": [5.33252, 14.02925, 0],
+					"cubes": [
+						{"origin": [0, 7, 2], "size": [6, 7, 1], "pivot": [3, 10, 0], "rotation": [12.5, 90, 0], "uv": [64, 74]}
+					]
+				},
+				{
+					"name": "waistBack",
+					"parent": "bipedWaist",
+					"pivot": [0, 14.02925, 3.79024],
+					"cubes": [
+						{"origin": [-0.5, 7, 4], "size": [5.5, 7, 1], "pivot": [0, 10, 2], "rotation": [12.5, 12.5, 0], "uv": [80, 30]},
+						{"origin": [-5, 7, 4], "size": [5.5, 7, 1], "pivot": [0, 10, 2], "rotation": [12.5, -12.5, 0], "uv": [32, 80]}
 					]
 				},
 				{
@@ -110,7 +138,6 @@
 						{"origin": [-4, 3, -2], "size": [4, 11, 4], "inflate": 0.5, "uv": [64, 24]}
 					]
 				},
-
 				{
 					"name": "armorRightBoot",
 					"pivot": [-1.9, 12, 0],

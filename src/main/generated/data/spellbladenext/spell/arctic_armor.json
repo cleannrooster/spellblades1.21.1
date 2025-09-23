@@ -1,0 +1,164 @@
+{
+  "school": "spell_power:frost",
+  "range": 6.0,
+  "tier": 2,
+  "learn": {},
+  "active": {
+    "scroll": {},
+    "cast": {
+      "duration": 2.0,
+      "animation": "spellbladenext:one_handed_area_charge",
+      "sound": {
+        "id": "spell_engine:generic_frost_casting"
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_frost_spell_ascend",
+          "origin": "FEET",
+          "shape": "WIDE_PIPE",
+          "count": 1.0,
+          "min_speed": 0.05,
+          "max_speed": 0.1
+        }
+      ]
+    }
+  },
+  "release": {
+    "animation": "spellbladenext:one_handed_area_release",
+    "particles": [
+      {
+        "particle_id": "spell_engine:snowflake",
+        "origin": "FEET",
+        "shape": "PIPE",
+        "count": 30.0,
+        "min_speed": 0.1,
+        "max_speed": 0.3
+      },
+      {
+        "particle_id": "spell_engine:frost_shard",
+        "origin": "FEET",
+        "shape": "PIPE",
+        "count": 10.0,
+        "min_speed": 0.1,
+        "max_speed": 0.3
+      },
+      {
+        "particle_id": "spell_engine:magic_frost_spell_ascend",
+        "origin": "FEET",
+        "shape": "PIPE",
+        "count": 10.0,
+        "min_speed": 0.1,
+        "max_speed": 0.3
+      }
+    ],
+    "sound": {
+      "id": "spell_engine:generic_frost_release"
+    }
+  },
+  "deliver": {
+    "type": "STASH_EFFECT",
+    "stash_effect": {
+      "id": "spellbladenext:arctic_armor",
+      "duration": 16.0,
+      "triggers": [
+        {
+          "type": "DAMAGE_TAKEN",
+          "cap_per_tick": 1
+        }
+      ],
+      "consume": 0
+    }
+  },
+  "impacts": [
+    {
+      "school": "spell_power:frost",
+      "target_modifiers": [
+        {
+          "conditions": [
+            {
+              "entity_type": "#minecraft:freeze_hurts_extra_types"
+            }
+          ],
+          "modifier": {
+            "power_multiplier": -0.3
+          }
+        },
+        {
+          "conditions": [
+            {
+              "entity_type": "#minecraft:freeze_hurts_extra_types"
+            }
+          ],
+          "modifier": {
+            "power_multiplier": 0.3
+          }
+        }
+      ],
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.6,
+          "knockback": 2.0
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_frost_impact_burst",
+          "origin": "CENTER",
+          "shape": "CIRCLE",
+          "rotation": "LOOK",
+          "count": 20.0,
+          "min_speed": 0.2,
+          "max_speed": 0.7,
+          "angle": 360.0
+        }
+      ],
+      "sound": {
+        "id": "spell_engine:generic_frost_impact"
+      }
+    },
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "spellbladenext:deathchill",
+          "duration": 8.0
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:snowflake",
+          "origin": "FEET",
+          "shape": "PIPE",
+          "count": 30.0,
+          "min_speed": 0.1,
+          "max_speed": 0.3
+        },
+        {
+          "particle_id": "spell_engine:frost_shard",
+          "origin": "FEET",
+          "shape": "PIPE",
+          "count": 10.0,
+          "min_speed": 0.1,
+          "max_speed": 0.3
+        },
+        {
+          "particle_id": "spell_engine:magic_frost_spell_ascend",
+          "origin": "FEET",
+          "shape": "PIPE",
+          "count": 10.0,
+          "min_speed": 0.1,
+          "max_speed": 0.3
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 0.5
+    },
+    "item": {
+      "id": "runes:frost_stone"
+    }
+  }
+}

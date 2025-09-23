@@ -1,6 +1,9 @@
 package com.cleannrooster.spellblades;
 
 import com.cleannrooster.spellblades.Spells.SpellCustomDelivery;
+import com.cleannrooster.spellblades.Spells.SpellbladeSpells;
+import com.cleannrooster.spellblades.Spells.compat.ElementalSpells;
+import com.cleannrooster.spellblades.compat.CombatRollCompat;
 import com.cleannrooster.spellblades.config.*;
 import com.cleannrooster.spellblades.effect.*;
 import com.cleannrooster.spellblades.entity.CycloneEntity;
@@ -14,10 +17,12 @@ import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.networking.v1.*;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -25,6 +30,7 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
@@ -33,14 +39,19 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.World;
 import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.config.ConfigFile;
 import net.spell_engine.api.effect.Synchronized;
 import net.spell_engine.api.item.SpellBooks;
 import net.spell_engine.api.render.CustomModels;
+import net.spell_engine.api.spell.event.SpellEvents;
 import net.spell_engine.internals.SpellHelper;
+import net.spell_engine.internals.casting.SpellCasterEntity;
 import net.spell_engine.spellbinding.SpellBindingScreen;
 import net.spell_power.api.*;
+import net.spell_power.internals.CrossFunctionalAttributes;
+import net.spell_power.mixin.attributes.CrossEntityAttributeInstance;
 import net.tinyconfig.ConfigManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,6 +126,9 @@ public class SpellbladesAndSuch implements ModInitializer {
 	public static  RegistryEntry.Reference<StatusEffect> FEATHERHEAL;
 
 	public static  RegistryEntry.Reference<StatusEffect> SYMBOL_OF_HOPE;
+	public static  RegistryEntry.Reference<StatusEffect> PHASEDASH;
+	public static  RegistryEntry.Reference<StatusEffect> ARCTIC_ARMOR;
+	public static  RegistryEntry.Reference<StatusEffect> CRASHING;
 
 	static{
 
@@ -123,7 +137,7 @@ public class SpellbladesAndSuch implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		PHOENIXCURSE = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"phoenixcurse"),new PhoenixCurse(StatusEffectCategory.HARMFUL, 0xff4bdd));
-		SPELLSTRIKE =  Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"spellstrike"),new Spellstrike(StatusEffectCategory.BENEFICIAL, 0xff4bdd).addAttributeModifier(SpellPowerMechanics.HASTE.attributeEntry,Identifier.of(MOD_ID,"haste"),0.5F,EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+		SPELLSTRIKE =  Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"spellstrike"),new Spellstrike(StatusEffectCategory.BENEFICIAL, 0xff4bdd).addAttributeModifier(SpellPowerMechanics.HASTE.attributeEntry,Identifier.of(MOD_ID,"haste"),0.2F,EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 		SYMBOL_OF_HOPE =  Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"symbol_of_hope"),new CustomEffect(StatusEffectCategory.BENEFICIAL, 0xff4bdd)
 				.addAttributeModifier(ReabsorptionInit.RECOUP,Identifier.of(MOD_ID,"symbol_of_hope"),0.2F,EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
 				.addAttributeModifier(SpellSchools.HEALING.attributeEntry, Identifier.of(MOD_ID,"symbol_of_hope_two"),1F,EntityAttributeModifier.Operation.ADD_VALUE));
@@ -137,6 +151,10 @@ public class SpellbladesAndSuch implements ModInitializer {
 				.addAttributeModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED,Identifier.of(MOD_ID,"overpower1"),-1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
 				.addAttributeModifier(EntityAttributes.GENERIC_JUMP_STRENGTH,Identifier.of(MOD_ID,"overpower1"),-1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 		;
+		CRASHING = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"crashing"),new CustomEffect(StatusEffectCategory.HARMFUL, 0xff4bcd).addAttributeModifier(
+				EntityAttributes.GENERIC_FALL_DAMAGE_MULTIPLIER,Identifier.of(MOD_ID,"falldamage"),1.0F,EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+		));
+		;
 		CustomModels.registerModelIds(List.of(
 				Identifier.of(MOD_ID, "projectile/descry")
 		));
@@ -149,6 +167,12 @@ public class SpellbladesAndSuch implements ModInitializer {
 		if(SpellSchools.LIGHTNING.attributeEntry != null) {
 			SpellSchools.LIGHTNING.attributeEntry.value().setTracked(true);
 		}
+		if(FabricLoader.getInstance().isModLoaded("combat_roll")){
+			CombatRollCompat.register();
+		}
+		PHASEDASH = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"phase_dash"),new PhaseDash(StatusEffectCategory.BENEFICIAL, 0xffff00)
+				.addAttributeModifier(EntityAttributes.GENERIC_GRAVITY,Identifier.of(MOD_ID,"phase_dash"),-1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+
 		UNLEASH =      Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"unleash"),new CustomEffect(StatusEffectCategory.BENEFICIAL, 0xff4add));
 		FERVOR = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"fervor"),new Fervor(StatusEffectCategory.BENEFICIAL, 0xffff00).addAttributeModifier(ReabsorptionInit.CONVERTTOHEAL,Identifier.of(MOD_ID,"fervor"),0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 		DEFIANCE = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"defiance"),new Defiance(StatusEffectCategory.BENEFICIAL, 0xffff00));
@@ -166,9 +190,11 @@ public class SpellbladesAndSuch implements ModInitializer {
 				));
 		BULWARK = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"bulwark"),new Bulwark(StatusEffectCategory.BENEFICIAL, 0xffff00).addAttributeModifier(EntityAttributes.GENERIC_SCALE,Identifier.of(MOD_ID,"bulwark"),0.25F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 		COLLAPSE = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"collapse"),new Collapse(StatusEffectCategory.HARMFUL, 0xffff00));
-		RESONATING = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"resonating"),new CustomEffect(StatusEffectCategory.NEUTRAL, 0xffff00).
-				addAttributeModifier(SpellPowerMechanics.HASTE.attributeEntry,Identifier.of(MOD_ID,"resonating"),4F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-		;
+		RESONATING = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"resonating"),new Resonating(StatusEffectCategory.BENEFICIAL, 0xffff00).
+				addAttributeModifier(SpellPowerMechanics.HASTE.attributeEntry,Identifier.of(MOD_ID,"resonating"),-0.5F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL).
+				addAttributeModifier(SpellSchools.ARCANE.attributeEntry, Identifier.of(MOD_ID,"resonating_damage"),2F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+		ARCTIC_ARMOR = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"arctic_armor"),new ArcticArmor(StatusEffectCategory.NEUTRAL, 0xffff00));
+
 
 		Synchronized.configure(FEATHER.value(),true);
 		Synchronized.configure(FEATHERHEAL.value(),true);
@@ -201,11 +227,12 @@ public class SpellbladesAndSuch implements ModInitializer {
 		SpellCustomDelivery.registerDeliveries();
 		SpellSchools.LIGHTNING.addSource(SpellSchool.Trait.POWER, SpellSchool.Apply.ADD	,(queryArgs -> {
 			double amount = 0;
-			if(queryArgs.entity().getAttributeValue(EPHEMERAL) - 100 > 0) {
+			if(queryArgs.entity().getAttributes() != null && queryArgs.entity().getAttributeValue(EPHEMERAL) - 100 > 0) {
 				amount +=  queryArgs.entity().getAbsorptionAmount() * 0.01 * (queryArgs.entity().getAttributeValue(EPHEMERAL) - 100);
 			}
 			return amount;
 		}));
+
 
 		Registry.register(Registries.ITEM,Identifier.of(MOD_ID,"runeblaze_ingot"),RUNEBLAZE);
 		Registry.register(Registries.ITEM,Identifier.of(MOD_ID,"runefrost_ingot"),RUNEFROST);
@@ -250,9 +277,7 @@ public class SpellbladesAndSuch implements ModInitializer {
 
 		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"phoenix"),KEY);
 		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"deathchill"),KEY);
-		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"vengeance"),KEY);
-		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"defiance"),KEY);
-		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"glory"),KEY);
+
 
 
 		ItemGroupEvents.modifyEntriesEvent(KEY).register((content) -> {
@@ -267,9 +292,11 @@ public class SpellbladesAndSuch implements ModInitializer {
 
 			/*content.add(RIFLE);*/
 		});
+		SpellbladeSpells.registerHandlers();
+		if(FabricLoader.getInstance().isModLoaded("elemental_wizards_rpg")){
 
-
-
+			ElementalSpells.registerHandlers();
+		}
 		LOGGER.info("Hello Fabric world!");
 	}
 }

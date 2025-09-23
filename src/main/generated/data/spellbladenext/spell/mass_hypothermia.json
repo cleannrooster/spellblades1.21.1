@@ -7,7 +7,7 @@
     "scroll": {},
     "cast": {
       "duration": 2.0,
-      "animation": "spell_engine:one_handed_area_charge",
+      "animation": "spellbladenext:one_handed_area_charge",
       "sound": {
         "id": "spell_engine:generic_frost_casting"
       },
@@ -72,12 +72,32 @@
             }
           ],
           "execute": "ALLOW"
+        },
+        {
+          "conditions": [
+            {
+              "entity_type": "#minecraft:freeze_hurts_extra_types"
+            }
+          ],
+          "modifier": {
+            "power_multiplier": -0.3
+          }
+        },
+        {
+          "conditions": [
+            {
+              "entity_type": "#minecraft:freeze_hurts_extra_types"
+            }
+          ],
+          "modifier": {
+            "power_multiplier": 0.3
+          }
         }
       ],
       "action": {
         "type": "DAMAGE",
         "damage": {
-          "spell_power_coefficient": 1.5,
+          "spell_power_coefficient": 6.0,
           "knockback": 0.0
         }
       },

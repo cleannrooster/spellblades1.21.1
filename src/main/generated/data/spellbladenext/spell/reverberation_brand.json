@@ -1,13 +1,13 @@
 {
   "school": "spell_power:arcane",
   "range": 8.0,
-  "tier": 3,
+  "tier": 2,
   "learn": {},
   "active": {
     "scroll": {},
     "cast": {
       "duration": 2.0,
-      "animation": "spell_engine:one_handed_area_charge",
+      "animation": "spellbladenext:one_handed_area_charge",
       "sound": {
         "id": "spell_engine:generic_arcane_casting"
       },
@@ -24,7 +24,7 @@
     }
   },
   "release": {
-    "animation": "spell_engine:one_handed_area_release",
+    "animation": "spellbladenext:one_handed_area_release",
     "sound": {
       "id": "spell_engine:generic_arcane_release"
     }
@@ -48,7 +48,7 @@
       "action": {
         "type": "DAMAGE",
         "damage": {
-          "spell_power_coefficient": 0.2,
+          "spell_power_coefficient": 0.12,
           "knockback": 0.0
         }
       },

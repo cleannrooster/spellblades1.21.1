@@ -19,7 +19,18 @@ public class TemplarArmorRenderer extends GeoArmorRenderer<TemplarArmor> {
     public @Nullable GeoBone getWaistBone() {
         return this.model.getBone("bipedWaist").orElse(null);
     }
-    protected void applyBaseTransformations(BipedEntityModel<?> baseModel) {
+    public @Nullable GeoBone getWaistFront() {
+        return this.model.getBone("waistFront").orElse(null);
+    }
+    public @Nullable GeoBone getWaistBack() {
+        return this.model.getBone("waistBack").orElse(null);
+    }
+    public @Nullable GeoBone getWaistLeft() {
+        return this.model.getBone("waistLeft").orElse(null);
+    }
+    public @Nullable GeoBone getWaistRight() {
+        return this.model.getBone("waistRight").orElse(null);
+    }    protected void applyBaseTransformations(BipedEntityModel<?> baseModel) {
         if (this.head != null) {
             ModelPart headPart = baseModel.head;
 
@@ -48,8 +59,20 @@ public class TemplarArmorRenderer extends GeoArmorRenderer<TemplarArmor> {
             this.leftArm.updatePosition(leftArmPart.pivotX - 5f, 2f - leftArmPart.pivotY, leftArmPart.pivotZ);
         }
         boolean bool = false;
+        boolean bool2 = true;
+        boolean bool3 = true;
+        ModelPart rightLegPart = baseModel.rightLeg;
+        ModelPart leftLegPart = baseModel.leftLeg;
+        if(rightLegPart != null && leftLegPart != null){
+            if(leftLegPart.pitch > rightLegPart.pitch){
+                bool2 = false;
+            }
+            if(leftLegPart.roll > rightLegPart.roll){
+                bool3 = false;
+            }
+        }
         if (this.rightLeg != null) {
-            ModelPart rightLegPart = baseModel.rightLeg;
+             rightLegPart = baseModel.rightLeg;
             ModelPart bodyPart = baseModel.body;
 
             RenderUtils.matchModelPartRot(rightLegPart, this.rightLeg);
@@ -64,10 +87,40 @@ public class TemplarArmorRenderer extends GeoArmorRenderer<TemplarArmor> {
                 RenderUtils.matchModelPartRot(rightLegPart, this.rightBoot);
                 this.rightBoot.updatePosition(rightLegPart.pivotX + 2, 12 - rightLegPart.pivotY, rightLegPart.pivotZ);
             }
+            if(this.getWaistFront() != null){
+                if(bool2 && leftLegPart != null){
+                    this.getWaistFront().updateRotation(-leftLegPart.pitch+bodyPart.pitch*(float)Math.PI/180F, bodyPart.yaw,bodyPart.roll);
+
+                }
+                else {
+                    RenderUtils.matchModelPartRot(rightLegPart, this.getWaistFront());
+                    this.getWaistFront().updateRotation(-rightLegPart.pitch+bodyPart.pitch*(float)Math.PI/180F, bodyPart.yaw,bodyPart.roll);
+
+                }
+
+            }
+            if(this.getWaistBack() != null){
+                if(bool2){
+                    RenderUtils.matchModelPartRot(rightLegPart, this.getWaistBack());
+                    this.getWaistBack().updateRotation(-rightLegPart.pitch+bodyPart.pitch*(float)Math.PI/180F, bodyPart.yaw,bodyPart.roll);
+
+                }
+                else {
+                    RenderUtils.matchModelPartRot(leftLegPart, this.getWaistBack());
+                    this.getWaistBack().updateRotation(-leftLegPart.pitch+bodyPart.pitch*(float)Math.PI/180F, bodyPart.yaw,bodyPart.roll);
+
+                }
+            }
+            if(this.getWaistRight() != null){
+                this.getWaistRight().updateRotation(bodyPart.pitch, bodyPart.yaw,rightLegPart.roll-bodyPart.roll*(float)Math.PI/180F);
+
+            }
+
+
         }
 
         if (this.leftLeg != null) {
-            ModelPart leftLegPart = baseModel.leftLeg;
+            leftLegPart = baseModel.leftLeg;
             ModelPart bodyPart = baseModel.body;
 
             RenderUtils.matchModelPartRot(leftLegPart, this.leftLeg);
@@ -81,7 +134,14 @@ public class TemplarArmorRenderer extends GeoArmorRenderer<TemplarArmor> {
             if (this.leftBoot != null) {
                 RenderUtils.matchModelPartRot(leftLegPart, this.leftBoot);
                 this.leftBoot.updatePosition(leftLegPart.pivotX - 2, 12 - leftLegPart.pivotY, leftLegPart.pivotZ);
+
             }
+            if(this.getWaistLeft() != null ){
+                this.getWaistLeft().updateRotation(bodyPart.pitch, bodyPart.yaw,leftLegPart.roll-bodyPart.roll*(float)Math.PI/180F);
+
+
+            }
+
         }
     }
     @Override

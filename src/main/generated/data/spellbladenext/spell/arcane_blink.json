@@ -7,7 +7,7 @@
     "scroll": {},
     "cast": {
       "duration": 0.5,
-      "animation": "spell_engine:one_handed_projectile_charge",
+      "animation": "spellbladenext:one_handed_projectile_charge",
       "sound": {
         "id": "spell_engine:generic_arcane_casting"
       },
@@ -40,7 +40,9 @@
       "school": "spell_power:arcane",
       "action": {
         "type": "DAMAGE",
-        "damage": {}
+        "damage": {
+          "spell_power_coefficient": 2.0
+        }
       },
       "particles": [
         {
