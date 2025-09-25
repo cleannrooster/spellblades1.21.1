@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "com.cleannrooster.spellblades.mixin",
+	"package": "com.cleannrooster.spellbladenext.fabric.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"EntityMixin",

@@ -1,0 +1,25 @@
+{
+  "required": true,
+  "package": "com.cleannrooster.spellbladenext.fabric.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "client": [
+  ],
+  "mixins": [
+    "EntityMixin",
+    "LivingEntityMixin",
+    "PlayerMixin",
+    "SpellRenderMixin",
+    "SpellCastMixin",
+    "LivingEntityRendererMixin",
+    "ItemstackMixin",
+    "EntityAttributesMixin",
+    "SpellSchoolsMixin",
+    "AnimationHelperMixin",
+    "SpellContainerHelperMixin",
+    "SpellBindingScreenHandlerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,1299 @@
+package com.cleannrooster.spellbladenext.fabric.Spells;
+
+
+public class SpellCustomHandlers {
+  /*  public static void diebeam(SpellHandlers.CustomImpact data1) {
+
+        Vec3d pos = data1.caster().getPos().add(0, data1.caster().getHeight() / 2, 0);
+
+        float range = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "eldritchblast")).range;
+        Sound soundEvent;
+        soundEvent = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "eldritchblast")).release.sound;
+        if (data1.caster().getWorld() instanceof ServerWorld world) {
+            SoundHelper.playSound(world, data1.caster(), soundEvent);
+        }
+        for (int i = 2; i < SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "eldritchblast")).range; i++) {
+            Vec3d pos2 = pos.add(data1.caster().getRotationVec(1.0F).multiply(i));
+            HitResult result = data1.caster().getWorld().raycast(new RaycastContext(data1.caster().getEyePos(), pos2, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, data1.caster()));
+            if (result.getType() != HitResult.Type.BLOCK && data1.caster().getWorld() instanceof ServerWorld world) {
+
+                for(ServerPlayerEntity player: PlayerLookup.tracking(data1.caster())) {
+                    world.spawnParticles(player,ParticleTypes.SONIC_BOOM,true,pos2.getX(),pos2.getY(),pos2.getZ(),1,0,0,0,0);
+                }
+
+                world.spawnParticles((ServerPlayerEntity)data1.caster(),ParticleTypes.SONIC_BOOM,true,pos2.getX(),pos2.getY(),pos2.getZ(),1,0,0,0,0);
+
+
+            }
+        }
+        List<Entity> list = TargetHelper.targetsFromRaycast(data1.caster(), SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "eldritchblast")).range, (target) -> {
+            return !target.isSpectator() && target.canHit();
+        });
+        for (Entity entity : list) {
+            RegistryEntry<Spell> spellRegistryEntry = SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "eldritchblast")).get();
+            Spell  spell = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "eldritchblast"));
+            SpellHelper.performImpacts(data1.caster().getWorld(), data1.caster(), entity, data1.caster(), spellRegistryEntry,
+                    spell.impact,
+                    data1.impactContext());
+
+        }
+    }
+    public static void register(){
+
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"bladestorm"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            for(Entity entity : data1.targets()){
+                if(entity instanceof LivingEntity living){
+                    CycloneEntity cyclone = new CycloneEntity(CYCLONEENTITY,entity.getWorld());
+                    cyclone.setColor(5);
+                    cyclone.setOwner(data1.caster());
+                    cyclone.setPosition(data1.caster().getPos().getX(),data1.caster().getPos().getY(),data1.caster().getPos().getZ());
+                    cyclone.target = entity;
+                    cyclone.context = data1.impactContext();
+                    entity.getWorld().spawnEntity(cyclone);
+                }
+            }
+            if(data1.targets().isEmpty()){
+                CycloneEntity cyclone = new CycloneEntity(CYCLONEENTITY,data1.caster().getWorld());
+                cyclone.setColor(5);
+                cyclone.setOwner(data1.caster());
+                cyclone.setPos(data1.caster().getPos().getX(),data1.caster().getPos().getY(),data1.caster().getPos().getZ());
+                cyclone.context = data1.impactContext();
+                data1.caster().getWorld().spawnEntity(cyclone);
+
+            }
+
+            return true;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"deathchill"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            RegistryEntry<Spell> spellRegistryEntry = SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "deathchill")).get();
+            Spell  spell = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "deathchill"));
+
+            for(Entity target : data1.targets()){
+                if(target instanceof LivingEntity living){
+                    living.addStatusEffect(new StatusEffectInstance(DEATHCHILL,20*8,0,false,false));
+                    for(int i = 0; i < 16; i++) {
+
+                        ((WorldScheduler) living.getWorld()).schedule((i + 1) * 10, () -> {
+
+                            SpellHelper.performImpacts(living.getWorld(), data1.caster(), living, living, spellRegistryEntry,
+                                    SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"deathchill")).impact,
+                                    data1.impactContext());
+
+                        });
+                    }
+                    return true;
+
+                }
+            }
+            return false;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"coldbuff"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            RegistryEntry<Spell> spellRegistryEntry = SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "coldbuff")).get();
+            Spell  spell = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "coldbuff"));
+
+            for(Entity entity: data1.targets()){
+                if(entity instanceof LivingEntity living && TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL,data1.caster(),living)){
+                    living.setFrozenTicks(living.getMinFreezeDamageTicks()*2);
+
+                    living.addStatusEffect(new StatusEffectInstance(DEATHCHILL,20*8,0,false,false));
+                    for(int i = 0; i < 16; i++) {
+                        ((WorldScheduler) living.getWorld()).schedule((i + 1) * 10, () -> {
+
+                            SpellHelper.performImpacts(living.getWorld(), data1.caster(), living, living, spellRegistryEntry,
+                                    SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"coldbuff")).impact,
+                                    data1.impactContext());
+
+                        });
+                    }
+                }
+            }
+
+            return true;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"challenge"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+
+            for(Entity entity: data1.targets()){
+                if(entity instanceof LivingEntity living){
+                    living.addStatusEffect(new SpellStatusEffectInstance(CHALLENGED, SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "challenge")), (float) SpellPower.getSpellPower(SpellSchools.HEALING, data1.caster()).randomValue(), data1.caster(), 20*20, 0, false, false, true, null));
+                    living.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING,20*20,0));
+
+                }
+                return true;
+
+            }
+
+            return false;
+        });
+
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"overpower"),(data) -> {
+
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            RegistryEntry<Spell> spellRegistryEntry = SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "overpower")).get();
+            Spell  spell = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "overpower"));
+
+            for (Entity entity : data1.targets()) {
+                double a = 0;
+
+                if (entity instanceof LivingEntity living2) {
+                    a = living2.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE);
+                }
+                if (entity instanceof LivingEntity living2 && !TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, data1.caster(), living2)) {
+                    a = 1;
+                }
+                double speed = data1.caster().getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)  * 8;
+                if(a < 1) {
+                    entity.setPos(data1.caster().getPos().getX(), data1.caster().getPos().getY(), data1.caster().getPos().getZ());
+                    entity.velocityDirty = true;
+                }
+            }
+            if(data1.caster().horizontalCollision || data1.progress() == 1F) {
+                for (Entity entity : data1.targets()) {
+                    if (entity instanceof LivingEntity living) {
+                            ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(SUNDERED, 120, 0, false, false, true, null));
+                            ((LivingEntity) entity).playSound(SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, 0.5F, 0.8F);
+                        knockbackNearbyEntities(data1.caster().getWorld(), data1.caster(), entity);
+
+                        SpellHelper.performImpacts(entity.getWorld(), data1.caster(), entity, data1.caster(),
+                                SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "overpower")).get(),SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"overpower")).impact,
+                    data1.impactContext().channeled(1.0F));
+                    }
+                    return true;
+
+                }
+            }
+            return false;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"frostbloom0"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            List<Entity> livingEntities = new ArrayList<>();
+            livingEntities.addAll(data1.targets());
+            for(Entity entity: data1.targets()){
+                SpellHelper.performImpacts(entity.getWorld(), data1.caster(), entity,data1.caster(),SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "frostbloom0")).get(), SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostbloom0")).impact
+                        ,data1.impactContext());
+
+                List<Entity> entities = entity.getWorld().getOtherEntities(entity,entity.getBoundingBox().expand(6), entity2 ->  entity2.isAttackable() && !livingEntities.contains(entity2) && TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL,data1.caster(),entity2));
+                livingEntities.addAll(entities);
+                ((WorldScheduler)entity.getWorld()).schedule(10,() -> {
+                    ParticleHelper.sendBatches(entity,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostbloom0")).release.particles);
+                    SoundHelper.playSound(entity.getWorld(),entity,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostbloom0")).release.sound);
+                    for(Entity entity1 : entities){
+                        SpellHelper.performImpacts(entity1.getWorld(), data1.caster(), entity1,data1.caster(),SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "frostbloom0")).get()
+                                ,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostbloom0")).impact
+                                ,data1.impactContext());
+                        List<Entity> entities2 = entity1.getWorld().getOtherEntities(entity1,entity1.getBoundingBox().expand(6), entity2 ->  entity2.isAttackable() && !livingEntities.contains(entity2)&& TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL,data1.caster(),entity2));
+                        livingEntities.addAll(entities2);
+                        ParticleHelper.sendBatches(entity1,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostbloom0")).release.particles);
+                        SoundHelper.playSound(entity1.getWorld(),entity1,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostbloom0")).release.sound);
+                        ((WorldScheduler)entity1.getWorld()).schedule(10,() -> {
+                            ParticleHelper.sendBatches(entity1,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostbloom0")).release.particles);
+                            SoundHelper.playSound(entity1.getWorld(),entity1,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostbloom0")).release.sound);
+
+                            for(Entity entity2 : entities2){
+
+                                SpellHelper.performImpacts(entity2.getWorld(), data1.caster(), entity2,data1.caster(),SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "frostbloom0")).get(),SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostbloom0")).impact
+                                        ,data1.impactContext());
+                            }
+                        });
+                    }
+                });
+            }
+
+            return true;
+        });
+
+
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"eldritchblast"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            Vec3d look = data1.caster().getRotationVec(1.0F).normalize().multiply((double)SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"eldritchblast")).range);
+            diebeam(data1);
+
+
+
+            return true;
+        });
+
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"grandstanding"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            Identifier id = Identifier.of(MOD_ID,"grandstanding");
+            Spell spell = SpellRegistry.from(data1.caster().getWorld()).get(id);
+            int power = (int) ((int) SpellPower.getSpellPower(SpellSchools.HEALING, data1.caster()).baseValue()*spell.impact[0].action.status_effect.amplifier_power_multiplier);
+            for(Entity entity : TargetHelper.targetsFromArea(data1.caster(),data1.caster().getPos(),spell.range,spell.release.target.area,null)){
+                if(entity instanceof LivingEntity living){
+                    living.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH,12*20,Math.max(0,power)));
+                }
+            }
+            data1.caster().addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH,12*20,Math.max(0,power)));
+
+
+            return true;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"whirlingblades"),(data) -> {
+            SpellSchool actualSchool = SpellSchools.FIRE;
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            float modifier = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"whirlingblades")).impact[0].action.damage.spell_power_coefficient;
+            data1.caster().velocityDirty = true;
+            data1.caster().velocityModified = true;
+            float f = data1.caster().getYaw();
+            float g = data1.caster().getPitch();
+            float h = -MathHelper.sin(f * 0.017453292F) * MathHelper.cos(g * 0.017453292F);
+            float k = -MathHelper.sin(g * 0.017453292F);
+            float l = MathHelper.cos(f * 0.017453292F) * MathHelper.cos(g * 0.017453292F);
+            float m = MathHelper.sqrt(h * h + k * k + l * l);
+            float n = 3.0F * ((1.0F + (float)3) / 4.0F);
+            h *= n / m;
+            k *= n / m;
+            l *= n / m;
+            data1.caster().addVelocity((double)h, (double)k, (double)l);
+            data1.caster().useRiptide(20, (float) (modifier*SpellPower.getSpellPower(SpellSchools.FROST,data1.caster()).randomValue()),data1.caster().getMainHandStack());
+            if (data1.caster().isOnGround()) {
+                float o = 1.1999999F;
+                data1.caster().move(MovementType.SELF, new Vec3d(0.0D, 1.1999999284744263D, 0.0D));
+            }
+
+            SoundEvent soundEvent;
+            soundEvent = SoundEvents.ITEM_TRIDENT_RIPTIDE_3.value();
+
+
+            data1.caster().getWorld().playSoundFromEntity((PlayerEntity)null, data1.caster(), soundEvent, SoundCategory.PLAYERS, 1.0F, 1.0F);
+
+            return true;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"lightningstep"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            RegistryEntry<Spell> spellRegistryEntry = SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "lightningblast;")).get();
+            for(Entity target: data1.targets()){
+                SpellHelper.performImpacts(target.getWorld(), data1.caster(), target, data1.caster(),spellRegistryEntry,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"lightningstep")).impact,
+                        data1.impactContext());
+            }
+
+            return false;
+            }
+        );
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"frostvert"),(data) -> {
+            SpellSchool actualSchool = SpellSchools.FIRE;
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "frostvert")).get();
+            if( data1.caster().isOnGround() && data1.caster() instanceof PlayerEntity && !data1.caster().getWorld().isClient()){
+                List<Entity> list = TargetHelper.targetsFromArea(data1.caster(),data1.caster().getEyePos(), SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "frostvert")).range,new Spell.Release.Target.Area(), target -> TargetHelper.allowedToHurt(data1.caster(),target) );
+                for(Entity entity : list) {
+                    if (entity instanceof LivingEntity living) {
+                        SpellHelper.ImpactContext context = new SpellHelper.ImpactContext(1.0F, 1.0F, null, SpellPower.getSpellPower(SpellSchools.FIRE,data1.caster()), TargetHelper.TargetingMode.AREA,0);
+
+                        SpellHelper.performImpacts(data1.caster().getWorld(), data1.caster(), entity, data1.caster(), spellRegistryEntry,spellRegistryEntry.value().impact, context);
+
+                    }
+                }
+                Supplier<Collection<ServerPlayerEntity>> trackingPlayers = Suppliers.memoize(() -> {
+                    Collection<ServerPlayerEntity> playerEntities = PlayerLookup.tracking(data1.caster());
+                    return playerEntities;
+                });
+
+                ParticleHelper.sendBatches(data1.caster(), SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "frostvert")).release.particles);
+                SoundHelper.playSound(data1.caster().getWorld(), data1.caster(), SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "frostvert")).release.sound);
+                AnimationHelper.sendAnimation((PlayerEntity) data1.caster(), (Collection)trackingPlayers.get(), SpellCast.Animation.RELEASE, SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "frostvert")).release.animation, 1);
+                return true;
+            }
+            float modifier = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostvert")).impact[0].action.damage.spell_power_coefficient;
+            float modifier2 = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostvert")).impact[1].action.damage.spell_power_coefficient;
+
+            data1.caster().fallDistance = 0;
+            data1.caster().velocityDirty = true;
+            data1.caster().velocityModified = true;
+            float f = data1.caster().getYaw();
+            float g = data1.caster().getPitch();
+            float h = -MathHelper.sin(f * 0.017453292F) * MathHelper.cos(g * 0.017453292F);
+            float k = -MathHelper.sin(g * 0.017453292F);
+            float l = MathHelper.cos(f * 0.017453292F) * MathHelper.cos(g * 0.017453292F);
+            float m = MathHelper.sqrt(h * h + k * k + l * l);
+            float n = 3.0F * ((1.0F + (float)3) / 4.0F);
+            h *= n / m;
+            k *= n / m;
+            l *= n / m;
+            data1.caster().addVelocity((double)h*0.6, (double)1, (double)l*0.6);
+            data1.caster().addStatusEffect(new StatusEffectInstance(SLAMMING,100,0,false,false));
+            data1.caster().setOnGround(false);
+            data1.caster().setPosition(data1.caster().getPos().add(0,0.2,0));
+            imposeCooldown(data1.caster(), SpellContainerHelper.getFirstSourceOfSpell(Identifier.of(MOD_ID,"frostvert"), data1.caster()), Identifier.of(MOD_ID,"frostvert"), SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostvert")), data1.progress());
+            ;
+            return false;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"finalstrike"),(data) -> {
+            SpellSchool actualSchool = SpellSchools.ARCANE;
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            float modifier = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"finalstrike")).impact[0].action.damage.spell_power_coefficient;
+            float modifier2 = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"finalstrike")).impact[1].action.damage.spell_power_coefficient;
+            SpellPower.Result power2 = SpellPower.getSpellPower(actualSchool, (LivingEntity) data1.caster());
+            spellbladePassive(data1.caster(),SpellSchools.ARCANE,49);
+
+
+            if(!data1.targets().isEmpty()) {
+                if(data1.targets().get(data1.targets().size()-1) instanceof LivingEntity living){
+                    Vec3d vec3 = data1.targets().get(data1.targets().size()-1).getPos().add(data1.caster().getRotationVec(1F).subtract(0,data1.caster().getRotationVec(1F).getY(),0).normalize().multiply(1+0.5+(data1.targets().get(data1.targets().size()-1).getBoundingBox().getLengthX() / 2)));
+                    if(living.getWorld().getBlockState(new BlockPos((int) vec3.x,(int)vec3.y,(int) vec3.z)).shouldSuffocate(living.getWorld(),new BlockPos((int) vec3.x,(int)vec3.y,(int) vec3.z))) {
+                        data1.caster().requestTeleport(living.getPos().getX(),living.getPos().getY(),living.getPos().getZ());
+                    }
+                    else{
+                        data1.caster().requestTeleport(vec3.getX(), vec3.getY(), vec3.getZ());
+
+                    }
+                }
+                for (Entity entity : data1.targets()) {
+
+                    Attacks.attackAll(data1.caster(), List.of(entity), (float) modifier);
+
+                    SpellPower.Result power = SpellPower.getSpellPower(actualSchool, (LivingEntity) data1.caster());
+                    SpellPower.Vulnerability vulnerability = SpellPower.Vulnerability.none;
+                    if (entity instanceof LivingEntity living) {
+                        vulnerability = SpellPower.getVulnerability(living, actualSchool);
+                    }
+                    double amount = modifier2 * power.randomValue(vulnerability);
+                    entity.timeUntilRegen = 0;
+
+                    entity.damage(SpellDamageSource.player(actualSchool, data1.caster()), (float) amount);
+                    ParticleHelper.sendBatches(entity,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"finalstrike")).impact[0].particles);
+                    ParticleHelper.sendBatches(entity,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"finalstrike")).impact[1].particles);
+
+
+                }
+            }
+            else {
+                BlockHitResult result = data1.caster().getWorld().raycast(new RaycastContext(data1.caster().getEyePos(),data1.caster().getEyePos().add(data1.caster().getRotationVector().multiply(SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"finalstrike")).range)), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE,data1.caster()));
+                if (!data1.targets().isEmpty()) {
+                    Attacks.attackAll(data1.caster(), data1.targets(), (float) modifier);
+                    for (Entity entity : data1.targets()) {
+                        SpellPower.Result power = SpellPower.getSpellPower(actualSchool, (LivingEntity) data1.caster());
+                        SpellPower.Vulnerability vulnerability = SpellPower.Vulnerability.none;
+                        if (entity instanceof LivingEntity living) {
+                            vulnerability = SpellPower.getVulnerability(living, actualSchool);
+                        }
+                        double amount = modifier * power.randomValue(vulnerability);
+                        entity.timeUntilRegen = 0;
+
+                        entity.damage(SpellDamageSource.player(actualSchool, data1.caster()), (float) amount);
+                        ParticleHelper.sendBatches(entity,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"finalstrike")).impact[0].particles);
+                        ParticleHelper.sendBatches(entity,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"finalstrike")).impact[1].particles);
+
+                    }
+                }
+                if(result.getPos() != null) {
+                    data1.caster().requestTeleport(result.getPos().getX(),result.getPos().getY(),result.getPos().getZ());
+                }
+            }
+            return true;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"phoenixdive"),(data) -> {
+            SpellSchool actualSchool = SpellSchools.ARCANE;
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+
+            BlockHitResult result = data1.caster().getWorld().raycast(new RaycastContext(data1.caster().getEyePos(),data1.caster().getEyePos().add(data1.caster().getRotationVector().multiply(SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"phoenixdive")).range)), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE,data1.caster()));
+            RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "phoenixdive")).get();
+
+            if(result.getPos() != null) {
+                data1.caster().requestTeleport(result.getPos().getX(),result.getPos().getY(),result.getPos().getZ());
+
+            }
+            List<Entity> list = TargetHelper.targetsFromArea(data1.caster(),data1.caster().getEyePos(),8,new Spell.Release.Target.Area(), target -> TargetHelper.allowedToHurt(data1.caster(),target) );
+            for(Entity entity : list){
+
+                SpellHelper.performImpacts(data1.caster().getWorld(),data1.caster(),entity,data1.caster(),spellRegistryEntry,spellRegistryEntry.value().impact, data1.impactContext());
+            }
+            return true;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"snuffout"),(data) -> {
+            SpellSchool actualSchool = SpellSchools.ARCANE;
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "snuffout")).get();
+
+            for(Entity entity : data1.targets()){
+                if(entity instanceof LivingEntity living && living.isOnFire()) {
+                    List<Entity> list = TargetHelper.targetsFromArea(entity, entity.getEyePos(), 8, new Spell.Release.Target.Area(), target -> TargetHelper.allowedToHurt(data1.caster(), target));
+
+                    for (Entity entity1 : list) {
+                        SpellHelper.performImpacts(data1.caster().getWorld(), data1.caster(), entity1, data1.caster(), spellRegistryEntry,spellRegistryEntry.value().impact, data1.impactContext());
+                    }
+                    SpellHelper.performImpacts(data1.caster().getWorld(), data1.caster(), entity, data1.caster(), spellRegistryEntry,spellRegistryEntry.value().impact, data1.impactContext());
+
+                    entity.setFireTicks(0);
+                }
+            }
+            return true;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"xslash"),(data) -> {
+            SpellSchool actualSchool = SpellSchools.LIGHTNING;
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            float modifier = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"xslash")).impact[0].action.damage.spell_power_coefficient;
+            float modifier2 = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"xslash")).impact[1].action.damage.spell_power_coefficient;
+            RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "xslash")).get();
+
+            if(!data1.targets().isEmpty()) {
+                for (Entity entity : data1.targets()) {
+                    SpellHelper.performImpacts(entity.getWorld(),data1.caster(),entity,data1.caster(),spellRegistryEntry,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"xslash")).impact,data1.impactContext());
+                }
+            }
+            SoundHelper.playSound(data1.caster().getWorld(), data1.caster(), SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"xslash")).impact[0].sound);
+            spellbladePassive(data1.caster(),actualSchool,49);
+            return false;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"frostblink"),(data) -> {
+            SpellSchool actualSchool = SpellSchools.ARCANE;
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            float modifier = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostblink")).impact[0].action.damage.spell_power_coefficient;
+            float modifier2 = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostblink")).impact[1].action.damage.spell_power_coefficient;
+
+            List<Entity> list = TargetHelper.targetsFromRaycast(data1.caster(),SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostblink")).range, Objects::nonNull);
+            if(!data1.targets().isEmpty()) {
+                Attacks.attackAll(data1.caster(), data1.targets(), (float) modifier);
+                for (Entity entity : data1.targets()) {
+                    SpellPower.Result power = SpellPower.getSpellPower(actualSchool, (LivingEntity) data1.caster());
+                    SpellPower.Vulnerability vulnerability = SpellPower.Vulnerability.none;
+                    if (entity instanceof LivingEntity living) {
+                        vulnerability = SpellPower.getVulnerability(living, actualSchool);
+                    }
+                    double amount = modifier2 * power.randomValue(vulnerability);
+                    entity.timeUntilRegen = 0;
+
+                    entity.damage(SpellDamageSource.player(actualSchool, data1.caster()), (float) amount);
+                    ParticleHelper.sendBatches(entity,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostblink")).impact[0].particles);
+                    ParticleHelper.sendBatches(entity,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostblink")).impact[1].particles);
+
+                    if(entity instanceof LivingEntity living) {
+                        Vec3d vec3 = entity.getPos().add(data1.caster().getRotationVec(1F).subtract(0, data1.caster().getRotationVec(1F).getY(), 0).normalize().multiply(1 + 0.5 + (entity.getBoundingBox().getLengthX() / 2)));
+                        if (living.getWorld().getBlockState(new BlockPos((int) vec3.x, (int) vec3.y, (int) vec3.z)).shouldSuffocate(living.getWorld(), new BlockPos((int) vec3.x, (int) vec3.y, (int) vec3.z))) {
+                            data1.caster().requestTeleport(living.getPos().getX(), living.getPos().getY(), living.getPos().getZ());
+                        } else {
+                            data1.caster().requestTeleport(vec3.getX(), vec3.getY(), vec3.getZ());
+
+                        }
+                    }
+                }
+            }
+            else {
+                BlockHitResult result = data1.caster().getWorld().raycast(new RaycastContext(data1.caster().getEyePos(),data1.caster().getEyePos().add(data1.caster().getRotationVector().multiply(SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostblink")).range)), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE,data1.caster()));
+                if (!list.isEmpty()) {
+                    Attacks.attackAll(data1.caster(), list, (float) modifier);
+                    for (Entity entity : list) {
+                        SpellPower.Result power = SpellPower.getSpellPower(actualSchool, (LivingEntity) data1.caster());
+                        SpellPower.Vulnerability vulnerability = SpellPower.Vulnerability.none;
+                        if (entity instanceof LivingEntity living) {
+                            vulnerability = SpellPower.getVulnerability(living, actualSchool);
+                        }
+                        double amount = modifier2 * power.randomValue(vulnerability);
+                        entity.timeUntilRegen = 0;
+
+                        entity.damage(SpellDamageSource.player(actualSchool, data1.caster()), (float) amount);
+                        ParticleHelper.sendBatches(entity,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostblink")).impact[0].particles);
+                        ParticleHelper.sendBatches(entity,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"frostblink")).impact[1].particles);
+
+                    }
+                }
+                if(result.getPos() != null) {
+                    data1.caster().requestTeleport(result.getPos().getX(),result.getPos().getY(),result.getPos().getZ());
+                }
+            }
+            return true;
+        });
+
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"flicker_strike"),(data) -> {
+
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            float modifier = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"flicker_strike")).impact[0].action.damage.spell_power_coefficient;
+            modifier *= 0.2;
+            float modifier2 = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"flicker_strike")).impact[1].action.damage.spell_power_coefficient;
+            modifier2 *= 0.2;
+            SpellPower.Result power2 = SpellPower.getSpellPower(SpellSchools.FIRE, (LivingEntity) data1.caster());
+            spellbladePassive(data1.caster(),SpellSchools.FIRE,49);
+
+            if(data1.caster() instanceof PlayerDamageInterface player) {
+                List<LivingEntity> list = new ArrayList<>();
+                int i = 0;
+                RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "flicker_strike")).get();
+
+                if (!data1.targets().stream().filter(target -> target instanceof LivingEntity).toList().isEmpty()) {
+                    while (i < 16) {
+                        for (Entity entity : data1.targets().stream().filter(target -> target instanceof LivingEntity).toList()) {
+                            int finalI = i;
+                            ((WorldScheduler) entity.getWorld()).schedule((int) Math.ceil((i + 1) * (5/data1.caster().getAttributeValue(EntityAttributes.GENERIC_ATTACK_SPEED))), () -> {
+                                        Vec3d vec31 = new Vec3d(1-2*entity.getRandom().nextFloat(), 0, 1-2*entity.getRandom().nextFloat()).normalize();
+                                        Vec3d vec3 = entity.getPos().subtract(vec31.multiply(1 + 0.5 + (entity.getBoundingBox().getLengthX() / 2))).add(0,0.6,0);
+                                        if(entity instanceof LivingEntity living && living.isAlive()) {
+                                            if (!data1.caster().getWorld().getBlockState(new BlockPos((int) vec3.x, (int) vec3.y, (int) vec3.z)).shouldSuffocate(data1.caster().getWorld(), new BlockPos((int) vec3.x, (int) vec3.y, (int) vec3.z))) {
+                                                data1.caster().requestTeleport(vec3.getX(), vec3.getY(), vec3.getZ());
+                                            }
+                                            data1.caster().lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, entity.getEyePos());
+                                            SpellHelper.performImpacts(data1.caster().getWorld(), data1.caster(), entity, data1.caster(), spellRegistryEntry,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"flicker_strike")).impact, data1.impactContext());
+                                            if (finalI % 2 == 0) {
+                                                AnimationHelper.sendAnimation(data1.caster(), PlayerLookup.tracking(data1.caster()), SpellCast.Animation.RELEASE, "spellbladenext:sword_swing_first", 1.0F);
+                                                AnimationHelper.sendAnimation(data1.caster(), List.of((ServerPlayerEntity) data1.caster()), SpellCast.Animation.RELEASE, "spellbladenext:sword_swing_first", 1.0F);
+                                            } else {
+                                                AnimationHelper.sendAnimation(data1.caster(), PlayerLookup.tracking(data1.caster()), SpellCast.Animation.RELEASE, "spellbladenext:sword_swing_second", 1.0F);
+                                                AnimationHelper.sendAnimation(data1.caster(), List.of((ServerPlayerEntity) data1.caster()), SpellCast.Animation.RELEASE, "spellbladenext:sword_swing_second", 1.0F);
+
+                                            }
+                                            ParticleHelper.sendBatches(data1.caster(), SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "flicker_strike")).release.particles, true);
+
+
+                                        }
+                                    }
+                            );
+                            i++;
+                        }
+                    }
+                }
+            }
+            return true;
+        });
+
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"eviscerate"),(data) -> {
+            SpellSchool actualSchool = SpellSchools.FROST;
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            data1.targets().remove(data1.caster());
+            SpellPower.Result power2 = SpellPower.getSpellPower(actualSchool, (LivingEntity) data1.caster());
+            spellbladePassive(data1.caster(),SpellSchools.FROST,49);
+
+            if(data1.targets().isEmpty()){
+                if(data1.caster() instanceof SpellCasterEntity entity){
+                    entity.setSpellCastProcess(null);
+                }
+                return true;
+            }
+            if(data1.caster() instanceof PlayerDamageInterface playerDamageInterface && playerDamageInterface.getLastAttacked() != null && playerDamageInterface.getLastAttacked() instanceof LivingEntity living && living.isDead()){
+                playerDamageInterface.resetRepeats();
+                playerDamageInterface.setLastAttacked(null);
+            }
+            if(data1.caster() instanceof PlayerDamageInterface playerDamageInterface && playerDamageInterface.getRepeats() >= 4){
+                playerDamageInterface.resetRepeats();
+                playerDamageInterface.setLastAttacked(null);
+
+                if(data1.caster() instanceof SpellCasterEntity entity){
+                    entity.setSpellCastProcess(null);
+                }
+                return true;
+            }
+            float modifier = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"eviscerate")).impact[0].action.damage.spell_power_coefficient;
+            modifier *= 0.2;
+            float modifier2 = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"eviscerate")).impact[1].action.damage.spell_power_coefficient;
+            modifier2 *= 0.2;
+
+            if(data1.caster() instanceof PlayerDamageInterface playerDamageInterface && playerDamageInterface.getLastAttacked() != null && data1.targets().contains(playerDamageInterface.getLastAttacked())) {
+                EntityAttributeModifier modifier1 = new EntityAttributeModifier(Identifier.of("knockback"),1, EntityAttributeModifier.Operation.ADD_VALUE);
+                ImmutableMultimap.Builder<RegistryEntry<EntityAttribute>, EntityAttributeModifier> builder = ImmutableMultimap.builder();
+                builder.put(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, modifier1);
+
+                ((LivingEntity)playerDamageInterface.getLastAttacked()).getAttributes().addTemporaryModifiers(builder.build());
+
+                Attacks.attackAll(data1.caster(), List.of(playerDamageInterface.getLastAttacked()), (float) modifier);
+                playerDamageInterface.repeat();
+                SpellPower.Result power = SpellPower.getSpellPower(actualSchool, (LivingEntity) data1.caster());
+                SpellPower.Vulnerability vulnerability = SpellPower.Vulnerability.none;
+                if (playerDamageInterface.getLastAttacked() instanceof LivingEntity living) {
+                    vulnerability = SpellPower.getVulnerability(living, actualSchool);
+                }
+                double amount = modifier2 * power.randomValue(vulnerability);
+                playerDamageInterface.getLastAttacked().timeUntilRegen = 0;
+
+                playerDamageInterface.getLastAttacked().damage(SpellDamageSource.player(actualSchool, data1.caster()), (float) amount);
+                if(playerDamageInterface.getLastAttacked() instanceof LivingEntity living)
+                    living.getAttributes().removeModifiers(builder.build());
+                Entity living = playerDamageInterface.getLastAttacked();
+                Vec3d pos = living.getPos().add(0,living.getHeight()/2,0).subtract(new Vec3d(0,0,4*living.getBoundingBox().getLengthX()).rotateX(living.getWorld().getRandom().nextFloat()*360));
+
+                for(int i = 0; i < 20; i++) {
+                    Vec3d pos2 = pos.add(living.getPos().add(0,living.getHeight()/2,0).subtract(pos).multiply(0.1*i));
+                    if(living.getWorld() instanceof ServerWorld serverWorld) {
+                        for(ServerPlayerEntity player : PlayerLookup.tracking(living)) {
+                            //serverWorld.spawnParticles(player,Particles.snowflake.particleType,true, pos2.x, pos2.y, pos2.z, 1,0, 0, 0,0);
+                            serverWorld.spawnParticles(player, Particles.frost_shard.particleType,true, pos2.x, pos2.y, pos2.z, 1,0, 0, 0,0);
+                            serverWorld.spawnParticles(player,Particles.frost_hit.particleType,true, pos2.x, pos2.y, pos2.z, 1,0, 0, 0,0);
+
+                        }
+                    }
+                }
+                living.getWorld().addParticle(ParticleTypes.SWEEP_ATTACK, true,living.getX(),living.getY(),living.getZ(),0,0,0);
+
+                return false;
+            }
+            if(data1.caster() instanceof PlayerDamageInterface playerDamageInterface && !data1.targets().isEmpty()) {
+                Entity entity = playerDamageInterface.getLastAttacked();
+                List<LivingEntity> list = new ArrayList<>();
+                for(Entity entity1 : data1.targets()){
+                    if(entity1 instanceof LivingEntity living){
+                        list.add(living);
+                    }
+                }
+                if(entity == null || !data1.targets().contains(entity)) {
+                    entity = data1.caster().getWorld().getClosestEntity(list, TargetPredicate.DEFAULT,data1.caster(),data1.caster().getX(),data1.caster().getY(),data1.caster().getZ());
+                }
+                else{
+                    playerDamageInterface.setLastAttacked(null);
+                    playerDamageInterface.resetRepeats();
+                    if(data1.caster() instanceof SpellCasterEntity antity){
+                        antity.setSpellCastProcess(null);
+                    }
+                    return true;
+                }
+
+                if(entity != null) {
+                    EntityAttributeModifier modifier1 = new EntityAttributeModifier(Identifier.of("knockback"),1, EntityAttributeModifier.Operation.ADD_VALUE);
+                    ImmutableMultimap.Builder<RegistryEntry<EntityAttribute>, EntityAttributeModifier> builder = ImmutableMultimap.builder();
+                    builder.put(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, modifier1);
+
+                    ((LivingEntity)entity).getAttributes().addTemporaryModifiers(builder.build());
+
+                    Attacks.attackAll(data1.caster(), List.of(entity), (float) modifier);
+                    playerDamageInterface.setLastAttacked(entity);
+                    SpellPower.Result power = SpellPower.getSpellPower(actualSchool, (LivingEntity) data1.caster());
+                    SpellPower.Vulnerability vulnerability = SpellPower.Vulnerability.none;
+                    if (entity instanceof LivingEntity living) {
+                        vulnerability = SpellPower.getVulnerability(living, actualSchool);
+                    }
+                    double amount = modifier2 * power.randomValue(vulnerability);
+                    entity.timeUntilRegen = 0;
+
+                    entity.damage(SpellDamageSource.player(actualSchool, data1.caster()), (float) amount);
+
+                    if(entity instanceof LivingEntity living)
+                        living.getAttributes().removeModifiers(builder.build());
+                    Entity living = playerDamageInterface.getLastAttacked();
+                    Vec3d pos = living.getPos().add(0,living.getHeight()/2,0).subtract(new Vec3d(0,0,4*living.getBoundingBox().getLengthX()).rotateX(living.getWorld().getRandom().nextFloat()*360));
+
+                    for(int i = 0; i < 20; i++) {
+                        Vec3d pos2 = pos.add(living.getPos().add(0,living.getHeight()/2,0).subtract(pos).multiply(0.1*i));
+                        if(living.getWorld() instanceof ServerWorld serverWorld) {
+                            for(ServerPlayerEntity player : PlayerLookup.tracking(living)) {
+                                //serverWorld.spawnParticles(player,Particles.snowflake.particleType,true, pos2.x, pos2.y, pos2.z, 1,0, 0, 0,0);
+                                serverWorld.spawnParticles(player,Particles.frost_shard.particleType,true, pos2.x, pos2.y, pos2.z, 1,0, 0, 0,0);
+                                serverWorld.spawnParticles(player,Particles.frost_hit.particleType,true, pos2.x, pos2.y, pos2.z, 1,0, 0, 0,0);
+
+                            }
+                        }
+                    }
+                    living.getWorld().addParticle(ParticleTypes.SWEEP_ATTACK, true,living.getX(),living.getY(),living.getZ(),0,0,0);
+
+
+                }
+            }
+            return false;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"defiance_of_destiny"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            if(data1.caster().getOffHandStack().getItem() instanceof ShieldItem){
+
+            }
+            else{
+                data1.caster().sendMessage(Text.translatable("error.spellbladenext.shieldreq"),true);
+                return true;
+            }
+            RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "defiance_of_destiny")).get();
+
+            for(Entity entity: data1.targets()) {
+                SpellHelper.performImpacts(data1.caster().getWorld(), data1.caster(),entity,entity,spellRegistryEntry,spellRegistryEntry.value().impact, data1.impactContext());
+                if(entity instanceof HostileEntity hostile) {
+                    hostile.setTarget(data1.caster());
+                    if (hostile.getBrain() != null) {
+                        if (hostile.getBrain().hasMemoryModule(MemoryModuleType.ATTACK_TARGET)) {
+                            hostile.getBrain().remember(MemoryModuleType.ATTACK_TARGET, data1.caster());
+                        }
+                        if (hostile.getBrain().hasMemoryModule(MemoryModuleType.ANGRY_AT)) {
+                            hostile.getBrain().remember(MemoryModuleType.ANGRY_AT, data1.caster().getUuid());
+                        }
+                    }
+
+                }
+            }
+            ParticleHelper.sendBatches(data1.caster(),spellRegistryEntry.value().release.particles,true);
+            SoundHelper.playSound(data1.caster().getWorld(), data1.caster(), spellRegistryEntry.value().release.sound);
+            return false;
+
+                }
+        );
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"fireflourish"),(data) -> {
+            SpellSchool actualSchool = SpellSchools.FIRE;
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            spellbladePassive(data1.caster(),SpellSchools.FIRE,49);
+
+            float modifier = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"fireflourish")).impact[0].action.damage.spell_power_coefficient;
+            float modifier2 = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"fireflourish")).impact[0].action.damage.spell_power_coefficient;
+
+            Attacks.attackAll(data1.caster(),data1.targets(),(float)modifier);
+            for(Entity entity: data1.targets()){
+                SpellPower.Result power = SpellPower.getSpellPower(actualSchool, (LivingEntity) data1.caster());
+                SpellPower.Vulnerability vulnerability = SpellPower.Vulnerability.none;
+                if(entity instanceof LivingEntity living) {
+                    vulnerability = SpellPower.getVulnerability(living, actualSchool);
+                }
+                double amount = modifier2 *  power.randomValue(vulnerability);
+                entity.timeUntilRegen = 0;
+
+                entity.damage(SpellDamageSource.player(actualSchool,data1.caster()), (float) amount);
+            }
+            int iii = -200;
+            for (int i = 0; i < 5; i++) {
+
+                for (int ii = 0; ii < 80; ii++) {
+
+                    iii++;
+
+                    int finalIii = iii;
+                    int finalI = i;
+                    int finalIi = ii;
+                    ((WorldScheduler)data1.caster().getWorld()).schedule(i+1,() ->{
+                        if(data1.caster().getWorld() instanceof ServerWorld serverWorld) {
+                            double x = 0;
+                            double x2 = 0;
+
+                            double z = 0;
+                            x =  ((4.5*data1.caster().getWidth() + 2*data1.caster().getWidth() * sin(20 *  ((double) finalIii /(double)(4*31.74)))) * cos(((double) finalIii /(double)(4*31.74))));
+                            x2 =  -((4.5*data1.caster().getWidth() + 2*data1.caster().getWidth() * sin(20 *  ((double) finalIii /(double)(4*31.74)))) * cos(((double) finalIii /(double)(4*31.74))));
+
+                            z =  ((4.5*data1.caster().getWidth() + 2*data1.caster().getWidth() * sin(20 * ((double) finalIii /(double)(4*31.74)))) * sin(((double) finalIii /(double)(4*31.74))));
+                            float f7 = data1.caster().getYaw() % 360;
+                            float f = data1.caster().getPitch();
+                            Vec3d vec3d = Attacks.rotate(x,0,z,Math.toRadians(-f7),0,0);
+                            Vec3d vec3d2 = Attacks.rotate(x2,0,z,Math.toRadians(-f7),0,0);
+                            Vec3d vec3d3 = vec3d.add(data1.caster().getEyePos().getX(),data1.caster().getEyeY(),data1.caster().getEyePos().getZ());
+                            Vec3d vec3d4 = vec3d2.add(data1.caster().getEyePos().getX(),data1.caster().getEyeY(),data1.caster().getEyePos().getZ());
+
+                            double y = data1.caster().getY()+data1.caster().getHeight()/2;
+
+
+
+                            for(ServerPlayerEntity player : PlayerLookup.tracking(data1.caster())) {
+                                if (finalIi % 2 == 1) {
+                                    serverWorld.spawnParticles(player, ParticleTypes.SMOKE,true, vec3d3.getX(), y, vec3d3.getZ(), 1, 0, 0, 0, 0);
+                                    serverWorld.spawnParticles(player , ParticleTypes.SMOKE,true, vec3d4.getX(), y, vec3d4.getZ(), 1, 0, 0, 0, 0);
+                                }
+                                serverWorld.spawnParticles(player,Particles.flame.particleType, true, vec3d3.getX(), y, vec3d3.getZ(), 1, 0, 0, 0, 0);
+                                serverWorld.spawnParticles(player,Particles.flame.particleType, true, vec3d4.getX(), y, vec3d4.getZ(), 1, 0, 0, 0, 0);
+                            }
+                            if(data1.caster() instanceof ServerPlayerEntity player) {
+                                if (finalIi % 2 == 1) {
+                                    serverWorld.spawnParticles(player, ParticleTypes.SMOKE, true, vec3d3.getX(), y, vec3d3.getZ(), 1, 0, 0, 0, 0);
+                                    serverWorld.spawnParticles(player, ParticleTypes.SMOKE, true, vec3d4.getX(), y, vec3d4.getZ(), 1, 0, 0, 0, 0);
+                                }
+                                serverWorld.spawnParticles(player, Particles.flame.particleType, true, vec3d3.getX(), y, vec3d3.getZ(), 1, 0, 0, 0, 0);
+                                serverWorld.spawnParticles(player, Particles.flame.particleType, true, vec3d4.getX(), y, vec3d4.getZ(), 1, 0, 0, 0, 0);
+                            }
+                        }
+                    });
+
+                }
+
+
+            }
+            return true;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"arcaneflourish"),(data) -> {
+            SpellSchool actualSchool = SpellSchools.ARCANE;
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            float modifier = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"arcaneflourish")).impact[0].action.damage.spell_power_coefficient;
+            float modifier2 = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"arcaneflourish")).impact[1].action.damage.spell_power_coefficient;
+
+            SpellPower.Result power2 = SpellPower.getSpellPower(actualSchool, (LivingEntity) data1.caster());
+            spellbladePassive(data1.caster(),SpellSchools.ARCANE,49);
+
+            Attacks.attackAll(data1.caster(),data1.targets(),(float)modifier);
+            for(Entity entity: data1.targets()){
+                SpellPower.Result power = SpellPower.getSpellPower(actualSchool, (LivingEntity) data1.caster());
+                SpellPower.Vulnerability vulnerability = SpellPower.Vulnerability.none;
+                if(entity instanceof LivingEntity living) {
+                    vulnerability = SpellPower.getVulnerability(living, actualSchool);
+                }
+                double amount = modifier2 *  power.randomValue(vulnerability);
+                entity.timeUntilRegen = 0;
+
+                entity.damage(SpellDamageSource.player(actualSchool,data1.caster()), (float) amount);
+            }
+            int iii = -200;
+            for (int i = 0; i < 5; i++) {
+
+                for (int ii = 0; ii < 80; ii++) {
+
+                    iii++;
+
+                    int finalIii = iii;
+                    int finalI = i;
+                    int finalIi = ii;
+                    ((WorldScheduler)data1.caster().getWorld()).schedule(i+1,() ->{
+                        if(data1.caster().getWorld() instanceof ServerWorld serverWorld) {
+                            double x = 0;
+                            double x2 = 0;
+
+                            double z = 0;
+                            x =  ((4.5*data1.caster().getWidth() + 2*data1.caster().getWidth() * sin(20 *  ((double) finalIii /(double)(4*31.74)))) * cos(((double) finalIii /(double)(4*31.74))));
+                            x2 =  -((4.5*data1.caster().getWidth() + 2*data1.caster().getWidth() * sin(20 *  ((double) finalIii /(double)(4*31.74)))) * cos(((double) finalIii /(double)(4*31.74))));
+
+                            z =  ((4.5*data1.caster().getWidth() + 2*data1.caster().getWidth() * sin(20 * ((double) finalIii /(double)(4*31.74)))) * sin(((double) finalIii /(double)(4*31.74))));
+                            float f7 = data1.caster().getYaw() % 360;
+                            float f = data1.caster().getPitch();
+                            Vec3d vec3d = Attacks.rotate(x,0,z,Math.toRadians(-f7),0,0);
+                            Vec3d vec3d2 = Attacks.rotate(x2,0,z,Math.toRadians(-f7),0,0);
+                            Vec3d vec3d3 = vec3d.add(data1.caster().getEyePos().getX(),data1.caster().getEyeY(),data1.caster().getEyePos().getZ());
+                            Vec3d vec3d4 = vec3d2.add(data1.caster().getEyePos().getX(),data1.caster().getEyeY(),data1.caster().getEyePos().getZ());
+
+                            double y = data1.caster().getY()+data1.caster().getHeight()/2;
+
+
+
+                            for(ServerPlayerEntity player : PlayerLookup.tracking(data1.caster())) {
+                                if (finalIi % 2 == 1) {
+                                    serverWorld.spawnParticles(player, ParticleTypes.FIREWORK,true, vec3d3.getX(), y, vec3d3.getZ(), 1, 0, 0, 0, 0);
+                                    serverWorld.spawnParticles(player , ParticleTypes.FIREWORK,true, vec3d4.getX(), y, vec3d4.getZ(), 1, 0, 0, 0, 0);
+                                }
+                                serverWorld.spawnParticles(player,Particles.arcane_spell.particleType, true, vec3d3.getX(), y, vec3d3.getZ(), 1, 0, 0, 0, 0);
+                                serverWorld.spawnParticles(player,Particles.arcane_spell.particleType, true, vec3d4.getX(), y, vec3d4.getZ(), 1, 0, 0, 0, 0);
+                            }
+                            if(data1.caster() instanceof ServerPlayerEntity player) {
+                                if (finalIi % 2 == 1) {
+                                    serverWorld.spawnParticles(player, ParticleTypes.FIREWORK, true, vec3d3.getX(), y, vec3d3.getZ(), 1, 0, 0, 0, 0);
+                                    serverWorld.spawnParticles(player, ParticleTypes.FIREWORK, true, vec3d4.getX(), y, vec3d4.getZ(), 1, 0, 0, 0, 0);
+                                }
+                                serverWorld.spawnParticles(player, Particles.arcane_spell.particleType, true, vec3d3.getX(), y, vec3d3.getZ(), 1, 0, 0, 0, 0);
+                                serverWorld.spawnParticles(player, Particles.arcane_spell.particleType, true, vec3d4.getX(), y, vec3d4.getZ(), 1, 0, 0, 0, 0);
+                            }
+
+                        }
+                    });
+
+                }
+
+
+            }
+
+            return true;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"tempest"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "tempest")).get();
+
+            spellbladePassive(data1.caster(),SpellSchools.FROST,49);
+            if(data1.caster().getWorld() instanceof ServerWorld world){
+
+                for(Entity entity : data1.targets()) {
+                    SpellHelper.performImpacts(data1.caster().getWorld(), data1.caster(),entity,data1.caster(),spellRegistryEntry,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"tempest")).impact,data1.impactContext() );
+                }
+            }
+
+            return false;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"whirlwind"),(data) -> {
+
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "whirlwind")).get();
+
+            if(data1.caster().getWorld() instanceof ServerWorld world){
+
+                for(Entity entity : data1.targets()) {
+                    SpellHelper.performImpacts(data1.caster().getWorld(), data1.caster(),entity,data1.caster(),spellRegistryEntry,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"whirlwind")).impact,data1.impactContext() );
+                }
+            }
+
+
+            return false;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"reckoning"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "reckoning")).get();
+
+            if(data1.caster().getWorld() instanceof ServerWorld world){
+
+
+                for(Entity entity : data1.targets()) {
+                    SpellHelper.performImpacts(data1.caster().getWorld(), data1.caster(),entity,data1.caster(),spellRegistryEntry,SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"reckoning")).impact,data1.impactContext() );
+                }
+            }
+
+            return false;
+        });
+
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"spellstrike"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+
+            if(data1.caster().getWorld() instanceof ServerWorld world && data1.caster() instanceof SpellCasterEntity caster){
+                if(data1.caster().hasStatusEffect(SPELLSTRIKE)){
+                    data1.caster().removeStatusEffect(SPELLSTRIKE);
+                    if(data1.caster() instanceof PlayerDamageInterface playerDamageInterface ){
+                        playerDamageInterface.clearSpellstrikeSpells();
+                        playerDamageInterface.setSpellstriking(false);
+                        int cooldown = (int)(SpellHelper.getCooldownDuration(data1.caster(),SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"spellstrike")))*20);
+                        caster.getCooldownManager().set(Identifier.of(MOD_ID,"spellstrike"),cooldown);
+                        if(data1.caster().getWorld() instanceof ServerWorld serverWorld) {
+                            Collection<ServerPlayerEntity> serverplayers = PlayerLookup.tracking(data1.caster());
+                            AnimationHelper.sendAnimation(data1.caster(),serverplayers, SpellCast.Animation.RELEASE,"spell_engine:one_handed_projectile_release",1F);
+                            if(!serverplayers.contains((ServerPlayerEntity)data1.caster())) {
+                                AnimationHelper.sendAnimation(data1.caster(), List.of((ServerPlayerEntity) data1.caster()), SpellCast.Animation.RELEASE, "spell_engine:one_handed_projectile_release", 1F);
+
+                            }
+
+                        }
+                        return false;
+
+                    }
+                }
+                else{
+                    data1.caster().addStatusEffect(new StatusEffectInstance(SPELLSTRIKE,16*20,0,false,false,true));
+                    ((WorldScheduler) world).schedule(1,() -> {
+                                caster.getCooldownManager().set(Identifier.of(MOD_ID, "spellstrike"), 40,true);
+                            }
+
+                    );
+                }
+            }
+
+            return true;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"maelstrom"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "maelstrom")).get();
+
+            if(data1.caster().getWorld() instanceof ServerWorld world){
+
+                for(Entity entity : data1.targets()) {
+                    SpellHelper.performImpacts(data1.caster().getWorld(), data1.caster(),entity,data1.caster(),
+                            spellRegistryEntry,
+                            SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"maelstrom")).impact,
+                            data1.impactContext() );
+                }
+            }
+
+            return false;
+        });
+
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"inferno"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "inferno")).get();
+
+            if(data1.caster().getWorld() instanceof ServerWorld world){
+
+                for(Entity entity : data1.targets()) {
+                    SpellHelper.performImpacts(data1.caster().getWorld(), data1.caster(),entity,data1.caster(),
+                            spellRegistryEntry,
+                            SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"inferno")).impact,
+                            data1.impactContext() );
+                }
+            }
+
+            return false;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"smite"),(data) -> {
+
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            SpellSchool actualSchool = SpellSchools.HEALING;
+
+            SpellPower.Result power2 = SpellPower.getSpellPower(actualSchool, (LivingEntity) data1.caster());
+            RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "smite")).get();
+
+            float modifier = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"smite")).impact[0].action.damage.spell_power_coefficient;
+            float modifier2 = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"smite")).impact[1].action.damage.spell_power_coefficient;
+
+            Attacks.attackAll(data1.caster(),data1.targets(),(float)modifier);
+            for(Entity target : data1.targets()){
+
+                if(target instanceof LivingEntity living && data1.caster() instanceof SpellCasterEntity caster && SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"fervoussmite")) != null){
+                    SpellPower.Result result = new SpellPower.Result(SpellSchools.HEALING, modifier2 * SpellPower.getSpellPower(SpellSchools.HEALING,data1.caster()).baseValue(), data1.impactContext().power().criticalChance(), data1.impactContext().power().criticalDamage());
+                    knockbackNearbyEntities(data1.caster().getWorld(), data1.caster(),target);
+
+                    SpellHelper.performImpacts(data1.caster().getWorld(), data1.caster(), target, data1.caster(), spellRegistryEntry ,
+                            spellRegistryEntry.value().impact,
+                            new SpellHelper.ImpactContext(1, 1, null, result, TargetHelper.TargetingMode.DIRECT,0));
+
+                }
+            }
+            return true;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"echoes"),(data) -> {
+
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            SpellSchool actualSchool = SpellSchools.HEALING;
+            RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "echoes")).get();
+
+            for(Entity entity : data1.targets()){
+                if(entity instanceof LivingEntity living){
+                    if(living.getStatusEffect(COLLAPSE) instanceof StatusEffectInstance instance){
+                        living.addStatusEffect(new StatusEffectInstance(COLLAPSE,40, (int) (instance.getAmplifier()+data1.impactContext().power().randomValue())));
+                    }
+                    else{
+                        living.addStatusEffect(new StatusEffectInstance(COLLAPSE,40, (int) (data1.impactContext().power().randomValue())));
+
+                    }
+                    ((WorldScheduler)data1.caster().getWorld()).schedule((40),()->{
+                        SpellHelper.performImpacts(living.getWorld(), data1.caster(), living, living, spellRegistryEntry, SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"echoes")).impact,
+                                data1.impactContext());
+
+                    });
+                }
+                return true;
+
+            }
+            return false;
+        });
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"gem_barrage"),(data) -> {
+
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            Identifier spellID = Identifier.of(MOD_ID,"gem_barrage2");
+            Spell spell = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"gem_barrage2"));
+            for(Entity target : data1.targets()){
+                SpellProjectile projectile = new SpellProjectile(data1.caster().getWorld(), data1.caster(), data1.caster().getX(), data1.caster().getEyeY(), data1.caster().getZ(), SpellProjectile.Behaviour.FLY,
+                        Identifier.of(MOD_ID,"gem_barrage2"), target, data1.impactContext(), spell.release.target.projectile.projectile.perks);
+                SpellProjectile projectile2 = new SpellProjectile(data1.caster().getWorld(), data1.caster(), data1.caster().getX(), data1.caster().getEyeY(), data1.caster().getZ(), SpellProjectile.Behaviour.FLY,
+                        Identifier.of(MOD_ID,"gem_barrage2"), target, data1.impactContext(), spell.release.target.projectile.projectile.perks);
+                SpellProjectile projectile3 = new SpellProjectile(data1.caster().getWorld(), data1.caster(), data1.caster().getX(), data1.caster().getEyeY(), data1.caster().getZ(), SpellProjectile.Behaviour.FLY,
+                        Identifier.of(MOD_ID,"gem_barrage2"), target, data1.impactContext(), spell.release.target.projectile.projectile.perks);
+                projectile2.setVelocity(data1.caster(),data1.caster().getPitch(),data1.caster().getYaw()-90,0,spell.release.target.projectile.launch_properties.velocity,0);
+                projectile.setVelocity(data1.caster(),data1.caster().getPitch(),data1.caster().getYaw()+90,0,spell.release.target.projectile.launch_properties.velocity,0);
+                projectile3.setVelocity(data1.caster(),data1.caster().getPitch()-90,data1.caster().getYaw(),0,spell.release.target.projectile.launch_properties.velocity,0);
+                projectile.setPos(launchPoint(data1.caster()).getX(),launchPoint(data1.caster()).getY(),launchPoint(data1.caster()).getZ());
+                projectile2.setPos(launchPoint(data1.caster()).getX(),launchPoint(data1.caster()).getY(),launchPoint(data1.caster()).getZ());
+                projectile3.setPos(launchPoint(data1.caster()).getX(),launchPoint(data1.caster()).getY(),launchPoint(data1.caster()).getZ());
+                data1.caster().getWorld().spawnEntity(projectile);
+                data1.caster().getWorld().spawnEntity(projectile2);
+                data1.caster().getWorld().spawnEntity(projectile3);
+                return true;
+
+            }
+            return false;
+        });
+
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"frostflourish"),(data) -> {
+
+            SpellSchool actualSchool = SpellSchools.FROST;
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+
+
+            spellbladePassive(data1.caster(),SpellSchools.FROST,49);
+
+            float modifier = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "frostflourish")).impact[0].action.damage.spell_power_coefficient;
+            float modifier2 = SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID, "frostflourish")).impact[0].action.damage.spell_power_coefficient;
+
+            Attacks.attackAll(data1.caster(), data1.targets(), (float) modifier);
+            for (Entity entity : data1.targets()) {
+                if (data1.caster() instanceof ServerPlayerEntity serverPlayerEntity) {
+                    ServerWorld serverWorld = (ServerWorld)serverPlayerEntity.getWorld();
+                    if (serverPlayerEntity.shouldIgnoreFallDamageFromCurrentExplosion() && serverPlayerEntity.currentExplosionImpactPos != null) {
+                        if (serverPlayerEntity.currentExplosionImpactPos.y > serverPlayerEntity.getPos().y) {
+                            serverPlayerEntity.currentExplosionImpactPos = serverPlayerEntity.getPos();
+                        }
+                    } else {
+                        serverPlayerEntity.currentExplosionImpactPos = serverPlayerEntity.getPos();
+                    }
+
+                    serverPlayerEntity.setIgnoreFallDamageFromCurrentExplosion(true);
+                    serverPlayerEntity.setVelocity(serverPlayerEntity.getVelocity().withAxis(Direction.Axis.Y, 0.009999999776482582));
+                    serverPlayerEntity.networkHandler.sendPacket(new EntityVelocityUpdateS2CPacket(serverPlayerEntity));
+                    if (entity.isOnGround()) {
+                        serverPlayerEntity.setSpawnExtraParticlesOnFall(true);
+                        SoundEvent soundEvent = serverPlayerEntity.fallDistance > 5.0F ? SoundEvents.ITEM_MACE_SMASH_GROUND_HEAVY : SoundEvents.ITEM_MACE_SMASH_GROUND;
+                        serverWorld.playSound((PlayerEntity)null, serverPlayerEntity.getX(), serverPlayerEntity.getY(), serverPlayerEntity.getZ(), soundEvent, serverPlayerEntity.getSoundCategory(), 1.0F, 1.0F);
+                    } else {
+                        serverWorld.playSound((PlayerEntity)null, serverPlayerEntity.getX(), serverPlayerEntity.getY(), serverPlayerEntity.getZ(), SoundEvents.ITEM_MACE_SMASH_AIR, serverPlayerEntity.getSoundCategory(), 1.0F, 1.0F);
+                    }
+
+                }
+                SpellPower.Result power = SpellPower.getSpellPower(actualSchool, (LivingEntity) data1.caster());
+                SpellPower.Vulnerability vulnerability = SpellPower.Vulnerability.none;
+                if (entity instanceof LivingEntity living) {
+                    vulnerability = SpellPower.getVulnerability(living, actualSchool);
+                }
+                double amount = modifier2 * power.randomValue(vulnerability);
+                entity.timeUntilRegen = 0;
+
+                entity.damage(SpellDamageSource.player(actualSchool, data1.caster()), (float) amount);
+            }
+            int iii = -200;
+
+            for (int i = 0; i < 5; i++) {
+
+                for (int ii = 0; ii < 80; ii++) {
+
+                    iii++;
+
+                    int finalIii = iii;
+                    int finalI = i;
+                    int finalIi = ii;
+                    ((WorldScheduler) data1.caster().getWorld()).schedule(i + 1, () -> {
+                        if (data1.caster().getWorld() instanceof ServerWorld serverWorld) {
+                            double x = 0;
+                            double x2 = 0;
+
+                            double z = 0;
+                            x = ((4.5 * data1.caster().getWidth() + 2 * data1.caster().getWidth() * sin(20 * ((double) finalIii / (double) (4 * 31.74)))) * cos(((double) finalIii / (double) (4 * 31.74))));
+                            x2 = -((4.5 * data1.caster().getWidth() + 2 * data1.caster().getWidth() * sin(20 * ((double) finalIii / (double) (4 * 31.74)))) * cos(((double) finalIii / (double) (4 * 31.74))));
+
+                            z = ((4.5 * data1.caster().getWidth() + 2 * data1.caster().getWidth() * sin(20 * ((double) finalIii / (double) (4 * 31.74)))) * sin(((double) finalIii / (double) (4 * 31.74))));
+                            float f7 = data1.caster().getYaw() % 360;
+                            float f = data1.caster().getPitch();
+                            Vec3d vec3d = Attacks.rotate(x, 0, z, Math.toRadians(-f7), 0, 0);
+                            Vec3d vec3d2 = Attacks.rotate(x2, 0, z, Math.toRadians(-f7), 0, 0);
+                            Vec3d vec3d3 = vec3d.add(data1.caster().getEyePos().getX(), data1.caster().getEyeY(), data1.caster().getEyePos().getZ());
+                            Vec3d vec3d4 = vec3d2.add(data1.caster().getEyePos().getX(), data1.caster().getEyeY(), data1.caster().getEyePos().getZ());
+
+                            double y = data1.caster().getY() + data1.caster().getHeight() / 2;
+
+
+                            for (ServerPlayerEntity player : PlayerLookup.tracking(data1.caster())) {
+                                if (finalIi % 2 == 1) {
+                                    serverWorld.spawnParticles(player, Particles.snowflake.particleType, true, vec3d3.getX(), y, vec3d3.getZ(), 1, 0, 0, 0, 0);
+                                    serverWorld.spawnParticles(player, Particles.snowflake.particleType, true, vec3d4.getX(), y, vec3d4.getZ(), 1, 0, 0, 0, 0);
+                                }
+                                serverWorld.spawnParticles(player, Particles.frost_shard.particleType, true, vec3d3.getX(), y, vec3d3.getZ(), 1, 0, 0, 0, 0);
+                                serverWorld.spawnParticles(player, Particles.frost_shard.particleType, true, vec3d4.getX(), y, vec3d4.getZ(), 1, 0, 0, 0, 0);
+                            }
+                            if (data1.caster() instanceof ServerPlayerEntity player) {
+                                if (finalIi % 2 == 1) {
+                                    serverWorld.spawnParticles(player, Particles.snowflake.particleType, true, vec3d3.getX(), y, vec3d3.getZ(), 1, 0, 0, 0, 0);
+                                    serverWorld.spawnParticles(player, Particles.snowflake.particleType, true, vec3d4.getX(), y, vec3d4.getZ(), 1, 0, 0, 0, 0);
+                                }
+                                serverWorld.spawnParticles(player, Particles.frost_shard.particleType, true, vec3d3.getX(), y, vec3d3.getZ(), 1, 0, 0, 0, 0);
+                                serverWorld.spawnParticles(player, Particles.frost_shard.particleType, true, vec3d4.getX(), y, vec3d4.getZ(), 1, 0, 0, 0, 0);
+                            }
+                        }
+                    });
+
+                }
+                ;
+            }
+            return true;
+        });
+        CombatEvents.SPELL_CAST.register(args ->{
+            RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(args.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "bulwark")).get();
+
+            if(args.spell().equals(spellRegistryEntry)){
+                if(args.caster().getWorld() instanceof ServerWorld serverWorld){
+                    for(ServerPlayerEntity player : PlayerLookup.all(serverWorld.getServer())){
+                        if(TargetHelper.getRelation(args.caster(),player).equals(TargetHelper.Relation.ALLY)) {
+                            imposeCooldown(args.caster(), SpellContainerHelper.getFirstSourceOfSpell(Identifier.of(MOD_ID,"bulwark"), args.caster()), Identifier.of(MOD_ID,"bulwark"), SpellRegistry.from(args.caster().getWorld()).get(Identifier.of(MOD_ID,"bulwark")), 1.0F);
+                        }
+                    }
+                }
+            }
+        });
+
+        CustomSpellHandler.register(Identifier.of(MOD_ID,"staffstrike"),(data) -> {
+            CustomSpellHandler.Data data1 = (CustomSpellHandler.Data) data;
+            RegistryEntry<Spell> spellRegistryEntry =  SpellRegistry.from(data1.caster().getWorld()).getEntry(Identifier.of(MOD_ID, "staffstrike")).get();
+
+            if(data1.caster().getWorld() instanceof ServerWorld world){
+
+                for(Entity entity : data1.targets()) {
+                    SpellHelper.performImpacts(data1.caster().getWorld(), data1.caster(),entity,data1.caster(),
+                            spellRegistryEntry,
+                            SpellRegistry.from(data1.caster().getWorld()).get(Identifier.of(MOD_ID,"staffstrike")).impact,
+                            data1.impactContext() );
+                }
+                if(!data1.targets().isEmpty()){
+                    List<LivingEntity> list = new ArrayList<>();
+                    for(Entity entity: data1.targets()){
+                        if(entity instanceof LivingEntity living){
+                            list.add(living);
+                        }
+                    }
+                    if(!list.isEmpty()) {
+                        LivingEntity living = data1.caster().getWorld().getClosestEntity(list,TargetPredicate.DEFAULT,data1.caster(),data1.caster().getX(),data1.caster().getY(),data1.caster().getZ());
+
+                        if(living != null) {
+
+                            Vec3d vec3 = living.getPos().subtract(data1.caster().getRotationVec(1F).subtract(0, data1.caster().getRotationVec(1F).getY(), 0).normalize().multiply(1 + 0.5 + (living.getBoundingBox().getLengthX() / 2)));
+                            if (living.getWorld().getBlockState(new BlockPos((int) vec3.x, (int) vec3.y, (int) vec3.z)).shouldSuffocate(living.getWorld(), new BlockPos((int) vec3.x, (int) vec3.y, (int) vec3.z))) {
+                            }
+                            else {
+                                data1.caster().requestTeleport(vec3.getX(), vec3.getY(), vec3.getZ());
+                            }
+                        }
+
+                    }
+                }
+            }
+            return true;
+        });
+    *//*    CombatEvents.ENTITY_ATTACK.register(args ->{
+            if(args.attacker() instanceof SpellCasterEntity caster && !caster.getCooldownManager().isCoolingDown(Identifier.of(MOD_ID,"monkeydash")) && !caster.isCastingSpell()){
+                if(args.attacker().getMainHandStack().getItem() instanceof MonkeyStaff staff){
+                    Vec3d vec3 = args.target().getPos().subtract(args.attacker().getRotationVec(1F).subtract(0, args.attacker().getRotationVec(1F).getY(), 0).normalize().multiply(1 + 0.5 + (args.attacker().getBoundingBox().getLengthX() / 2)));
+                    if (args.attacker().getWorld().getBlockState(new BlockPos((int) vec3.x, (int) vec3.y, (int) vec3.z)).shouldSuffocate(args.target().getWorld(), new BlockPos((int) vec3.x, (int) vec3.y, (int) vec3.z))) {
+                        args.attacker().requestTeleport(args.target().getPos().getX(), args.target().getPos().getY(), args.target().getPos().getZ());
+                    } else {
+                        args.attacker().requestTeleport(vec3.getX(), vec3.getY(), vec3.getZ());
+
+                    }
+                    caster.getCooldownManager().set(Identifier.of(MOD_ID,"monkeydash"),1,true);
+                }
+
+            }
+        });*//*
+    }
+
+    private static void knockbackNearbyEntities(World world, PlayerEntity player, Entity attacked) {
+        world.syncWorldEvent(2013, attacked.getSteppingPos(), 750);
+        world.getEntitiesByClass(LivingEntity.class, attacked.getBoundingBox().expand(3.5), getKnockbackPredicate(player, attacked)).forEach((entity) -> {
+            Vec3d vec3d = entity.getPos().subtract(attacked.getPos());
+            double d = getKnockback(player, entity, vec3d);
+            Vec3d vec3d2 = vec3d.normalize().multiply(d);
+            if (d > 0.0) {
+                entity.addVelocity(vec3d2.x, 0.699999988079071, vec3d2.z);
+                if (entity instanceof ServerPlayerEntity) {
+                    ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity)entity;
+                    serverPlayerEntity.networkHandler.sendPacket(new EntityVelocityUpdateS2CPacket(serverPlayerEntity));
+                }
+            }
+
+        });
+    }
+
+    private static Predicate<LivingEntity> getKnockbackPredicate(PlayerEntity player, Entity attacked) {
+        return (entity) -> {
+            boolean var10000;
+            boolean bl;
+            boolean bl2;
+            boolean bl3;
+            boolean bl7;
+            bl7 = TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL,player,attacked);
+            label62: {
+                bl = !entity.isSpectator();
+                bl2 = entity != player && entity != attacked;
+                bl3 = !player.isTeammate(entity);
+                if (entity instanceof TameableEntity tameableEntity) {
+                    if (tameableEntity.isTamed() && player.getUuid().equals(tameableEntity.getOwnerUuid())) {
+                        var10000 = true;
+                        break label62;
+                    }
+                }
+
+                var10000 = false;
+            }
+
+            boolean bl4;
+            label55: {
+                bl4 = !var10000;
+                if (entity instanceof ArmorStandEntity armorStandEntity) {
+                    if (armorStandEntity.isMarker()) {
+                        var10000 = false;
+                        break label55;
+                    }
+                }
+
+                var10000 = true;
+            }
+
+            boolean bl5 = var10000;
+            boolean bl6 = attacked.squaredDistanceTo(entity) <= Math.pow(3.5, 2.0);
+            return bl && bl2 && bl3 && bl4 && bl5 && bl6 && bl7;
+        };
+    }
+    public static void spellbladePassive(LivingEntity entity, SpellSchool school, int max){
+       *//* SpellPower.Result power2 = SpellPower.getSpellPower(school, (LivingEntity) entity);
+        int amp = Math.min(config.passive-1, (int)(entity.getAttributeValue(school.getAttributeEntry()) / 4 - 1));
+        if (amp >= 0) {
+
+            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, (int) (4 * 20), amp));
+            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, (int) (4 * 20), amp));
+
+        }*//*
+    }
+
+    private static double getKnockback(PlayerEntity player, LivingEntity attacked, Vec3d distance) {
+        return (3.5 - distance.length()) * 0.699999988079071 * (double)(player.fallDistance > 5.0F ? 2 : 1) * (1.0 - attacked.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
+    }*/
+}
