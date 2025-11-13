@@ -15,7 +15,7 @@ public class RuneArmorRenderer extends GeoArmorRenderer<RunicArmor> {
     }
 
     public @Nullable GeoBone getWaistBone() {
-        return this.model.getBone("bipedWaist").orElse(null);
+        return this.model.getBone("armorWaist").orElse(null);
     }
     public @Nullable GeoBone getWaistFront() {
         return this.model.getBone("waistFront").orElse(null);

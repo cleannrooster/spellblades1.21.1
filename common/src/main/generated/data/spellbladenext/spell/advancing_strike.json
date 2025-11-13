@@ -4,7 +4,6 @@
   "tier": 1,
   "learn": {},
   "active": {
-    "scroll": {},
     "cast": {
       "animation": "spell_engine:two_handed_slam_spellblade_2",
       "sound": {

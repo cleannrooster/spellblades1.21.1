@@ -6,7 +6,7 @@
   "learn": {},
   "tooltip": {
     "description": {
-      "color": "dark_green",
+      "color": "java.awt.Color[r=0,g=255,b=0]",
       "show_in_compact": false
     }
   },
@@ -41,14 +41,26 @@
       },
       "particles": [
         {
-          "particle_id": "spell_engine:magic_white_impact_burst",
+          "particle_id": "spell_engine:electric_arc_a",
           "origin": "CENTER",
           "shape": "CIRCLE",
           "rotation": "LOOK",
-          "count": 20.0,
+          "count": 5.0,
           "min_speed": 0.2,
           "max_speed": 0.7,
-          "angle": 360.0
+          "angle": 360.0,
+          "color_rgba": 4294954239
+        },
+        {
+          "particle_id": "spell_engine:electric_arc_b",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "rotation": "LOOK",
+          "count": 5.0,
+          "min_speed": 0.2,
+          "max_speed": 0.7,
+          "angle": 360.0,
+          "color_rgba": 4294954239
         }
       ],
       "sound": {

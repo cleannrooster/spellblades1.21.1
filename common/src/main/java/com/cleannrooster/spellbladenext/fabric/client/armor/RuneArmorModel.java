@@ -11,7 +11,7 @@ public class RuneArmorModel extends GeoModel<RunicArmor> {
     @Override
     public Identifier getModelResource(RunicArmor animatable) {
 
-        return Identifier.of(SpellbladesAndSuch.MOD_ID,"geo/rune_armor_v2.geo.json");
+        return Identifier.of(SpellbladesAndSuch.MOD_ID,"geo/rune_armor_v2_newaz.geo.json");
     }
 
     @Override

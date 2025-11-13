@@ -5,10 +5,12 @@
   "tier": 1,
   "learn": {},
   "active": {
-    "scroll": {},
     "cast": {
-      "duration": 0.5,
-      "animation": "spellbladenext:wand_cast_projectile_1",
+      "haste_affected": false,
+      "duration": 10.0,
+      "channel_ticks": 25,
+      "animation": "spellbladenext:fullcastanimation",
+      "movement_speed": 0.6,
       "sound": {
         "id": "spell_engine:generic_fire_casting"
       },
@@ -25,7 +27,7 @@
     }
   },
   "release": {
-    "animation": "spellbladenext:wand_cast_projectile_1",
+    "animation": "spellbladenext:swish2",
     "sound": {
       "id": "spell_engine:generic_fire_release"
     }
@@ -40,7 +42,10 @@
     "type": "PROJECTILE",
     "projectile": {
       "launch_properties": {
-        "velocity": 1.6
+        "velocity": 1.6,
+        "sound": {
+          "id": "spell_engine:generic_fire_release"
+        }
       },
       "projectile": {
         "divergence": 15.0,
@@ -96,18 +101,6 @@
   "impacts": [
     {
       "school": "spell_power:fire",
-      "target_modifiers": [
-        {
-          "conditions": [
-            {
-              "entity_type": "#minecraft:freeze_immune_entity_types"
-            }
-          ],
-          "modifier": {
-            "critical_chance_bonus": 0.3
-          }
-        }
-      ],
       "action": {
         "type": "DAMAGE",
         "damage": {
@@ -143,6 +136,10 @@
     }
   ],
   "cost": {
+    "cooldown": {
+      "duration": 4.0,
+      "proportional": true
+    },
     "item": {
       "id": "runes:fire_stone"
     }

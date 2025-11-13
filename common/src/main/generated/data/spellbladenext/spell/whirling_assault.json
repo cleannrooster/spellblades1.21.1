@@ -5,7 +5,6 @@
   "tier": 2,
   "learn": {},
   "active": {
-    "scroll": {},
     "cast": {
       "duration": 2.0,
       "channel_ticks": 4,

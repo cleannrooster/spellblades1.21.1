@@ -4,7 +4,6 @@
   "tier": 4,
   "learn": {},
   "active": {
-    "scroll": {},
     "cast": {
       "duration": 0.25,
       "animation": "spellbladenext:one_handed_projectile_charge",
@@ -42,18 +41,6 @@
   "impacts": [
     {
       "school": "spell_power:fire",
-      "target_modifiers": [
-        {
-          "conditions": [
-            {
-              "entity_type": "#minecraft:freeze_immune_entity_types"
-            }
-          ],
-          "modifier": {
-            "critical_chance_bonus": 0.3
-          }
-        }
-      ],
       "action": {
         "type": "DAMAGE",
         "damage": {

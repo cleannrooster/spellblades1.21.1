@@ -10,13 +10,12 @@
         "type": "SPELL_IMPACT_SPECIFIC",
         "chance": 0.25,
         "spell": {
-          "id": "spellbladenext:feather_lash"
+          "school": "spell_power:fire"
         }
       }
     ]
   },
   "release": {
-    "animation": "spellbladenext:wand_cast_projectile_1",
     "sound": {
       "id": "spell_engine:generic_fire_release"
     }
@@ -93,18 +92,6 @@
   "impacts": [
     {
       "school": "spell_power:fire",
-      "target_modifiers": [
-        {
-          "conditions": [
-            {
-              "entity_type": "#minecraft:freeze_immune_entity_types"
-            }
-          ],
-          "modifier": {
-            "critical_chance_bonus": 0.3
-          }
-        }
-      ],
       "action": {
         "type": "DAMAGE",
         "damage": {
@@ -140,6 +127,9 @@
     }
   ],
   "cost": {
+    "cooldown": {
+      "duration": 1.0
+    },
     "item": {
       "id": "runes:fire_stone"
     }

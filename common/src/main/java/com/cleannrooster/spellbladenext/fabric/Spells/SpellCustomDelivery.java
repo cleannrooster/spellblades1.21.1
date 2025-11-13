@@ -74,8 +74,17 @@ public class SpellCustomDelivery {
 
                         RegistryEntry<Spell> realSpell = SpellRegistry.from(playerEntity.getWorld()).getEntry(spell).get();
                         SpellSchool.QueryArgs args = new SpellSchool.QueryArgs(playerEntity);
-                        bool = SpellHelper.deliver(world,realSpell,playerEntity,list,
-                                impactContext.power(new SpellPower.Result(realSpell.value().school, realSpell.value().school.getValue(SpellSchool.Trait.POWER, args), 1.0F, realSpell.value().school.getValue(SpellSchool.Trait.CRIT_DAMAGE, args))),
+                        List<Entity> entities = new ArrayList<>();
+                        entities.add(list.getFirst().entity());
+                        if(realSpell.value().target.area != null){
+                            Spell.Target.Area area = realSpell.value().target.area;
+                            area.angle_degrees = 53.13F;
+                            entities.addAll( TargetHelper.targetsFromArea(playerEntity,playerEntity.getPos(),4,area, arg -> EntityRelations.actionAllowed(SpellTarget.FocusMode.AREA,SpellHelper.deliveryIntent(realSpell.value()).get(),playerEntity,arg)));
+                        }
+                        SpellHelper.ImpactContext context = impactContext.power(new SpellPower.Result(realSpell.value().school, realSpell.value().school.getValue(SpellSchool.Trait.POWER, args), 1.0F, realSpell.value().school.getValue(SpellSchool.Trait.CRIT_DAMAGE, args)));
+                        List<SpellHelper.DeliveryTarget> deliveryTargets = entities.stream().map(entity -> new SpellHelper.DeliveryTarget(entity,context)).toList();
+                        bool = SpellHelper.deliver(world,realSpell,playerEntity,deliveryTargets,context
+                                ,
                                 vec3d,(deliveryCompletion -> {}));
 
                 }

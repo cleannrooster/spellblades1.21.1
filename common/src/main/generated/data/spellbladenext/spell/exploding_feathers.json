@@ -4,10 +4,9 @@
   "tier": 2,
   "learn": {},
   "active": {
-    "scroll": {},
     "cast": {
-      "duration": 1.0,
-      "animation": "spellbladenext:one_handed_area_charge",
+      "duration": 0.5,
+      "animation": "spellbladenext:flick",
       "sound": {
         "id": "spell_engine:generic_fire_casting"
       },
@@ -24,7 +23,7 @@
     }
   },
   "release": {
-    "animation": "spellbladenext:one_handed_area_release",
+    "animation": "spellbladenext:flick2",
     "sound": {
       "id": "spell_engine:generic_fire_release"
     }
@@ -48,18 +47,6 @@
   "impacts": [
     {
       "school": "spell_power:fire",
-      "target_modifiers": [
-        {
-          "conditions": [
-            {
-              "entity_type": "#minecraft:freeze_immune_entity_types"
-            }
-          ],
-          "modifier": {
-            "critical_chance_bonus": 0.3
-          }
-        }
-      ],
       "action": {
         "type": "DAMAGE",
         "damage": {

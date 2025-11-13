@@ -6,7 +6,7 @@
   "learn": {},
   "tooltip": {
     "description": {
-      "color": "dark_green",
+      "color": "java.awt.Color[r=0,g=255,b=0]",
       "show_in_compact": false
     }
   },
@@ -38,28 +38,6 @@
   "impacts": [
     {
       "school": "spell_power:frost",
-      "target_modifiers": [
-        {
-          "conditions": [
-            {
-              "entity_type": "#minecraft:freeze_hurts_extra_types"
-            }
-          ],
-          "modifier": {
-            "power_multiplier": -0.3
-          }
-        },
-        {
-          "conditions": [
-            {
-              "entity_type": "#minecraft:freeze_hurts_extra_types"
-            }
-          ],
-          "modifier": {
-            "power_multiplier": 0.3
-          }
-        }
-      ],
       "action": {
         "type": "CUSTOM",
         "min_power": 2.0,

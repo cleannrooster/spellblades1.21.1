@@ -5,7 +5,6 @@
   "tier": 1,
   "learn": {},
   "active": {
-    "scroll": {},
     "cast": {
       "duration": 0.5,
       "animation": "spellbladenext:one_handed_area_charge",
@@ -14,12 +13,13 @@
       },
       "particles": [
         {
-          "particle_id": "spell_engine:magic_frost_spell_ascend",
+          "particle_id": "spell_engine:magic_frost_ascend",
           "origin": "FEET",
           "shape": "WIDE_PIPE",
           "count": 1.0,
           "min_speed": 0.05,
-          "max_speed": 0.1
+          "max_speed": 0.1,
+          "color_rgba": 1724710911
         }
       ]
     }
@@ -43,12 +43,13 @@
         "max_speed": 0.3
       },
       {
-        "particle_id": "spell_engine:magic_frost_spell_ascend",
+        "particle_id": "spell_engine:magic_frost_ascend",
         "origin": "FEET",
         "shape": "PIPE",
         "count": 10.0,
         "min_speed": 0.1,
-        "max_speed": 0.3
+        "max_speed": 0.3,
+        "color_rgba": 1724710911
       }
     ],
     "sound": {
@@ -65,28 +66,6 @@
   "impacts": [
     {
       "school": "spell_power:frost",
-      "target_modifiers": [
-        {
-          "conditions": [
-            {
-              "entity_type": "#minecraft:freeze_hurts_extra_types"
-            }
-          ],
-          "modifier": {
-            "power_multiplier": -0.3
-          }
-        },
-        {
-          "conditions": [
-            {
-              "entity_type": "#minecraft:freeze_hurts_extra_types"
-            }
-          ],
-          "modifier": {
-            "power_multiplier": 0.3
-          }
-        }
-      ],
       "action": {
         "type": "DAMAGE",
         "damage": {
@@ -136,12 +115,13 @@
           "max_speed": 0.3
         },
         {
-          "particle_id": "spell_engine:magic_frost_spell_ascend",
+          "particle_id": "spell_engine:magic_frost_ascend",
           "origin": "FEET",
           "shape": "PIPE",
           "count": 10.0,
           "min_speed": 0.1,
-          "max_speed": 0.3
+          "max_speed": 0.3,
+          "color_rgba": 1724710911
         }
       ]
     }
