@@ -30,3 +30,4 @@ side = "BOTH"
 
 [[mixins]]
 config = "spellbladenext.mixins.json"
+refmap = "spellbladenext-common-common-refmap.json"

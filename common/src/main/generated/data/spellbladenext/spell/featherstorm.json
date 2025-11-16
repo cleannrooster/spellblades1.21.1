@@ -129,9 +129,6 @@
   "cost": {
     "cooldown": {
       "duration": 1.0
-    },
-    "item": {
-      "id": "runes:fire_stone"
     }
   }
 }

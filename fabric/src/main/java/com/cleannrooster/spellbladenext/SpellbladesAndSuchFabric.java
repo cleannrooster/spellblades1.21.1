@@ -1,6 +1,6 @@
 package com.cleannrooster.spellbladenext;
 
-import com.cleannrooster.spellbladenext.SpellbladesAndSuch;
+import com.cleannrooster.spellblades.SpellbladesAndSuch;
 
 import net.fabricmc.api.ModInitializer;
 

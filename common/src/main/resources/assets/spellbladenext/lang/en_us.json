@@ -259,11 +259,11 @@
 
 
   "spell.spellbladenext.frost_spellstrike.name": "Frost Spellstrike",
-  "spell.spellbladenext.frost_spellstrike.description": "Non-channeling or self-targeted magic spells you cast instead are instead deferred. Your next melee attack triggers all deferred spells at once - area effects effect all enemies in a short cone. A successful spellstrike grants you 20%% spell haste for 4 seconds, stacking up to 100%%.",
+  "spell.spellbladenext.frost_spellstrike.description": "Non-channeling or self-targeted magic spells you cast instead are instead deferred, limited to one. Your next melee attack triggers the deferred spell instantly - area effects instead affect all enemies in a short cone. Spells cast this way will always critically strike.",
   "spell.spellbladenext.fire_spellstrike.name": "Fire Spellstrike",
-  "spell.spellbladenext.fire_spellstrike.description": "Non-channeling or self-targeted magic spells you cast instead are instead deferred. Your next melee attack triggers all deferred spells at once - area effects effect all enemies in a short  cone. A successful spellstrike grants you 20%% spell haste for 4 seconds, stacking up to 100%%.",
+  "spell.spellbladenext.fire_spellstrike.description": "Non-channeling or self-targeted magic spells you cast instead are instead deferred, limited to one. Your next melee attack triggers the deferred spell instantly - area effects instead affect all enemies in a short cone. Spells cast this way will always critically strike.",
   "spell.spellbladenext.arcane_spellstrike.name": "Arcane Spellstrike",
-  "spell.spellbladenext.arcane_spellstrike.description": "Non-channeling or self-targeted magic spells you cast instead are instead deferred. Your next melee attack triggers all deferred spells at once - area effects effect all enemies in a short  cone. A successful spellstrike grants you 20%% spell haste for 4 seconds, stacking up to 100%%.",
+  "spell.spellbladenext.arcane_spellstrike.description": "Non-channeling or self-targeted magic spells you cast instead are instead deferred, limited to one. Your next melee attack triggers the deferred spell instantly - area effects instead affect all enemies in a short cone. Spells cast this way will always critically strike.",
 
   "spell.spellbladenext.lightning_spellstrike.name": "Lightning Spellstrike",
   "spell.spellbladenext.lightning_spellstrike.description": "On melee hit, deal {damage} extra lightning damage.",

@@ -1,9 +1,8 @@
 package com.cleannrooster.spellbladenext.data;
 
-import com.cleannrooster.spellbladenext.fabric.Spells.compat.ElementalSpells;
-import com.cleannrooster.spellbladenext.fabric.items.armor.Armors;
-import com.cleannrooster.spellbladenext.fabric.Spells.SpellbladeSpells;
-import com.cleannrooster.spellbladenext.fabric.items.Items;
+import com.cleannrooster.spellblades.items.armor.Armors;
+import com.cleannrooster.spellblades.Spells.SpellbladeSpells;
+import com.cleannrooster.spellblades.items.Items;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;

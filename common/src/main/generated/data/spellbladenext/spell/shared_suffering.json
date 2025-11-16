@@ -5,7 +5,7 @@
   "learn": {},
   "tooltip": {
     "description": {
-      "color": "java.awt.Color[r=0,g=255,b=0]",
+      "color": "dark_green",
       "show_in_compact": false
     }
   },

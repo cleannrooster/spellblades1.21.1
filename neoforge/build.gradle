@@ -2,6 +2,7 @@ plugins {
     id 'com.gradleup.shadow'
     id "com.matthewprenger.cursegradle" version "1.4.0"
     id "com.modrinth.minotaur" version "2.+"
+
 }
 
 def platform = project.name;
@@ -17,8 +18,15 @@ sourceSets {
         resources.srcDir generatedResources
     }
 }
+loom{
+    mixin {
+        useLegacyMixinAp = true
 
+        defaultRefmapName.set( "spellbladenext.refmap.json")
+    }
+}
 configurations {
+
     common {
         canBeResolved = true
         canBeConsumed = false
@@ -63,6 +71,11 @@ repositories {
     maven { url 'https://maven.wispforest.io/releases' }
     maven { url 'https://maven.su5ed.dev/releases' }
     maven { url 'https://maven.fabricmc.net' }
+    maven {
+        name = "SpongePowered"
+        url = "https://repo.spongepowered.org/repository/maven-public/"
+    }
+    maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
 
     mavenLocal()
 }

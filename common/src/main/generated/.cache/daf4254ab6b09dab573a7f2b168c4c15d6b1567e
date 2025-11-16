@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-13T09:18:41.1173968	Spellblades and Such/Tags for minecraft:item
+// 1.21.1	2025-11-14T11:40:23.4451425	Spellblades and Such/Tags for minecraft:item
 0cea2b72ac9dc4b785e269f225fa8c6fe1bfecdc data\minecraft\tags\item\head_armor.json
 02a450e33316f66c88774bae9946f8a9f5c1f9c7 data\rpg_series\tags\item\loot_tier\tier_2_armors.json
 95e69e6988ea2ce69737ecde38e1b42adc8738d8 data\rpg_series\tags\item\armor_type\magic.json
@@ -8,5 +8,5 @@
 509cdd656cb3053ea0feb2947f784f9ed9f94c58 data\rpg_series\tags\item\loot_tier\tier_2_weapons.json
 0969f06923a4396da1cd5b79531a3d0a04eb51b4 data\rpg_series\tags\item\weapon_type\spell_blade.json
 abc06ae9c38fcb4b38fe08e79d2832f2f976a879 data\minecraft\tags\item\foot_armor.json
-b48e3e7d5257b0167495c732cfed68adc02db64d data\minecraft\tags\item\leg_armor.json
 453d61bd90c61658684af5daca8d1fa6734df317 data\minecraft\tags\item\chest_armor.json
+b48e3e7d5257b0167495c732cfed68adc02db64d data\minecraft\tags\item\leg_armor.json

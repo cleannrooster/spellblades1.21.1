@@ -4,12 +4,17 @@ plugins {
     id "com.github.breadmoirai.github-release" version "2.4.1"
     id "com.modrinth.minotaur" version "2.+"
 }
-
+loom{
+    mixin {
+        defaultRefmapName.set( "spellbladenext.refmap.json")
+    }
+}
 def platform = project.name;
 
 architectury {
     platformSetupLoomIde()
     fabric()
+
 }
 
 fabricApi {
@@ -17,9 +22,11 @@ fabricApi {
         client = true
         outputDirectory = project(':common').file('src/main/generated')
     }
+
 }
 
 configurations {
+
     common {
         canBeResolved = true
         canBeConsumed = false
@@ -93,6 +100,7 @@ processResources {
     filesMatching("fabric.mod.json") {
         expand(project.properties)
     }
+
 }
 
 shadowJar {

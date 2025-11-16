@@ -1,9 +1,7 @@
 package com.cleannrooster.spellbladenext;
 
-import com.cleannrooster.spellbladenext.SpellbladesAndSuch;
-
+import com.cleannrooster.spellblades.SpellbladesClient;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.ModInitializer;
 
 public class SpellbladesAndSuchFabricClient implements ClientModInitializer {
 

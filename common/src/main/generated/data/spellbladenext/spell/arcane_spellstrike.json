@@ -6,7 +6,7 @@
   "learn": {},
   "tooltip": {
     "description": {
-      "color": "java.awt.Color[r=0,g=255,b=0]",
+      "color": "dark_green",
       "show_in_compact": false
     }
   },
@@ -22,6 +22,38 @@
     ]
   },
   "release": {
+    "particles": [
+      {
+        "particle_id": "spell_engine:magic_arcane_burst",
+        "origin": "LAUNCH_POINT",
+        "shape": "CONE",
+        "rotation": "LOOK",
+        "count": 30.0,
+        "min_speed": 0.1,
+        "max_speed": 0.3,
+        "angle": 53.0
+      },
+      {
+        "particle_id": "spell_engine:magic_spell_burst",
+        "origin": "LAUNCH_POINT",
+        "shape": "CONE",
+        "rotation": "LOOK",
+        "count": 10.0,
+        "min_speed": 0.1,
+        "max_speed": 0.3,
+        "angle": 53.0
+      },
+      {
+        "particle_id": "TemplateEntry[id=spell_engine:magic_spark_burst, texture=Texture[id=minecraft:generic_0, frames=1, reverseOrder=false], particleType=net.spell_engine.client.particle.TemplateParticleType@596eca69, fading=NONE, orientation=HORIZONTAL]",
+        "origin": "LAUNCH_POINT",
+        "shape": "CONE",
+        "rotation": "LOOK",
+        "count": 10.0,
+        "min_speed": 0.1,
+        "max_speed": 0.3,
+        "angle": 53.0
+      }
+    ],
     "sound": {
       "id": "spell_engine:generic_fire_release"
     }
