@@ -20,6 +20,7 @@ architectury {
 fabricApi {
     configureDataGeneration() {
         client = true
+        modId = "spellbladenext"
         outputDirectory = project(':common').file('src/main/generated')
     }
 

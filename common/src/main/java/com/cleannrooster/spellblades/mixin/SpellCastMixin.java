@@ -48,7 +48,6 @@ public class SpellCastMixin {
 
     if(action.equals(SpellCast.Action.RELEASE) &&  SpellContainerSource.passiveSpellsOf(player).stream().anyMatch(spell -> spell.isIn(TagKey.of(SpellRegistry.KEY,Identifier.of(MOD_ID,"spellstrike")))) &&  spellEntry.value().type.equals(Spell.Type.ACTIVE) && spellEntry.value().active.cast.channel_ticks == 0){
             if(player instanceof PlayerDamageInterface playerInterface ) {
-                if(!spellEntry.isIn(TagKey.of(SpellRegistry.KEY,Identifier.of(MOD_ID,"technique")))) {
                     if(spellEntry.value().impacts.stream().noneMatch(impact -> impact.school != null &&  impact.school.equals(ExternalSpellSchools.PHYSICAL_MELEE))) {
                         if(!spellEntry.value().target.type.equals(Spell.Target.Type.CASTER)) {
                             if (playerInterface.getSpellstrikeSpells().isEmpty()) {
@@ -64,7 +63,7 @@ public class SpellCastMixin {
                             }
                         }
                     }
-                }
+
 
          }
      }

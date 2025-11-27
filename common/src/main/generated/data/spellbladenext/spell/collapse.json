@@ -1,0 +1,132 @@
+{
+  "school": "spell_power:arcane",
+  "range": 8.0,
+  "tier": 1,
+  "learn": {},
+  "active": {
+    "cast": {
+      "duration": 0.5,
+      "animation": "spellbladenext:one_handed_area_charge",
+      "sound": {
+        "id": "spell_engine:generic_arcane_casting"
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_arcane_ascend",
+          "origin": "FEET",
+          "shape": "WIDE_PIPE",
+          "count": 1.0,
+          "min_speed": 0.05,
+          "max_speed": 0.1,
+          "color_rgba": 4284940287
+        }
+      ]
+    }
+  },
+  "release": {
+    "particles": [
+      {
+        "particle_id": "spell_engine:magic_arcane_spark_float",
+        "origin": "CENTER",
+        "shape": "SPHERE",
+        "count": 20.0,
+        "min_speed": 0.05,
+        "max_speed": 0.1,
+        "angle": 360.0
+      },
+      {
+        "particle_id": "spell_engine:magic_spark_float",
+        "origin": "CENTER",
+        "shape": "SPHERE",
+        "count": 20.0,
+        "min_speed": 0.05,
+        "max_speed": 0.1,
+        "angle": 360.0,
+        "color_rgba": 4284940287
+      }
+    ],
+    "sound": {
+      "id": "spell_engine:generic_arcane_release"
+    }
+  },
+  "target": {
+    "type": "AIM",
+    "aim": {
+      "required": true,
+      "sticky": true
+    }
+  },
+  "impacts": [
+    {
+      "school": "spell_power:arcane",
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.4,
+          "knockback": 0.0
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_arcane_impact_burst",
+          "origin": "CENTER",
+          "shape": "CIRCLE",
+          "rotation": "LOOK",
+          "count": 20.0,
+          "min_speed": 0.2,
+          "max_speed": 0.7,
+          "angle": 360.0
+        }
+      ],
+      "sound": {
+        "id": "spell_engine:generic_arcane_release"
+      }
+    },
+    {
+      "action": {
+        "type": "CUSTOM",
+        "status_effect": {
+          "effect_id": "spellbladenext:collapse",
+          "duration": 2.0,
+          "amplifier": 1,
+          "amplifier_power_multiplier": 0.4,
+          "amplifier_cap": 256,
+          "apply_mode": "ADD"
+        },
+        "custom": {
+          "intent": "HARMFUL",
+          "handler": "spellbladenext:applyadd"
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_arcane_spark_float",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 20.0,
+          "min_speed": 0.05,
+          "max_speed": 0.1,
+          "angle": 360.0
+        },
+        {
+          "particle_id": "spell_engine:magic_spark_float",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 20.0,
+          "min_speed": 0.05,
+          "max_speed": 0.1,
+          "angle": 360.0,
+          "color_rgba": 4284940287
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 0.4
+    },
+    "item": {
+      "id": "runes:arcane_stone"
+    }
+  }
+}

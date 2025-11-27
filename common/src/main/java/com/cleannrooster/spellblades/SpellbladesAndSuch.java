@@ -1,6 +1,7 @@
 package com.cleannrooster.spellblades;
 
 import com.cleannrooster.spellblades.Spells.SpellCustomDelivery;
+import com.cleannrooster.spellblades.Spells.SpellCustomImpact;
 import com.cleannrooster.spellblades.Spells.SpellbladeSpells;
 import com.cleannrooster.spellblades.compat.CombatRollCompat;
 import com.cleannrooster.spellblades.config.ServerConfig;
@@ -127,7 +128,9 @@ public class SpellbladesAndSuch  {
 		AutoConfig.register(ServerConfigWrapper.class, PartitioningSerializer.wrap(JanksonConfigSerializer::new));
 		config = AutoConfig.getConfigHolder(ServerConfigWrapper.class).getConfig().server;
 		SpellCustomDelivery.registerDeliveries();
-		SpellSchools.LIGHTNING.addSource(SpellSchool.Trait.POWER, SpellSchool.Apply.ADD	,(queryArgs -> {
+        SpellCustomImpact.registerImpacts();
+
+        SpellSchools.LIGHTNING.addSource(SpellSchool.Trait.POWER, SpellSchool.Apply.ADD	,(queryArgs -> {
 			double amount = 0;
 			if(queryArgs.entity().getAttributes() != null && queryArgs.entity().getAttributeValue(EPHEMERAL) - 100 > 0) {
 				amount +=  queryArgs.entity().getAbsorptionAmount() * 0.01 * (queryArgs.entity().getAttributeValue(EPHEMERAL) - 100);

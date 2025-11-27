@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.api.spell.registry.SpellRegistry;
+import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.internals.SpellHelper;
 import net.spell_power.api.SpellPower;
@@ -42,22 +43,14 @@ public class Collapse extends CustomEffect{
     @Override
     public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
         var impact = new Spell.Impact();
-        ParticleBatch[] particlebatch2 = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_arcane_spark_float", ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER, null,20,0.05f,0.1F,360),
-                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(SpellEngineParticles.ARCANE, SpellEngineParticles.MagicParticleFamily.Shape.SPARK, SpellEngineParticles.MagicParticleFamily.Motion.FLOAT).id().toString()
-                        , ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER, null,20,0.05f,0.1F,360),
-                new ParticleBatch("spell_engine:magic_arcane_spark_float", ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER, null,100,0.35f,0.75F,360),
-                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(SpellEngineParticles.ARCANE, SpellEngineParticles.MagicParticleFamily.Shape.SPARK, SpellEngineParticles.MagicParticleFamily.Motion.FLOAT).id().toString()
-                        , ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER, null,100,0.35f,0.7F,360)
+        ParticleBatch[] particlebatch2 = new ParticleBatch[]{new ParticleBatch("spell_engine:magic_arcane_spark_float", net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER, (ParticleBatch.Rotation)null, 20.0F, 0.05F, 0.1F, 360.0F), (new ParticleBatch(SpellEngineParticles.MagicParticles.get(SpellEngineParticles.MagicParticles.Shape.SPARK, SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER, (ParticleBatch.Rotation)null, 20.0F, 0.05F, 0.1F, 360.0F)).color(Color.ARCANE.toRGBA())};
 
-
-        };
         impact = SpellbladeSpells.createArcaneImpact(0.8F,0.5F);
         impact.particles = particlebatch2;
         var context = new SpellHelper.ImpactContext().power(new SpellPower.Result(SpellSchools.ARCANE,(amplifier+1)*2,0.0F,0.0F));
         var impacts = List.of(impact);
         if(entity.getLastAttacker() != null) {
-            SpellHelper.performImpacts(entity.getWorld(), entity.getLastAttacker(),entity, entity, SpellRegistry.from((entity.getWorld())).getEntry(Identifier.of("spellbladenext:echoes")).get(),
+            SpellHelper.performImpacts(entity.getWorld(), entity.getLastAttacker(),entity, entity, SpellRegistry.from((entity.getWorld())).getEntry(Identifier.of("spellbladenext:collapse")).get(),
                     impacts,context);
         }
         return super.applyUpdateEffect(entity, amplifier);

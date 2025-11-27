@@ -1,12 +1,12 @@
 {
   "values": [
     "spellbladenext:frost_burst",
-    "spellbladenext:riptide",
+    "spellbladenext:deathchill",
     {
       "id": "spellbladenext:phase_dash",
       "required": false
     },
-    "spellbladenext:frost_slash",
+    "spellbladenext:shatter",
     "spellbladenext:eviscerate"
   ]
 }

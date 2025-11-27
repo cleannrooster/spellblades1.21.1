@@ -251,6 +251,24 @@
   "spell.spellbladenext.dragon_slam.name": "Dragon Slam",
   "spell.spellbladenext.dragon_slam.description": "Perform a fiery slam, first launching yourself into the air if already airborne. Deals {damage_1} physical damage plus an additional {damage_2} fire damage in an area. You can land safely while performing this move.",
 
+  "spell.spellbladenext.collapse.name": "Collapse",
+  "spell.spellbladenext.collapse.description": "Deal {damage} arcane damage to an enemy, and apply {damage} stacks of Collapse for 2 seconds, stacking and refreshing current stacks of Collapse. Enemies take 0.8 damage per stack of Collapse on them when the effect expires.",
+
+  "spell.spellbladenext.magnify.name": "Magnify",
+  "spell.spellbladenext.magnify.description": "Double the stacks of Collapse on a single enemy..",
+
+  "spell.spellbladenext.combust.name": "Combust",
+  "spell.spellbladenext.combust.description": "Consume your Phoenix Down to deal {damage} fire damage to the target enemy, in a large area.",
+
+  "spell.spellbladenext.phoenix_down.name": "Phoenix Down",
+  "spell.spellbladenext.phoenix_down.description": "Deal {damage} fire damage to a target enemy. Gives you a stack of Phoenix Down, increasing Fire Damage and Spell Haste, up to 8.",
+
+  "spell.spellbladenext.deathchill.name": "Deathchill",
+  "spell.spellbladenext.deathchill.description": "Deal {damage} frost damage to a target enemy. Applies a stack of Wintertide on the enemy, up to 3.",
+
+  "spell.spellbladenext.shatter.name": "Shatter",
+  "spell.spellbladenext.shatter.description": "Deal {damage} frost damage to a target enemy. If the enemy has at least 3 stacks of Wintertide on them and have less than 20%% health remaining, they die instantly.",
+
   "spell.spellbladenext.smite.name": "Divine Smite",
   "spell.spellbladenext.smite.description": "Passive: Your hits give you Fervor for 4 seconds, which gives you 10%% of your Attack Damage gained as Healing Power, up to 3 stacks. Active: Smite enemies in front of you in an area, dealing {damage_1} physical and {damage_2} extra healing damage to each enemy hit, sending nearby enemies flying.",
 

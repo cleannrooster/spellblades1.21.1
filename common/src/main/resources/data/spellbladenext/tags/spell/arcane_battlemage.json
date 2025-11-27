@@ -1,12 +1,12 @@
 {
   "values": [
     "spellbladenext:arcane_burst",
-    "spellbladenext:arcane_blink",
+    "spellbladenext:collapse",
     {
       "id": "spellbladenext:phase_dash",
       "required": false
     },
-    "spellbladenext:amethyst_slash",
+    "spellbladenext:magnify",
     "spellbladenext:sonic_strike"
   ]
 }

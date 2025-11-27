@@ -1,12 +1,12 @@
 {
   "values": [
     "spellbladenext:flame_burst",
-    "spellbladenext:dragon_slam",
+    "spellbladenext:phoenix_down",
     {
       "id": "spellbladenext:phase_dash",
       "required": false
     },
-    "spellbladenext:flame_slash",
+    "spellbladenext:combust",
     "spellbladenext:flickering_flame"
   ]
 }

@@ -42,6 +42,9 @@ import net.spell_power.api.SpellSchool;
 import net.spell_power.api.SpellSchools;
 import net.spell_power.api.SpellSchool.Archetype;
 
+import static net.spell_power.api.SpellSchools.ARCANE;
+import static net.spell_power.api.SpellSchools.FIRE;
+
 public class SpellbladeSpells {
     public static final List<Entry> entries = new ArrayList();
     public static Entry amethyst_slash = add(amethyst_slash());
@@ -79,6 +82,12 @@ public class SpellbladeSpells {
     public static Entry echo = add(echo());
     public static Entry encore = add(encore());
     public static Entry reverb_brand = add(reverb_brand());
+    public static Entry collapse =  add(collapse());
+    public static Entry rime = add(rime());
+    public static Entry ignite = add(ignite());
+    public static Entry shatter =  add(shatter());
+    public static Entry grav = add(grav());
+    public static Entry greater_fireball = add(greater_fireball());
 
     public static Entry add(Entry entry) {
         entries.add(entry);
@@ -149,7 +158,7 @@ public class SpellbladeSpells {
 
     public static Spell.Impact createArcaneImpact(float coeff, float knockback) {
         Spell.Impact impact = createImpact(net.spell_engine.api.spell.Spell.Impact.Action.Type.DAMAGE, coeff, knockback);
-        impact.school = SpellSchools.ARCANE;
+        impact.school = ARCANE;
         ParticleBatch[] hitParticles = new ParticleBatch[]{new ParticleBatch("spell_engine:magic_arcane_impact_burst", net.spell_engine.api.spell.fx.ParticleBatch.Shape.CIRCLE, Origin.CENTER, Rotation.LOOK, 20.0F, 0.2F, 0.7F, 360.0F)};
         impact.particles = hitParticles;
         Sound sound = new Sound(SpellEngineSounds.GENERIC_ARCANE_RELEASE.id());
@@ -217,7 +226,7 @@ public class SpellbladeSpells {
                 cast.particles = new ParticleBatch[]{frostCastingParticles()};
             }
 
-            if (school.equals(SpellSchools.ARCANE)) {
+            if (school.equals(ARCANE)) {
                 cast.particles = new ParticleBatch[]{arcaneCastingParticles()};
             }
         }
@@ -284,8 +293,8 @@ public class SpellbladeSpells {
     }
 
     public static Entry amethyst_slash() {
-        Spell spell = projectileBase(SpellSchools.ARCANE, Identifier.tryParse("spellbladenext:projectile/amethyst"), 4.0F, 0.0F);
-        spell.school = SpellSchools.ARCANE;
+        Spell spell = projectileBase(ARCANE, Identifier.tryParse("spellbladenext:projectile/amethyst"), 4.0F, 0.0F);
+        spell.school = ARCANE;
         spell.deliver.projectile.projectile.perks.bounce = 4;
         spell.deliver.projectile.projectile.divergence = 15.0F;
         spell.deliver.projectile.projectile.client_data.model.scale = 2.0F;
@@ -295,7 +304,7 @@ public class SpellbladeSpells {
         spell.learn = new Spell.Learn();
         spell.tier = 3;
         spell.range = 12.0F;
-        spell.active.cast = createCast(3, 6.0F, "spell_engine:generic_arcane_casting", "spell_engine:flameslash", SpellSchools.ARCANE);
+        spell.active.cast = createCast(3, 6.0F, "spell_engine:generic_arcane_casting", "spell_engine:flameslash", ARCANE);
         ParticleBatch[] particlebatch = new ParticleBatch[]{new ParticleBatch("spell_engine:magic_arcane_spark_float", net.spell_engine.api.spell.fx.ParticleBatch.Shape.CIRCLE, Origin.CENTER, (ParticleBatch.Rotation)null, 2.0F, 0.05F, 0.1F, 360.0F), (new ParticleBatch(MagicParticles.get(Shape.SPARK, Motion.FLOAT).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.CIRCLE, Origin.CENTER, (ParticleBatch.Rotation)null, 2.0F, 0.05F, 0.1F, 360.0F)).color(Color.ARCANE.toRGBA())};
         spell.deliver.projectile.projectile.client_data.travel_particles = particlebatch;
         Spell.Impact[] impacts = new Spell.Impact[1];
@@ -306,7 +315,7 @@ public class SpellbladeSpells {
     }
 
     public static Entry frost_slash() {
-        Spell spell = projectileBase(SpellSchools.ARCANE, Identifier.tryParse("spellbladenext:projectile/gladius"), 4.0F, 0.0F);
+        Spell spell = projectileBase(ARCANE, Identifier.tryParse("spellbladenext:projectile/gladius"), 4.0F, 0.0F);
         spell.school = SpellSchools.FROST;
         Identifier id = Identifier.of(SpellbladesAndSuch.MOD_ID, "frost_slash");
         String description = "Attack with a flurry of frost blade projectiles, dealing {damage} Frost damage per second.";
@@ -472,7 +481,7 @@ public class SpellbladeSpells {
 
     public static Entry arcane_blink() {
         Spell spell = activeSpellBase();
-        spell.school = SpellSchools.ARCANE;
+        spell.school = ARCANE;
         spell.target = new Spell.Target();
         spell.target.type = net.spell_engine.api.spell.Spell.Target.Type.AIM;
         Identifier id = Identifier.of(SpellbladesAndSuch.MOD_ID, "arcane_blink");
@@ -484,7 +493,7 @@ public class SpellbladeSpells {
         spell.learn = new Spell.Learn();
         spell.tier = 2;
         spell.range = 4.0F;
-        spell.active.cast = createCast(0, 0.5F, "spell_engine:generic_arcane_casting", "spellbladenext:one_handed_projectile_charge", SpellSchools.ARCANE);
+        spell.active.cast = createCast(0, 0.5F, "spell_engine:generic_arcane_casting", "spellbladenext:one_handed_projectile_charge", ARCANE);
         Spell.Impact[] impacts = new Spell.Impact[3];
         impacts[0] = createArcaneImpact(2.0F, 1.0F);
         impacts[1] = createPhysicalimpact(1.2F, 1.0F);
@@ -510,7 +519,7 @@ public class SpellbladeSpells {
 
     public static Entry arcane_blink_far() {
         Spell spell = activeSpellBase();
-        spell.school = SpellSchools.ARCANE;
+        spell.school = ARCANE;
         spell.target = new Spell.Target();
         spell.target.type = net.spell_engine.api.spell.Spell.Target.Type.AREA;
         spell.target.area = new Spell.Target.Area();
@@ -522,7 +531,7 @@ public class SpellbladeSpells {
         spell.learn = new Spell.Learn();
         spell.tier = 4;
         spell.range = 24.0F;
-        spell.active.cast = createCast(0, 2.0F, "spell_engine:generic_arcane_casting", "spell_engine:crosscharge", SpellSchools.ARCANE);
+        spell.active.cast = createCast(0, 2.0F, "spell_engine:generic_arcane_casting", "spell_engine:crosscharge", ARCANE);
         Spell.Impact[] impacts = new Spell.Impact[3];
         spell.release = new Spell.Release();
         spell.release.animation = "spell_engine:dashslash";
@@ -584,7 +593,7 @@ public class SpellbladeSpells {
         spell.tier = 0;
         spell.range = 6.0F;
         spell.learn = new Spell.Learn();
-        spell.school = SpellSchools.ARCANE;
+        spell.school = ARCANE;
         Spell.Trigger trigger = new Spell.Trigger();
         trigger.chance = 1.0F;
         trigger.type = net.spell_engine.api.spell.Spell.Trigger.Type.MELEE_IMPACT;
@@ -625,7 +634,7 @@ public class SpellbladeSpells {
         spell.sub_tier = 2;
         spell.range = 0.0F;
         spell.learn = new Spell.Learn();
-        spell.school = SpellSchools.ARCANE;
+        spell.school = ARCANE;
         Spell.Trigger trigger = new Spell.Trigger();
         trigger.chance = 1.0F;
         trigger.type = net.spell_engine.api.spell.Spell.Trigger.Type.ROLL;
@@ -743,7 +752,7 @@ public class SpellbladeSpells {
         spell.tier = 1;
         spell.range = 6.0F;
         spell.learn = new Spell.Learn();
-        spell.school = SpellSchools.ARCANE;
+        spell.school = ARCANE;
         Spell.Trigger trigger = new Spell.Trigger();
         trigger.chance = 1.0F;
         trigger.type = net.spell_engine.api.spell.Spell.Trigger.Type.MELEE_IMPACT;
@@ -755,7 +764,7 @@ public class SpellbladeSpells {
         spell.target.cap = 8;
         spell.target.area.angle_degrees = 360.0F;
         spell.deliver = new Spell.Delivery();
-        Spell.Delivery.ShootProjectile projectile = projectileBase(SpellSchools.ARCANE, Identifier.tryParse("spellbladenext:projectile/amethyst"), 1.0F, 1.0F).deliver.projectile;
+        Spell.Delivery.ShootProjectile projectile = projectileBase(ARCANE, Identifier.tryParse("spellbladenext:projectile/amethyst"), 1.0F, 1.0F).deliver.projectile;
         projectile.launch_properties = new Spell.LaunchProperties();
         projectile.launch_properties.velocity = 1.0F;
         Spell.ProjectileData projectileData = new Spell.ProjectileData();
@@ -805,7 +814,7 @@ public class SpellbladeSpells {
         spell.target.cap = 4;
         spell.target.area.angle_degrees = 90.0F;
         spell.deliver = new Spell.Delivery();
-        Spell.Delivery.ShootProjectile projectile = projectileBase(SpellSchools.ARCANE, Identifier.tryParse("spellbladenext:projectile/gladius"), 1.0F, 1.0F).deliver.projectile;
+        Spell.Delivery.ShootProjectile projectile = projectileBase(ARCANE, Identifier.tryParse("spellbladenext:projectile/gladius"), 1.0F, 1.0F).deliver.projectile;
         projectile.launch_properties = new Spell.LaunchProperties();
         projectile.launch_properties.velocity = 1.0F;
         Spell.ProjectileData projectileData = new Spell.ProjectileData();
@@ -893,7 +902,7 @@ public class SpellbladeSpells {
     }
 
     public static Entry flame_slash() {
-        Spell spell = projectileBase(SpellSchools.ARCANE, Identifier.tryParse("spellbladenext:projectile/flamewaveprojectile"), 4.0F, 0.0F);
+        Spell spell = projectileBase(ARCANE, Identifier.tryParse("spellbladenext:projectile/flamewaveprojectile"), 4.0F, 0.0F);
         spell.school = SpellSchools.FIRE;
         Identifier id = Identifier.of(SpellbladesAndSuch.MOD_ID, "flame_slash");
         String description = "Attack with a flurry of flame wave projectiles, dealing {damage} Fire damage per second.";
@@ -1175,7 +1184,7 @@ public class SpellbladeSpells {
     }
 
     public static Entry feather_lash() {
-        Spell spell = projectileBase(SpellSchools.ARCANE, Identifier.tryParse("spellbladenext:projectile/feather"), 1.6F, 0.0F);
+        Spell spell = projectileBase(ARCANE, Identifier.tryParse("spellbladenext:projectile/feather"), 1.6F, 0.0F);
         spell.school = SpellSchools.FIRE;
         spell.group = "primary";
         spell.target = new Spell.Target();
@@ -1210,7 +1219,7 @@ public class SpellbladeSpells {
     }
 
     public static Entry multilash() {
-        Spell spell = projectileBase(SpellSchools.ARCANE, Identifier.tryParse("spellbladenext:projectile/feather"), 1.6F, 0.0F);
+        Spell spell = projectileBase(ARCANE, Identifier.tryParse("spellbladenext:projectile/feather"), 1.6F, 0.0F);
         spell.school = SpellSchools.FIRE;
         spell.range = 64.0F;
         spell.tier = 3;
@@ -1334,8 +1343,8 @@ public class SpellbladeSpells {
     }
 
     public static Entry amethyst_barrage() {
-        Spell spell = meteor_base(SpellSchools.ARCANE, Identifier.tryParse("minecraft:amethyst_block"), 1.0F, 0.0F);
-        spell.school = SpellSchools.ARCANE;
+        Spell spell = meteor_base(ARCANE, Identifier.tryParse("minecraft:amethyst_block"), 1.0F, 0.0F);
+        spell.school = ARCANE;
         spell.deliver.type = net.spell_engine.api.spell.Spell.Delivery.Type.METEOR;
         spell.target = new Spell.Target();
         spell.target.type = net.spell_engine.api.spell.Spell.Target.Type.AIM;
@@ -1353,7 +1362,7 @@ public class SpellbladeSpells {
         spell.learn = new Spell.Learn();
         spell.tier = 1;
         spell.range = 32.0F;
-        spell.active.cast = createCast(0, 0.6F, "spell_engine:generic_arcane_casting", "spell_engine:one_handed_sky_charge", SpellSchools.ARCANE);
+        spell.active.cast = createCast(0, 0.6F, "spell_engine:generic_arcane_casting", "spell_engine:one_handed_sky_charge", ARCANE);
         ParticleBatch[] particlebatch = new ParticleBatch[]{(new ParticleBatch(MagicParticles.get(Shape.SPARK, Motion.FLOAT).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.CIRCLE, Origin.CENTER, (ParticleBatch.Rotation)null, 40.0F, 0.05F, 0.1F, 360.0F)).color(Color.ARCANE.toRGBA()), (new ParticleBatch(MagicParticles.get(Shape.ARCANE, Motion.ASCEND).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.CIRCLE, Origin.CENTER, (ParticleBatch.Rotation)null, 40.0F, 0.05F, 0.1F, 360.0F)).color(Color.ARCANE.toRGBA())};
         ParticleBatch[] particlebatch2 = new ParticleBatch[]{(new ParticleBatch(MagicParticles.get(Shape.SPARK, Motion.FLOAT).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 40.0F, 0.05F, 0.1F, 360.0F)).color(Color.ARCANE.toRGBA()), (new ParticleBatch(MagicParticles.get(Shape.ARCANE, Motion.ASCEND).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 40.0F, 0.05F, 0.1F, 360.0F)).color(Color.ARCANE.toRGBA()), (new ParticleBatch(MagicParticles.get(Shape.SPARK, Motion.FLOAT).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.CIRCLE, Origin.CENTER, (ParticleBatch.Rotation)null, 300.0F, 0.35F, 0.45F, 360.0F)).color(Color.ARCANE.toRGBA()), (new ParticleBatch(MagicParticles.get(Shape.ARCANE, Motion.ASCEND).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.CIRCLE, Origin.CENTER, (ParticleBatch.Rotation)null, 150.0F, 0.35F, 0.45F, 360.0F)).color(Color.ARCANE.toRGBA())};
         spell.area_impact = new Spell.AreaImpact();
@@ -1374,7 +1383,7 @@ public class SpellbladeSpells {
 
     public static Entry resonance() {
         Spell spell = activeSpellBase();
-        spell.school = SpellSchools.ARCANE;
+        spell.school = ARCANE;
         spell.deliver = new Spell.Delivery();
         spell.deliver.type = net.spell_engine.api.spell.Spell.Delivery.Type.DIRECT;
         Identifier id = Identifier.of(SpellbladesAndSuch.MOD_ID, "resonance");
@@ -1385,12 +1394,12 @@ public class SpellbladeSpells {
         spell.range = 16.0F;
         spell.target = new Spell.Target();
         spell.target.type = net.spell_engine.api.spell.Spell.Target.Type.CASTER;
-        spell.active.cast = createCast(0, 2.0F, "spell_engine:generic_arcane_casting", "spellbladenext:one_handed_area_charge", SpellSchools.ARCANE);
+        spell.active.cast = createCast(0, 2.0F, "spell_engine:generic_arcane_casting", "spellbladenext:one_handed_area_charge", ARCANE);
         ParticleBatch[] var10000 = new ParticleBatch[]{new ParticleBatch("spell_engine:magic_arcane_spark_float", net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 20.0F, 0.05F, 0.1F, 360.0F), (new ParticleBatch(MagicParticles.get(Shape.SPARK, Motion.FLOAT).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 20.0F, 0.05F, 0.1F, 360.0F)).color(Color.ARCANE.toRGBA())};
         var10000 = new ParticleBatch[]{(new ParticleBatch(MagicParticles.get(Shape.SPARK, Motion.FLOAT).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 20.0F, 0.05F, 0.1F, 360.0F)).color(Color.ARCANE.toRGBA()), (new ParticleBatch(MagicParticles.get(Shape.SPARK, Motion.FLOAT).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 20.0F, 0.05F, 0.1F, 360.0F)).color(Color.ARCANE.toRGBA()), (new ParticleBatch(MagicParticles.get(Shape.SPARK, Motion.FLOAT).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.CIRCLE, Origin.CENTER, (ParticleBatch.Rotation)null, 100.0F, 0.35F, 0.75F, 360.0F)).color(Color.ARCANE.toRGBA()), (new ParticleBatch(MagicParticles.get(Shape.SPARK, Motion.FLOAT).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.CIRCLE, Origin.CENTER, (ParticleBatch.Rotation)null, 100.0F, 0.35F, 0.7F, 360.0F)).color(Color.ARCANE.toRGBA())};
         Spell.Impact[] impacts = new Spell.Impact[2];
         impacts[0] = new Spell.Impact();
-        impacts[0].school = SpellSchools.ARCANE;
+        impacts[0].school = ARCANE;
         impacts[0].action = new Spell.Impact.Action();
         impacts[0].action.type = net.spell_engine.api.spell.Spell.Impact.Action.Type.STATUS_EFFECT;
         impacts[0].action.apply_to_caster = true;
@@ -1412,7 +1421,7 @@ public class SpellbladeSpells {
 
     public static Entry echo() {
         Spell spell = passiveSpellBase();
-        spell.school = SpellSchools.ARCANE;
+        spell.school = ARCANE;
         spell.deliver = new Spell.Delivery();
         spell.deliver.type = net.spell_engine.api.spell.Spell.Delivery.Type.DIRECT;
         spell.deliver.delay = 40;
@@ -1454,7 +1463,7 @@ public class SpellbladeSpells {
 
     public static Entry encore() {
         Spell spell = activeSpellBase();
-        spell.school = SpellSchools.ARCANE;
+        spell.school = ARCANE;
         spell.target = new Spell.Target();
         spell.target.type = net.spell_engine.api.spell.Spell.Target.Type.CASTER;
         Identifier id = Identifier.of(SpellbladesAndSuch.MOD_ID, "encore");
@@ -1465,7 +1474,7 @@ public class SpellbladeSpells {
         spell.learn = new Spell.Learn();
         spell.tier = 4;
         spell.range = 0.0F;
-        spell.active.cast = createCast(0, 0.5F, "spell_engine:generic_arcane_casting", "spellbladenext:one_handed_area_charge", SpellSchools.ARCANE);
+        spell.active.cast = createCast(0, 0.5F, "spell_engine:generic_arcane_casting", "spellbladenext:one_handed_area_charge", ARCANE);
         Spell.Impact[] impacts = new Spell.Impact[2];
         spell.deliver.type = net.spell_engine.api.spell.Spell.Delivery.Type.DIRECT;
         impacts[0] = createArcaneImpact(0.0F, 0.0F);
@@ -1487,7 +1496,7 @@ public class SpellbladeSpells {
 
     public static Entry reverb_brand() {
         Spell spell = activeSpellBase();
-        spell.school = SpellSchools.ARCANE;
+        spell.school = ARCANE;
         spell.target = new Spell.Target();
         spell.target.type = net.spell_engine.api.spell.Spell.Target.Type.AIM;
         spell.target.aim = new Spell.Target.Aim();
@@ -1501,7 +1510,7 @@ public class SpellbladeSpells {
         spell.learn = new Spell.Learn();
         spell.tier = 2;
         spell.range = 8.0F;
-        spell.active.cast = createCast(0, 2.0F, "spell_engine:generic_arcane_casting", "spellbladenext:one_handed_area_charge", SpellSchools.ARCANE);
+        spell.active.cast = createCast(0, 2.0F, "spell_engine:generic_arcane_casting", "spellbladenext:one_handed_area_charge", ARCANE);
         Spell.Impact[] impacts = new Spell.Impact[2];
         spell.deliver.type = net.spell_engine.api.spell.Spell.Delivery.Type.CUSTOM;
         spell.deliver.custom = new Spell.Delivery.Custom();
@@ -1515,7 +1524,204 @@ public class SpellbladeSpells {
         configureCooldown(spell, 35.0F, false, "runes:arcane_stone");
         return new Entry(id, spell, title, description, (SpellTooltip.DescriptionMutator)null);
     }
+    public static Entry grav() {
+        Spell spell = activeSpellBase();
+        spell.school = ARCANE;
+        spell.target = new Spell.Target();
+        spell.target.type = net.spell_engine.api.spell.Spell.Target.Type.AIM;
+        spell.target.aim = new Spell.Target.Aim();
+        spell.target.aim.required = true;
+        spell.target.aim.sticky = true;
+        Identifier id = Identifier.of(SpellbladesAndSuch.MOD_ID, "magnify");
+        String description = "Blast an enemy for {damage} frost damage and inflict Wintertide on them, slowing them by 20%.";
+        String title = "Wintertide";
+        spell.deliver = new Spell.Delivery();
+        spell.deliver.type = net.spell_engine.api.spell.Spell.Delivery.Type.DIRECT;
+        spell.learn = new Spell.Learn();
+        spell.tier = 1;
+        spell.range = 8.0F;
+        spell.active.cast = createCast(0, 0.5F, "spell_engine:generic_arcane_casting", "spellbladenext:one_handed_area_charge", ARCANE);
+        Spell.Impact[] impacts = new Spell.Impact[2];
+        impacts[0] = createArcaneImpact(0.4F, 0.0F);
+        impacts[1] = new Spell.Impact();
+        impacts[1].action = new Spell.Impact.Action();
+        impacts[1].action.type = Spell.Impact.Action.Type.CUSTOM;
+        impacts[1].action.custom = new Spell.Impact.Action.Custom();
+        impacts[1].action.custom.intent = Intent.HARMFUL;
 
+        impacts[1].action.custom.handler = "spellbladenext:double";
+
+        spell.release = new Spell.Release();
+        ParticleBatch[] particlebatch = new ParticleBatch[]{new ParticleBatch("spell_engine:magic_arcane_spark_float", net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 20.0F, 0.05F, 0.1F, 360.0F), (new ParticleBatch(MagicParticles.get(Shape.SPARK, Motion.FLOAT).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 20.0F, 0.05F, 0.1F, 360.0F)).color(Color.ARCANE.toRGBA())};
+        impacts[1].particles = particlebatch;
+        spell.release.particles = particlebatch;
+        spell.release.sound = new Sound(SpellEngineSounds.GENERIC_ARCANE_RELEASE.id());
+        spell.impacts = List.of(impacts[0], impacts[1]);
+        configureCooldown(spell, 8F, false, "runes:arcane_stone");
+        return new Entry(id, spell, title, description, (SpellTooltip.DescriptionMutator)null);
+    }
+    public static Entry collapse() {
+        Spell spell = activeSpellBase();
+        spell.school = ARCANE;
+        spell.target = new Spell.Target();
+        spell.target.type = net.spell_engine.api.spell.Spell.Target.Type.AIM;
+        spell.target.aim = new Spell.Target.Aim();
+        spell.target.aim.required = true;
+        spell.target.aim.sticky = true;
+        Identifier id = Identifier.of(SpellbladesAndSuch.MOD_ID, "collapse");
+        String description = "Blast an enemy for {damage} frost damage and inflict Wintertide on them, slowing them by 20%.";
+        String title = "Wintertide";
+        spell.deliver = new Spell.Delivery();
+        spell.deliver.type = net.spell_engine.api.spell.Spell.Delivery.Type.DIRECT;
+        spell.learn = new Spell.Learn();
+        spell.tier = 1;
+        spell.range = 8.0F;
+        spell.active.cast = createCast(0, 0.5F, "spell_engine:generic_arcane_casting", "spellbladenext:one_handed_area_charge", ARCANE);
+        Spell.Impact[] impacts = new Spell.Impact[2];
+        impacts[0] = createArcaneImpact(0.4F, 0.0F);
+        impacts[1] = new Spell.Impact();
+        impacts[1].action = new Spell.Impact.Action();
+        impacts[1].action.type = Spell.Impact.Action.Type.CUSTOM;
+        impacts[1].action.custom = new Spell.Impact.Action.Custom();
+        impacts[1].action.custom.intent = Intent.HARMFUL;
+
+        impacts[1].action.custom.handler = "spellbladenext:applyadd";
+
+        impacts[1].action.status_effect = new Spell.Impact.Action.StatusEffect();
+        impacts[1].action.status_effect.effect_id = SpellbladesAndSuch.COLLAPSE.getIdAsString();
+        impacts[1].action.status_effect.duration = 2.0F;
+        impacts[1].action.status_effect.amplifier_power_multiplier = 0.4F;
+        impacts[1].action.status_effect.apply_mode = ApplyMode.ADD;
+        impacts[1].action.status_effect.amplifier = 1;
+        impacts[1].action.status_effect.amplifier_cap = 256;
+
+        spell.release = new Spell.Release();
+        ParticleBatch[] particlebatch = new ParticleBatch[]{new ParticleBatch("spell_engine:magic_arcane_spark_float", net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 20.0F, 0.05F, 0.1F, 360.0F), (new ParticleBatch(MagicParticles.get(Shape.SPARK, Motion.FLOAT).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 20.0F, 0.05F, 0.1F, 360.0F)).color(Color.ARCANE.toRGBA())};
+        impacts[1].particles = particlebatch;
+        spell.release.particles = particlebatch;
+        spell.release.sound = new Sound(SpellEngineSounds.GENERIC_ARCANE_RELEASE.id());
+        spell.impacts = List.of(impacts[0], impacts[1]);
+        configureCooldown(spell, 0.4F, false, "runes:arcane_stone");
+        return new Entry(id, spell, title, description, (SpellTooltip.DescriptionMutator)null);
+    }
+    public static Entry shatter() {
+        Spell spell = activeSpellBase();
+        spell.school = SpellSchools.FROST;
+        spell.target = new Spell.Target();
+        spell.target.type = net.spell_engine.api.spell.Spell.Target.Type.AIM;
+        spell.target.aim = new Spell.Target.Aim();
+        spell.target.aim.required = true;
+        spell.target.aim.sticky = true;
+        Identifier id = Identifier.of(SpellbladesAndSuch.MOD_ID, "shatter");
+        String description = "Blast an enemy for {damage} frost damage and inflict Wintertide on them, slowing them by 20%.";
+        String title = "Wintertide";
+        spell.deliver = new Spell.Delivery();
+        spell.deliver.type = net.spell_engine.api.spell.Spell.Delivery.Type.DIRECT;
+        spell.learn = new Spell.Learn();
+        spell.tier = 1;
+        spell.range = 8.0F;
+        spell.active.cast = createCast(0, 0.5F, "spell_engine:generic_frost_casting", "spellbladenext:one_handed_area_charge", SpellSchools.FROST);
+        Spell.Impact[] impacts = new Spell.Impact[2];
+        impacts[0] = createFrostImpact(2F, 0.0F);
+        impacts[1] = new Spell.Impact();
+        impacts[1].action = new Spell.Impact.Action();
+        impacts[1].action.type = net.spell_engine.api.spell.Spell.Impact.Action.Type.CUSTOM;
+        impacts[1].action.custom = new Spell.Impact.Action.Custom();
+        impacts[1].action.custom.intent = Intent.HARMFUL;
+
+        impacts[1].action.custom.handler = "spellbladenext:shatter";
+        spell.release = new Spell.Release();
+        ParticleBatch[] particlebatch = new ParticleBatch[]{new ParticleBatch(SpellEngineParticles.snowflake.id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.PIPE, Origin.FEET, (ParticleBatch.Rotation)null, 30.0F, 0.1F, 0.3F, 0.0F), new ParticleBatch(SpellEngineParticles.frost_shard.id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.PIPE, Origin.FEET, (ParticleBatch.Rotation)null, 10.0F, 0.1F, 0.3F, 0.0F), (new ParticleBatch(MagicParticles.get(Shape.FROST, Motion.ASCEND).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.PIPE, Origin.FEET, (ParticleBatch.Rotation)null, 10.0F, 0.1F, 0.3F, 0.0F)).color(Color.FROST.toRGBA())};
+        impacts[1].particles = particlebatch;
+        spell.release.particles = particlebatch;
+        spell.release.sound = new Sound(SpellEngineSounds.GENERIC_FROST_RELEASE.id());
+        spell.impacts = List.of(impacts[0], impacts[1]);
+        configureCooldown(spell, 0.4F, false, "runes:frost_stone");
+        return new Entry(id, spell, title, description, (SpellTooltip.DescriptionMutator)null);
+    }
+    public static Entry rime() {
+        Spell spell = activeSpellBase();
+        spell.school = SpellSchools.FROST;
+        spell.target = new Spell.Target();
+        spell.target.type = net.spell_engine.api.spell.Spell.Target.Type.AIM;
+        spell.target.aim = new Spell.Target.Aim();
+        spell.target.aim.required = true;
+        spell.target.aim.sticky = true;
+        Identifier id = Identifier.of(SpellbladesAndSuch.MOD_ID, "deathchill");
+        String description = "Blast an enemy for {damage} frost damage and inflict Wintertide on them, slowing them by 20%.";
+        String title = "Wintertide";
+        spell.deliver = new Spell.Delivery();
+        spell.deliver.type = net.spell_engine.api.spell.Spell.Delivery.Type.DIRECT;
+        spell.learn = new Spell.Learn();
+        spell.tier = 1;
+        spell.range = 8.0F;
+        spell.active.cast = createCast(0, 0.5F, "spell_engine:generic_frost_casting", "spellbladenext:one_handed_area_charge", SpellSchools.FROST);
+        Spell.Impact[] impacts = new Spell.Impact[2];
+        impacts[0] = createFrostImpact(0.4F, 0.0F);
+        impacts[1] = new Spell.Impact();
+        impacts[1].action = new Spell.Impact.Action();
+        impacts[1].action.type = Spell.Impact.Action.Type.CUSTOM;
+        impacts[1].action.custom = new Spell.Impact.Action.Custom();
+        impacts[1].action.custom.intent = Intent.HARMFUL;
+
+        impacts[1].action.custom.handler = "spellbladenext:applyadd";
+        impacts[1].action.status_effect = new Spell.Impact.Action.StatusEffect();
+        impacts[1].action.status_effect.effect_id = SpellbladesAndSuch.DEATHCHILL.getIdAsString();
+        impacts[1].action.status_effect.duration = 8.0F;
+        impacts[1].action.status_effect.amplifier_cap = 2;
+        impacts[1].action.status_effect.amplifier = 1;
+
+        impacts[1].action.status_effect.apply_mode = ApplyMode.ADD;
+
+        spell.release = new Spell.Release();
+        ParticleBatch[] particlebatch = new ParticleBatch[]{new ParticleBatch(SpellEngineParticles.snowflake.id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.PIPE, Origin.FEET, (ParticleBatch.Rotation)null, 30.0F, 0.1F, 0.3F, 0.0F), new ParticleBatch(SpellEngineParticles.frost_shard.id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.PIPE, Origin.FEET, (ParticleBatch.Rotation)null, 10.0F, 0.1F, 0.3F, 0.0F), (new ParticleBatch(MagicParticles.get(Shape.FROST, Motion.ASCEND).id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.PIPE, Origin.FEET, (ParticleBatch.Rotation)null, 10.0F, 0.1F, 0.3F, 0.0F)).color(Color.FROST.toRGBA())};
+        impacts[1].particles = particlebatch;
+        spell.release.particles = particlebatch;
+        spell.release.sound = new Sound(SpellEngineSounds.GENERIC_FROST_RELEASE.id());
+        spell.impacts = List.of(impacts[0], impacts[1]);
+        configureCooldown(spell, 0.4F, false, "runes:frost_stone");
+        return new Entry(id, spell, title, description, (SpellTooltip.DescriptionMutator)null);
+    }
+    public static Entry ignite() {
+        Spell spell = activeSpellBase();
+        spell.school = SpellSchools.FIRE;
+        Identifier id = Identifier.of(SpellbladesAndSuch.MOD_ID, "phoenix_down");
+        String description = "Shoot a feather projectile, dealing {damage} fire damage to the first enemy hit.";
+        String title = "Exploding Feathers";
+        spell.learn = new Spell.Learn();
+        spell.tier = 2;
+        spell.range = 8F;
+        spell.active.cast = createCast(0, 0.4F, "spell_engine:generic_fire_casting", "spellbladenext:flick", SpellSchools.FIRE);
+        spell.target.type = Spell.Target.Type.AIM;
+        spell.target.aim = new Spell.Target.Aim();
+        ParticleBatch[] var10000 = new ParticleBatch[]{new ParticleBatch(SpellEngineParticles.flame.id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 3.0F, 0.05F, 0.1F, 360.0F), new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 1.0F, 0.05F, 0.1F, 360.0F), new ParticleBatch(SpellEngineParticles.flame_medium_b.id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 1.0F, 0.05F, 0.1F, 360.0F), new ParticleBatch("minecraft:firework", net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 2.0F, 0.05F, 0.1F, 360.0F)};
+        spell.active.cast.particles = var10000;
+        Spell.Impact[] impacts = new Spell.Impact[2];
+        impacts[0] = createFireImpact(0.4F, 0.0F);
+        impacts[1] = new Spell.Impact();
+        impacts[1].action = new Spell.Impact.Action();
+        impacts[1].action.apply_to_caster = true;
+
+        impacts[1].action.type = Spell.Impact.Action.Type.CUSTOM;
+        impacts[1].action.custom = new Spell.Impact.Action.Custom();
+        impacts[1].action.custom.intent = Intent.HARMFUL;
+
+        impacts[1].action.custom.handler = "spellbladenext:applyadd";
+        impacts[1].action.status_effect = new Spell.Impact.Action.StatusEffect();
+        impacts[1].action.status_effect.effect_id = SpellbladesAndSuch.FEATHER.getIdAsString();
+        impacts[1].action.status_effect.duration = 8.0F;
+        impacts[1].action.status_effect.amplifier_cap = 8;
+        impacts[1].action.status_effect.apply_mode = ApplyMode.ADD;
+        impacts[1].action.status_effect.amplifier = 1;
+
+
+        spell.release = new Spell.Release();
+        spell.release.animation = "spellbladenext:flick2";
+        spell.release.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_RELEASE.id().toString());
+        spell.impacts = List.of(impacts[0],impacts[1]);
+        configureCooldown(spell, 0.4F, false, "runes:fire_stone");
+        return new Entry(id, spell, title, description, (SpellTooltip.DescriptionMutator)null);
+    }
     public static void registerHandlers() {
         SpellEvents.SPELL_CAST.register((SpellEvents.SpellCastEvent)(args) -> {
             if (args.spell().equals(SpellRegistry.from(args.caster().getWorld()).getEntry(phoenix_dive.id).get())) {
@@ -1528,6 +1734,65 @@ public class SpellbladeSpells {
             }
 
         });
+    }
+    private static Entry greater_fireball() {
+        var spell = activeSpellBase();
+        spell.school = FIRE;
+
+        spell.target = new Spell.Target();
+        spell.target.type = Spell.Target.Type.AIM;
+        spell.target.aim = new Spell.Target.Aim();
+        spell.target.aim.required = false;
+        spell.target.aim.sticky = false;
+
+        var id = Identifier.of(SpellbladesAndSuch.MOD_ID, "combust");
+        var description = "Blast all enemies in a line with arcane energies, dealing {damage} arcane damage.";
+        var title = "Greater Fireball";
+        spell.deliver = new Spell.Delivery();
+        spell.deliver.type = Spell.Delivery.Type.DIRECT;
+
+
+
+
+        spell.learn = new Spell.Learn();
+        spell.tier = 3;
+        spell.range = 8;
+        spell.active.cast = createCast(0,1F,"spell_engine:generic_fire_casting","spellbladenext:one_handed_projectile_charge", FIRE);
+        ParticleBatch[] var10000 = new ParticleBatch[]{new ParticleBatch(SpellEngineParticles.flame.id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 3.0F, 0.05F, 0.1F, 360.0F), new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 1.0F, 0.05F, 0.1F, 360.0F), new ParticleBatch(SpellEngineParticles.flame_medium_b.id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 1.0F, 0.05F, 0.1F, 360.0F), new ParticleBatch("minecraft:firework", net.spell_engine.api.spell.fx.ParticleBatch.Shape.SPHERE, Origin.CENTER, (ParticleBatch.Rotation)null, 2.0F, 0.05F, 0.1F, 360.0F)};
+        spell.active.cast.particles = var10000;
+        Spell.Impact[] impacts = new Spell.Impact[2];
+
+        impacts[0] = createFireImpact(1.8F,2F);
+
+        spell.area_impact = new Spell.AreaImpact();
+        spell.area_impact.area = new Spell.Target.Area();
+        spell.area_impact.area.angle_degrees = 360F;
+        spell.area_impact.radius = 8;
+        spell.area_impact.sound  = new Sound("entity.generic.explode");
+        spell.area_impact.particles  = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.fire_explosion.id().toString(), ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER, null, 2, 0.3F, 0.5F, 0),
+
+                new ParticleBatch(SpellEngineParticles.flame.id().toString(), ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER, null, 450, 0.7F, .8F, 0),
+                new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(), ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER, null, 450, 0.7F, 0.8F, 0),
+                new ParticleBatch(SpellEngineParticles.flame_medium_b.id().toString(), ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER, null, 450, 0.7F, 0.8F, 0),
+                new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(), ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER, null, 450, 0.4F, 0.4F, 0),
+                new ParticleBatch(SpellEngineParticles.flame_medium_b.id().toString(), ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER, null, 450, 0.4F, 0.4F, 0)};
+        spell.release = new Spell.Release();
+
+        spell.release.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_RELEASE.id());
+        spell.release.animation = "spellbladenext:one_handed_projectile_release";
+        spell.release.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.flame.id().toString(), ParticleBatch.Shape.CONE, ParticleBatch.Origin.LAUNCH_POINT, ParticleBatch.Rotation.LOOK, 200, 2, 4, 20),
+                new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(), ParticleBatch.Shape.CONE, ParticleBatch.Origin.LAUNCH_POINT, ParticleBatch.Rotation.LOOK, 100, 1, 2, 40),
+                new ParticleBatch(SpellEngineParticles.flame_medium_b.id().toString(), ParticleBatch.Shape.CONE, ParticleBatch.Origin.LAUNCH_POINT, ParticleBatch.Rotation.LOOK, 100, 0.5F, 1, 75)
+
+
+        };
+        spell.impacts = List.of(impacts[0]);
+        configureCooldown(spell, 1F, false, null);
+        spell.cost.effect_id = SpellbladesAndSuch.FEATHER.getIdAsString();
+        return new Entry(id, spell, title, description, null);
+
     }
 
     public static record Entry(Identifier id, Spell spell, String title, String description, @Nullable SpellTooltip.DescriptionMutator mutator) {
