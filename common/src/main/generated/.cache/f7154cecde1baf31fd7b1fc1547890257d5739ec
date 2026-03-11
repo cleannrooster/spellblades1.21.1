@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-25T18:47:14.5522917	Spellblades and Such/Spell Generator
+// 1.21.1	2025-12-21T07:52:46.8226542	Spellblades and Such/Spell Generator
 72e5b54adbb54f2c42402bf843e4f93403d8b94e data\spellbladenext\spell\featherstorm.json
 28692016345cb3a1c5fc04bb8eb2c81ddc10d132 data\spellbladenext\spell\healing_feathers.json
 6f86770987cbca40a16d4acdc92d7ec5f73c8b11 data\spellbladenext\spell\phoenix_dive.json
@@ -15,7 +15,7 @@ d67b9f9ffa5a09401b5402f24faccdc5483f272b data\spellbladenext\spell\frost_burst.j
 ada31550e6013571d42593a1f868ca4050a4ddbf data\spellbladenext\spell\deathchill.json
 3ea3226221d7a1a64ba55bbd76c7e286a2e2696a data\spellbladenext\spell\vaulting_slam.json
 2da03f962bf3b9cd86077b69b7a0f8f4ebe019e0 data\spellbladenext\spell\advancing_strike.json
-7e744246436c535c8e6d903b4063b006e667f913 data\spellbladenext\spell\wintertide.json
+6f44ae25fdc867d18e9461d59e7dc64dc39fc172 data\spellbladenext\spell\wintertide.json
 330cbe46c248772b32a961590529d01c9bcda7ff data\spellbladenext\spell\shatter.json
 8010305cd03d68ac99ad38c5d80c462a54a9599f data\spellbladenext\spell\resonance.json
 983bddde17198b6158bf825bb67bc5a4a00d8240 data\spellbladenext\spell\reverberation_brand.json
@@ -30,8 +30,8 @@ c90dbe1c77d720ad8597770b5869f508915da715 data\spellbladenext\spell\frost_slash.j
 dfbc53ed51885b231a798805552fd1b869cc9cb7 data\spellbladenext\spell\arctic_armor.json
 d3935bdd9ed9822c25045a3e0460be154569ba2c data\spellbladenext\spell\flame_slash.json
 e5951cbc0ca9c5167768c69b2e68fee8110cae58 data\spellbladenext\spell\collapse.json
-d1866e221fb6b08a3800657a604ece000ad4ede2 data\spellbladenext\spell\magnify.json
-75f5dad519fe7aff42c27c56aba1cf02a53fe585 data\spellbladenext\spell\arcane_spellstrike.json
+9afb0bc56c15539071f81fc49d28b839803c39ed data\spellbladenext\spell\magnify.json
+b15102e1df7772eb23f4b4b18cface53536249f9 data\spellbladenext\spell\arcane_spellstrike.json
 dcd1f4df084dcd69b912b17e163444f88edb29ea data\spellbladenext\spell\dragon_slam.json
 380f0217a6ce53696b1a2d89935b3edb4839d894 data\spellbladenext\spell\sonic_strike.json
 8a672d8863d85ce089d362ffa7e73d6a28f81133 data\spellbladenext\spell\amethyst_slash.json

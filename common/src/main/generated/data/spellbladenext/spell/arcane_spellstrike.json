@@ -44,7 +44,7 @@
         "angle": 53.0
       },
       {
-        "particle_id": "TemplateEntry[id=spell_engine:magic_spark_burst, texture=Texture[id=minecraft:generic_0, frames=1, reverseOrder=false], particleType=net.spell_engine.client.particle.TemplateParticleType@767fbda7, fading=NONE, orientation=HORIZONTAL]",
+        "particle_id": "TemplateEntry[id=spell_engine:magic_spark_burst, texture=Texture[id=minecraft:generic_0, frames=1, reverseOrder=false], particleType=net.spell_engine.client.particle.TemplateParticleType@85b8194, fading=NONE, orientation=HORIZONTAL]",
         "origin": "LAUNCH_POINT",
         "shape": "CONE",
         "rotation": "LOOK",

@@ -37,6 +37,7 @@ import net.spell_engine.api.config.ConfigFile;
 import net.spell_engine.api.effect.Synchronized;
 import net.spell_engine.api.item.SpellBooks;
 import net.spell_engine.api.render.CustomModels;
+import net.spell_engine.api.spell.Spell;
 import net.spell_power.api.*;
 import net.tiny_config.ConfigManager;
 import org.slf4j.Logger;
@@ -130,13 +131,7 @@ public class SpellbladesAndSuch  {
 		SpellCustomDelivery.registerDeliveries();
         SpellCustomImpact.registerImpacts();
 
-        SpellSchools.LIGHTNING.addSource(SpellSchool.Trait.POWER, SpellSchool.Apply.ADD	,(queryArgs -> {
-			double amount = 0;
-			if(queryArgs.entity().getAttributes() != null && queryArgs.entity().getAttributeValue(EPHEMERAL) - 100 > 0) {
-				amount +=  queryArgs.entity().getAbsorptionAmount() * 0.01 * (queryArgs.entity().getAttributeValue(EPHEMERAL) - 100);
-			}
-			return amount;
-		}));
+
 		CustomModels.registerModelIds(List.of(
 				Identifier.of(MOD_ID, "projectile/feather")
 		));
@@ -157,8 +152,20 @@ public class SpellbladesAndSuch  {
 		));
 		LOGGER.info("Hello Fabric world!");
 	}
+    public static void registerAttributes(){
+        CustomAttributes.run();
 
+        SpellSchools.LIGHTNING.addSource(SpellSchool.Trait.POWER, SpellSchool.Apply.ADD	,(queryArgs -> {
+            double amount = 0;
+            if(queryArgs.entity().getAttributes() != null && queryArgs.entity().getAttributeInstance(EPHEMERAL) != null &&  queryArgs.entity().getAttributeValue(EPHEMERAL) - 100 > 0) {
+                amount +=  queryArgs.entity().getAbsorptionAmount() * 0.01 * (queryArgs.entity().getAttributeValue(EPHEMERAL) - 100);
+            }
+            return amount;
+        }));
+    }
 	public static void registerEffects() {
+
+
 		PHOENIXCURSE = Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"phoenixcurse"),new PhoenixCurse(StatusEffectCategory.HARMFUL, 0xff4bdd));
 		SPELLSTRIKE =  Registry.registerReference(Registries.STATUS_EFFECT,Identifier.of(MOD_ID,"spellstrike"),new Spellstrike(StatusEffectCategory.BENEFICIAL, 0xff4bdd).addAttributeModifier(SpellPowerMechanics.HASTE.attributeEntry,Identifier.of(MOD_ID,"haste"),0.2F,EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 
@@ -235,7 +242,8 @@ public class SpellbladesAndSuch  {
 		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"frost_battlemage"),KEY);
 		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"fire_battlemage"),KEY);
 		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"arcane_battlemage"),KEY);
-		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"runic_echoes"),KEY);
+        SpellBooks.createAndRegister(Identifier.of(MOD_ID,"lightning_battlemage"),KEY);
+        SpellBooks.createAndRegister(Identifier.of(MOD_ID,"runic_echoes"),KEY);
 
 		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"phoenix"),KEY);
 		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"deathchill"),KEY);

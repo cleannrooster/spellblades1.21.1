@@ -1,0 +1,12 @@
+{
+  "values": [
+    "spellbladenext:dynamo",
+    "spellbladenext:lightningoverdrive",
+    {
+      "id": "spellbladenext:phase_dash",
+      "required": false
+    },
+    "spellbladenext:lightningstep",
+    "spellbladenext:xslash"
+  ]
+}

@@ -1055,7 +1055,7 @@ public class SpellbladeSpells {
         spell.range = 8.0F;
         spell.active.cast = createCast(0, 0.5F, "spell_engine:generic_frost_casting", "spellbladenext:one_handed_area_charge", SpellSchools.FROST);
         Spell.Impact[] impacts = new Spell.Impact[2];
-        impacts[0] = createFrostImpact(0.5F, 0.0F);
+        impacts[0] = createFrostImpact(0.32F, 0.0F);
         impacts[1] = new Spell.Impact();
         impacts[1].action = new Spell.Impact.Action();
         impacts[1].action.type = net.spell_engine.api.spell.Spell.Impact.Action.Type.STATUS_EFFECT;

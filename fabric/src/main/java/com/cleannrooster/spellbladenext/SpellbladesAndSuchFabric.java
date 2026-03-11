@@ -9,6 +9,7 @@ public class SpellbladesAndSuchFabric implements ModInitializer {
     public void onInitialize() {
         SpellbladesAndSuch.onInitialize();
         SpellbladesAndSuch.registerItems();
+        SpellbladesAndSuch.registerAttributes();
         SpellbladesAndSuch.registerEffects();
 
     }

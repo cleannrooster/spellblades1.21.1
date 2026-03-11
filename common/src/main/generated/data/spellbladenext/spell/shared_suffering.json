@@ -48,38 +48,32 @@
         {},
         {}
       ],
+
       "action": {
         "type": "DAMAGE",
         "damage": {
-          "spell_power_coefficient": 0.5,
+          "spell_power_coefficient": 0.8,
           "knockback": 0.0
         }
       },
       "particles": [
         {
-          "particle_id": "spell_engine:snowflake",
-          "origin": "FEET",
-          "shape": "PIPE",
-          "count": 30.0,
-          "min_speed": 0.1,
-          "max_speed": 0.3
+          "particle_id": "spell_engine:magic_spark_burst",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 40.0,
+          "min_speed": 0.5,
+          "max_speed": 0.8,
+          "color_rgba": 3003121919
         },
         {
-          "particle_id": "spell_engine:frost_shard",
-          "origin": "FEET",
-          "shape": "PIPE",
-          "count": 10.0,
-          "min_speed": 0.1,
-          "max_speed": 0.3
-        },
-        {
-          "particle_id": "spell_engine:magic_frost_ascend",
-          "origin": "FEET",
-          "shape": "PIPE",
-          "count": 10.0,
-          "min_speed": 0.1,
-          "max_speed": 0.3,
-          "color_rgba": 1724710911
+          "particle_id": "spell_engine:aura_effect_409",
+          "origin": "CENTER",
+          "shape": "LINE",
+          "count": 1.0,
+          "max_speed": 0.0,
+          "color_rgba": 3003121919,
+          "follow_entity": true
         }
       ],
       "sound": {

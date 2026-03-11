@@ -1,4 +1,4 @@
-package com.cleannrooster.spellblades.mixin;
+package com.cleannrooster.spellbladenext.mixin;
 
 import com.cleannrooster.spellblades.items.Orb;
 import com.cleannrooster.spellblades.SpellbladesAndSuch;
@@ -7,14 +7,11 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Vec3d;
 import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.internals.casting.SpellCasterEntity;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -27,10 +24,7 @@ import static com.cleannrooster.spellblades.SpellbladesAndSuch.*;
 public class LivingEntityMixin {
   
 
-    @Shadow
-    private  DefaultedList<ItemStack> syncedHandStacks;
-    @Shadow
-    private  DefaultedList<ItemStack> syncedArmorStacks;
+
 
 
         @ModifyVariable(at = @At("HEAD"), method = "applyMovementInput", index = 1)

@@ -10,7 +10,8 @@ import net.minecraft.util.Identifier;
 public class CustomAttributes {
     public static RegistryEntry.Reference<EntityAttribute> EPHEMERAL;
 
-     static {
+
+    public static void run(){
         EPHEMERAL = Registry.registerReference(Registries.ATTRIBUTE, Identifier.of("spellbladenext", "ephemeral"), new ClampedEntityAttribute("attribute.name.spellbladenext.ephemeral", 100,100,9999));
 
     }

@@ -1,0 +1,140 @@
+{
+  "school": "LIGHTNING",
+  "group": "primary",
+  "range": 6,
+  "learn": {
+    "tier": 1
+  },
+  "tooltip": {
+    "description": {
+      "color": "dark_green",
+      "show_in_compact": false
+    }
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "MELEE_IMPACT",
+        "spell": {
+          "archetype": "MAGIC"
+        }
+      }
+    ]
+  },
+  "active":{
+    "cast": {
+      "duration": 1,
+      "animation": "spellbladenext:one_handed_area_charge",
+      "sound": {
+        "id": "spell_engine:generic_lightning_casting",
+        "randomness": 0
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:electric_arc_a",
+          "shape": "PIPE",
+          "origin": "FEET",
+          "count": 1.0,
+          "min_speed": 0.05,
+          "max_speed": 0.1
+        }
+      ]
+    }
+  },
+  "release": {
+    "animation": "spellbladenext:one_handed_area_release",
+
+
+    "particles": [
+      {
+        "particle_id": "spell_engine:electric_arc_a",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 30.0,
+        "min_speed": 0.1,
+        "max_speed": 0.3
+      },
+      {
+        "particle_id": "spell_engine:smoke_medium",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 30.0,
+        "min_speed": 0.5,
+        "max_speed": 0.9
+      }
+    ],
+    "sound": {
+      "id": "spell_engine:generic_lightning_release"
+    }
+  },
+  "target": {
+    "type": "CASTER"
+  },
+  "deliver": {
+    "delay": 40
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "knockback": 0.5,
+          "spell_power_coefficient": 0.8
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:electric_arc_b",
+          "shape": "SPHERE",
+          "origin": "CENTER",
+          "count": 10,
+          "min_speed": 0.2,
+          "max_speed": 0.7
+        }
+      ,
+        {
+          "particle_id": "spell_engine:smoke_medium",
+          "shape": "CIRCLE",
+          "origin": "CENTER",
+          "count": 10.0,
+          "min_speed": 0.5,
+          "max_speed": 0.9
+        }
+      ]
+    }
+  ],
+  "area_impact": {
+    "radius": 8.0,
+    "area": {
+      "angle_degrees": 360.0
+    },
+
+    "particles": [
+      {
+        "particle_id": "spell_engine:electric_arc_a",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 100.0,
+        "min_speed": 0.3,
+        "max_speed": 0.9
+      },
+      {
+        "particle_id": "spell_engine:smoke_medium",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 30.0,
+        "min_speed": 0.15,
+        "max_speed": 0.27
+      }
+    ],
+    "sound": {
+      "id": "spell_engine:generic_lightning_release"
+    }
+  },
+  "cost": {
+    "cooldown": {
+      "duration": 0.5
+    }
+  }
+}

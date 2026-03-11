@@ -122,7 +122,7 @@
   "spell.spellbladenext.the_heavens_descend.description": "Hit enemies in front of you with a downwards strike, launching them downwards at a high velocity, if they are airborne. Afflicts enemies with Crashing for 4 seconds, doubling falling damage taken. Grants you slow falling for 6 seconds",
 
   "spell.spellbladenext.lightningstep.name": "Surge",
-  "spell.spellbladenext.lightningstep.description": "Become invulnerable, surging towards the target direction and dealing {damage} lightning dps to very close enemies.",
+  "spell.spellbladenext.lightningstep.description": "Surge towards the target direction, dealing {damage} lightning dps to very close enemies.",
 
   "spell.spellbladenext.thesis.name": "Awakened",
   "spell.spellbladenext.thesis.description": "You have dedicated your life to the casting of one particular spell. You have 50%% more spell power and spell haste.",
@@ -258,7 +258,7 @@
   "spell.spellbladenext.magnify.description": "Double the stacks of Collapse on a single enemy..",
 
   "spell.spellbladenext.combust.name": "Combust",
-  "spell.spellbladenext.combust.description": "Consume your Phoenix Down to deal {damage} fire damage to the target enemy, in a large area.",
+  "spell.spellbladenext.combust.description": "Consume your Phoenix Down to deal {damage} fire damage in a large area.",
 
   "spell.spellbladenext.phoenix_down.name": "Phoenix Down",
   "spell.spellbladenext.phoenix_down.description": "Deal {damage} fire damage to a target enemy. Gives you a stack of Phoenix Down, increasing Fire Damage and Spell Haste, up to 8.",
@@ -307,16 +307,17 @@
   "dimensiontype.spellbladenext.glassocean": "Glass Ocean",
   "travelerstitles.spellbladenext.glassocean": "Glass Ocean",
   "dimension.spellbladenext.glassocean": "Glass Ocean",
-  "spell.spellbladenext.lightningoverdrive.name": "Lightning Overdrive",
-  "spell.spellbladenext.lightningoverdrive.description": "{damage} Lightning damage in an area around you. Activates normally and on hit.",
+  "spell.spellbladenext.dynamo.name": "Dynamo",
+  "spell.spellbladenext.dynamo.description": "{damage} Lightning damage in an area around you, triggering 2 seconds after a successful melee hit.",
+
+  "spell.spellbladenext.lightningoverdrive.name": "Storm Call",
+  "spell.spellbladenext.lightningoverdrive.description": "{damage} Lightning damage in an area around you, or around a target enemy.",
   "spell.spellbladenext.xslash.name": "Cross Slash",
-  "spell.spellbladenext.xslash.description": "Attack three times over half a second, dealing {damage_1} physical dps, plus {damage_2} lightning dps. You are invulnerable while attacking.",
+  "spell.spellbladenext.xslash.description": "Attack all enemies in a line three times over half a second, dealing {damage_1} physical dps, plus {damage_2} lightning dps.",
 
   "spell.spellbladenext.lightningslash.name": "Charge Slash",
   "spell.spellbladenext.lightningslash.description": "{damage} Lightning DPS. Swing your weapon wildly, shooting charged, chaining projectiles.",
 
-  "spell.spellbladenext.lightningoverdrive.name": "Lightning Overdrive",
-  "spell.spellbladenext.lightningoverdrive.description": "{damage} Lightning damage in an area around you. Activates normally and on hit.",
 
   "spell.spellbladenext.fireflourish.name": "Fire Flourish",
   "spell.spellbladenext.fireflourish.description": "Spin rapidly, dealing {damage_1} physical damage, plus {damage_2} fire damage.",
