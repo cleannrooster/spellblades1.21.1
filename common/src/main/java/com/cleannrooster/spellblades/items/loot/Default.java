@@ -1,7 +1,6 @@
 package com.cleannrooster.spellblades.items.loot;
 
 import com.cleannrooster.spellblades.items.Items;
-import com.cleannrooster.spellblades.items.armor.Armors;
 import net.spell_engine.api.config.ConfigFile;
 import net.spell_engine.rpg_series.loot.LootConfig;
 
@@ -18,9 +17,7 @@ public class Default {
         for (var weapon : Items.entries) {
             itemConfig.weapons.put(weapon.name(), weapon.defaults());
         }
-        for (var armor : Armors.entries) {
-            itemConfig.armor_sets.put(armor.name(), armor.defaults());
-        }
+
 
 
         lootConfig = new LootConfig();

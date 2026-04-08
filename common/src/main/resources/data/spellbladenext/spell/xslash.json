@@ -8,7 +8,7 @@
     "cast": {
       "duration": 0.65,
       "haste_affected": false,
-      "animation": "spell_engine:doubleslashattack",
+      "animation": {"id": "spell_engine:doubleslashattack"},
       "sound": {
         "id": "spell_engine:generic_lightning_casting"
       },
@@ -36,7 +36,7 @@
   "release": {
     "custom_impact": true,
 
-    "animation": "spell_engine:doubleslashending",
+    "animation": {"id": "spell_engine:doubleslashending"},
     "sound": {
       "id": "entity.player.attack.sweep"
     }

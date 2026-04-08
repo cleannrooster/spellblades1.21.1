@@ -6,7 +6,9 @@
   "active": {
     "cast": {
       "duration": 1.25,
-      "animation": "spellbladenext:leapslamstaff1",
+      "animation": {
+        "id": "spellbladenext:leapslamstaff1"
+      },
       "movement_speed": 1.0,
       "sound": {
         "id": "spell_engine:generic_frost_casting"
@@ -14,7 +16,9 @@
     }
   },
   "release": {
-    "animation": "spellbladenext:leapslamstaff2",
+    "animation": {
+      "id": "spellbladenext:leapslamstaff2"
+    },
     "particles": [
       {
         "particle_id": "minecraft:smoke",

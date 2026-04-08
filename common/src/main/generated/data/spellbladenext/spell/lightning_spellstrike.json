@@ -14,10 +14,7 @@
   "passive": {
     "triggers": [
       {
-        "type": "MELEE_IMPACT",
-        "spell": {
-          "archetype": "MAGIC"
-        }
+        "type": "MELEE_IMPACT"
       }
     ]
   },

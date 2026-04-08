@@ -6,7 +6,7 @@
   },
   "cast": {
     "duration": 6,
-    "animation": "spell_engine:flameslash",
+    "animation": {"id": "spell_engine:flameslash"},
     "sound": {
       "id": "spell_engine:generic_lightning_casting",
       "randomness": 0

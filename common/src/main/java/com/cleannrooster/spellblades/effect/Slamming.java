@@ -11,6 +11,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.spell.Spell;
+import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.fx.ParticleHelper;
 import net.spell_engine.internals.SpellHelper;
@@ -72,7 +73,7 @@ public class Slamming extends StatusEffect {
 
             player.removeStatusEffect(SLAMMING);
             if(player instanceof PlayerEntity && !player.getWorld().isClient()) {
-                List<Entity> list = TargetHelper.targetsFromArea(player,player.getEyePos(),spellRegistryEntry.value().range,new Spell.Target.Area(), target -> EntityRelations.allowedToHurt(player,target) );
+                List<Entity> list = TargetHelper.targetsFromArea(player,spellRegistryEntry.value().range,new Spell.Target.Area(), target -> EntityRelations.allowedToHurt(player,target) );
                 for(Entity entity : list) {
                     if (entity instanceof LivingEntity living) {
                         SpellHelper.ImpactContext context = new SpellHelper.ImpactContext(1.0F, 1.0F, null, SpellPower.getSpellPower(SpellSchools.FIRE,player), SpellTarget.FocusMode.AREA,0);
@@ -88,7 +89,7 @@ public class Slamming extends StatusEffect {
 
                 ParticleHelper.sendBatches(player, spellRegistryEntry.value().release.particles);
                 SoundHelper.playSound(player.getWorld(), player, spellRegistryEntry.value().release.sound);
-                AnimationHelper.sendAnimation((PlayerEntity) player, (Collection)trackingPlayers.get(), SpellCast.Animation.RELEASE, "spell_engine:two_handed_slam_spellblade_2", 1);
+                AnimationHelper.sendAnimation((PlayerEntity) player, (Collection)trackingPlayers.get(), SpellCast.Animation.RELEASE, PlayerAnimation.of("spell_engine:two_handed_slam_spellblade_2"), 1);
             }
         }
         return super.applyUpdateEffect(player, amplifier);

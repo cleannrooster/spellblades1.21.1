@@ -1,5 +1,5 @@
 {
-  "is_proxy": true,
+  "access": "MAGIC",
   "spell_ids": [
     "spellbladenext:maelstrom"
   ]

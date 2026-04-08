@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    "#spellbladenext:arcane_battlemage",
-    "#spellbladenext:fire_battlemage",
-    "#spellbladenext:frost_battlemage",
-    "#spellbladenext:lightning_battlemage",
-    "#spellbladenext:phoenix",
-    "#spellbladenext:runic_echoes",
-    "#spellbladenext:deathchill"
+    "#spellbladenext:spell_scroll/arcane_battlemage",
+    "#spellbladenext:spell_scroll/fire_battlemage",
+    "#spellbladenext:spell_scroll/frost_battlemage",
+    "#spellbladenext:spell_scroll/lightning_battlemage",
+    "#spellbladenext:spell_scroll/phoenix",
+    "#spellbladenext:spell_scroll/runic_echoes",
+    "#spellbladenext:spell_scroll/deathchill"
   ]
 }

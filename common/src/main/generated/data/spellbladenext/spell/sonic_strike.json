@@ -6,7 +6,9 @@
   "active": {
     "cast": {
       "duration": 2.0,
-      "animation": "spell_engine:crosscharge",
+      "animation": {
+        "id": "spell_engine:crosscharge"
+      },
       "sound": {
         "id": "spell_engine:generic_arcane_casting"
       },
@@ -24,7 +26,9 @@
     }
   },
   "release": {
-    "animation": "spell_engine:dashslash",
+    "animation": {
+      "id": "spell_engine:dashslash"
+    },
     "sound": {
       "id": "minecraft:entity.warden.sonic_boom"
     }

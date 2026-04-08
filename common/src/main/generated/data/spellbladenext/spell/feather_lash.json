@@ -8,8 +8,10 @@
     "cast": {
       "haste_affected": false,
       "duration": 10.0,
-      "channel_ticks": 25,
-      "animation": "spellbladenext:fullcastanimation",
+      "channel_ticks": 8,
+      "animation": {
+        "id": "spellbladenext:fullcastanimation"
+      },
       "movement_speed": 0.6,
       "sound": {
         "id": "spell_engine:generic_fire_casting"
@@ -27,7 +29,9 @@
     }
   },
   "release": {
-    "animation": "spellbladenext:swish2",
+    "animation": {
+      "id": "spellbladenext:swish2"
+    },
     "sound": {
       "id": "spell_engine:generic_fire_release"
     }
@@ -92,7 +96,7 @@
             }
           ],
           "model": {
-            "model_id": "spellbladenext:projectile/feather"
+            "model_id": "spellbladenext:spell_projectile/feather"
           }
         }
       }

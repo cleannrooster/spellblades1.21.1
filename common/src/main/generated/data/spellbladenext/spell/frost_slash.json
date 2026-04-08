@@ -6,8 +6,10 @@
   "active": {
     "cast": {
       "duration": 6.0,
-      "channel_ticks": 3,
-      "animation": "spell_engine:flameslash",
+      "channel_ticks": 40,
+      "animation": {
+        "id": "spell_engine:flameslash"
+      },
       "sound": {
         "id": "spell_engine:generic_frost_casting"
       },
@@ -58,7 +60,7 @@
             }
           ],
           "model": {
-            "model_id": "spellbladenext:projectile/gladius",
+            "model_id": "spellbladenext:spell_projectile/gladius",
             "scale": 2.0
           }
         }

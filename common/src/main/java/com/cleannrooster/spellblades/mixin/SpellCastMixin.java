@@ -33,40 +33,5 @@ import static com.cleannrooster.spellblades.SpellbladesAndSuch.MOD_ID;
 @Mixin(SpellHelper.class)
 public class SpellCastMixin {
    
-    @Inject(at = @At("HEAD"), method = "performSpell", cancellable = true)
-    private static void performSpellSpellstrike(World world, PlayerEntity player, RegistryEntry<Spell> spellEntry, SpellTarget.SearchResult targetResult, SpellCast.Action action, float progress, CallbackInfo callbackInfo) {
-/*        if (action.equals(SpellCast.Action.RELEASE)) {
-            if (player instanceof PlayerDamageInterface playerInterface ) {
 
-                if (!playerInterface.getSpellstrikeSpells().isEmpty()) {
-                    player.sendMessage(Text.translatable("spellbladenext:spellstrike_error"));
-                    callbackInfo.cancel();
-                }
-            }
-        }*/
-
-
-    if(action.equals(SpellCast.Action.RELEASE) &&  SpellContainerSource.passiveSpellsOf(player).stream().anyMatch(spell -> spell.isIn(TagKey.of(SpellRegistry.KEY,Identifier.of(MOD_ID,"spellstrike")))) &&  spellEntry.value().type.equals(Spell.Type.ACTIVE) && spellEntry.value().active.cast.channel_ticks == 0){
-            if(player instanceof PlayerDamageInterface playerInterface ) {
-                    if(spellEntry.value().impacts.stream().noneMatch(impact -> impact.school != null &&  impact.school.equals(ExternalSpellSchools.PHYSICAL_MELEE))) {
-                        if(!spellEntry.value().target.type.equals(Spell.Target.Type.CASTER)) {
-                            if (playerInterface.getSpellstrikeSpells().isEmpty()) {
-
-                                playerInterface.queueSpellStrikeSpell(Identifier.tryParse(spellEntry.getIdAsString()));
-                                SoundHelper.playSound(world,player,new Sound(SpellEngineSounds.BIND_SPELL.id()));
-                                AnimationHelper.sendAnimation(player, PlayerLookup.tracking(player), SpellCast.Animation.RELEASE, spellEntry.value().release.animation, 1.0F);
-                                AnimationHelper.sendAnimation(player, List.of((ServerPlayerEntity) player), SpellCast.Animation.RELEASE, spellEntry.value().release.animation, 1.0F);
-
-                                ParticleHelper.play(world, player, spellEntry.value().release.particles);
-                                SpellHelper.imposeCooldown(player,SpellContainerSource.getFirstSourceOfSpell(Identifier.tryParse(spellEntry.getIdAsString()),player),Identifier.tryParse(spellEntry.getIdAsString()),spellEntry,1.0F);
-                                callbackInfo.cancel();
-                            }
-                        }
-                    }
-
-
-         }
-     }
-
-    }
 }

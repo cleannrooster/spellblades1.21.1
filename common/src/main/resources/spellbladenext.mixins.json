@@ -1,12 +1,13 @@
 {
   "required": true,
   "package": "com.cleannrooster.spellblades.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "refmap": "spellbladenext-common-common-refmap.json",
   "client": [
   ],
   "mixins": [
+    "LivingEntityMixin",
     "PlayerMixin",
     "SpellCastMixin",
     "AnimationHelperMixin",

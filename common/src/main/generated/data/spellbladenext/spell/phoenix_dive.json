@@ -6,7 +6,9 @@
   "active": {
     "cast": {
       "duration": 1.0,
-      "animation": "spell_engine:phoenixdive",
+      "animation": {
+        "id": "spell_engine:phoenixdive"
+      },
       "sound": {
         "id": "spell_engine:generic_fire_casting"
       },

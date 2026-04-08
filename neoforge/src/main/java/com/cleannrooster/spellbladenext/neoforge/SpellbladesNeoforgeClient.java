@@ -1,6 +1,5 @@
 package com.cleannrooster.spellbladenext.neoforge;
 
-import com.cleannrooster.spellblades.ExampleMod;
 import com.cleannrooster.spellblades.SpellbladesClient;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -11,8 +10,6 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 public final class SpellbladesNeoforgeClient {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        // Run our common setup.
         SpellbladesClient.onInitializeClient();
-        ExampleMod.init();
     }
 }

@@ -14,10 +14,7 @@
   "passive": {
     "triggers": [
       {
-        "type": "MELEE_IMPACT",
-        "spell": {
-          "archetype": "MAGIC"
-        }
+        "type": "MELEE_IMPACT"
       }
     ]
   },
@@ -61,23 +58,14 @@
   "target": {
     "type": "FROM_TRIGGER"
   },
-  "deliver": {
-    "type": "CUSTOM",
-    "custom": {
-      "handler": "spellbladenext:spellstrike"
-    }
-  },
   "impacts": [
     {
       "school": "spell_power:frost",
       "action": {
-        "type": "CUSTOM",
+        "type": "DAMAGE",
         "min_power": 2.0,
         "damage": {
           "spell_power_coefficient": 0.4
-        },
-        "custom": {
-          "handler": "spellbladenext:spellstrike"
         }
       },
       "particles": [

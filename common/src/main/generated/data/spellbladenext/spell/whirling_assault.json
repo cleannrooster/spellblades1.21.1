@@ -7,8 +7,10 @@
   "active": {
     "cast": {
       "duration": 2.0,
-      "channel_ticks": 4,
-      "animation": "spellbladenext:staffspin",
+      "channel_ticks": 10,
+      "animation": {
+        "id": "spellbladenext:staffspin"
+      },
       "movement_speed": 1.0,
       "sound": {
         "id": "spell_engine:generic_frost_casting"

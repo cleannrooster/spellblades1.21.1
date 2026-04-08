@@ -1,12 +1,14 @@
 {
   "school": "spell_power:frost",
   "range": 8.0,
-  "tier": 1,
+  "tier": 3,
   "learn": {},
   "active": {
     "cast": {
       "duration": 0.5,
-      "animation": "spellbladenext:one_handed_area_charge",
+      "animation": {
+        "id": "spellbladenext:one_handed_area_charge"
+      },
       "sound": {
         "id": "spell_engine:generic_frost_casting"
       },

@@ -7,7 +7,9 @@
   "active": {
     "cast": {
       "duration": 0.6,
-      "animation": "spell_engine:one_handed_sky_charge",
+      "animation": {
+        "id": "spell_engine:one_handed_sky_charge"
+      },
       "sound": {
         "id": "spell_engine:generic_arcane_casting"
       },
@@ -25,7 +27,9 @@
     }
   },
   "release": {
-    "animation": "spellbladenext:one_handed_area_release",
+    "animation": {
+      "id": "spellbladenext:one_handed_area_release"
+    },
     "sound": {
       "id": "spell_engine:generic_arcane_release"
     }

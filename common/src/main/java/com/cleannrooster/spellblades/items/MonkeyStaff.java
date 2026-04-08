@@ -8,7 +8,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.ActionResult;
-import net.spell_engine.api.item.weapon.Weapon;
+import net.spell_engine.rpg_series.item.Weapon;
 
 public class MonkeyStaff extends AxeItem {
     public MonkeyStaff(float f, float g, Settings properties) {

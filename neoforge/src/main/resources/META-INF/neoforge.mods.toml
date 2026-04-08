@@ -1,17 +1,16 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
-#issueTrackerURL = ""
-license = "Insert License Here"
+license = "CC0-1.0"
 
 [[mods]]
 modId = "spellbladenext"
 version = "${version}"
-displayName = "Example Mod"
+displayName = "Spellblades and Such"
 authors = "Me!"
 description = '''
-This is an example description! Tell everyone what your mod is about!
+Spellblades and Such is a spell engine addon that adds magic enhanced bladed weaponry!
 '''
-#logoFile = ""
+logoFile = "assets/spellbladenext/icon.png"
 
 [[dependencies.spellbladenext]]
 modId = "neoforge"
@@ -27,6 +26,26 @@ versionRange = "[1.21.1,)"
 ordering = "NONE"
 side = "BOTH"
 
+[[dependencies.spellbladenext]]
+modId = "forgified_fabric_api"
+type = "required"
+versionRange = "*"
+ordering = "BEFORE"
+side = "BOTH"
+
+[[dependencies.spellbladenext]]
+modId = "spell_engine"
+type = "required"
+versionRange = "*"
+ordering = "BEFORE"
+side = "BOTH"
+
+[[dependencies.spellbladenext]]
+modId = "spell_power"
+type = "required"
+versionRange = "*"
+ordering = "BEFORE"
+side = "BOTH"
 
 [[mixins]]
 config = "spellbladenext.mixins.json"

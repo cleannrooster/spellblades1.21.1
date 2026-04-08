@@ -3,14 +3,11 @@ package com.cleannrooster.spellblades;
 import com.cleannrooster.spellblades.Spells.SpellCustomDelivery;
 import com.cleannrooster.spellblades.Spells.SpellCustomImpact;
 import com.cleannrooster.spellblades.Spells.SpellbladeSpells;
-import com.cleannrooster.spellblades.compat.CombatRollCompat;
 import com.cleannrooster.spellblades.config.ServerConfig;
 import com.cleannrooster.spellblades.config.ServerConfigWrapper;
 import com.cleannrooster.spellblades.effect.*;
-import com.cleannrooster.spellblades.entity.CycloneEntity;
 import com.cleannrooster.spellblades.items.Items;
 import com.cleannrooster.spellblades.items.MonkeyStaff;
-import com.cleannrooster.spellblades.items.armor.Armors;
 import com.cleannrooster.spellblades.items.loot.Default;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
@@ -18,15 +15,12 @@ import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.fabricmc.fabric.api.networking.v1.*;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.item.*;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -35,18 +29,12 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.config.ConfigFile;
 import net.spell_engine.api.effect.Synchronized;
-import net.spell_engine.api.item.SpellBooks;
-import net.spell_engine.api.render.CustomModels;
-import net.spell_engine.api.spell.Spell;
 import net.spell_power.api.*;
 import net.tiny_config.ConfigManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
-
 import static com.cleannrooster.spellblades.CustomAttributes.EPHEMERAL;
-import static net.spell_engine.internals.SpellHelper.launchPoint;
 
 public class SpellbladesAndSuch  {
 	// This logger is used to write text to the console and the log file.
@@ -54,7 +42,6 @@ public class SpellbladesAndSuch  {
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger("spellbladenext");
 	public static ItemGroup SPELLBLADES;
-	public static EntityType<CycloneEntity> CYCLONEENTITY;
 
 
 	public static String MOD_ID = "spellbladenext";
@@ -93,11 +80,6 @@ public class SpellbladesAndSuch  {
 	public static  RegistryEntry.Reference<StatusEffect> INEXORABLE;
 	public static  RegistryEntry.Reference<StatusEffect> BULWARK;
 
-	private static PacketByteBuf configSerialized = PacketByteBufs.create();
-
-
-
-
 	public static ConfigManager<ConfigFile.Equipment> equipmentConfig;
 	public static RegistryEntry.Reference<StatusEffect> PHOENIXCURSE;
 	public static  RegistryEntry.Reference<StatusEffect> DEATHCHILL;
@@ -114,42 +96,13 @@ public class SpellbladesAndSuch  {
 
 	public  static void onInitialize() {
 
-		CustomModels.registerModelIds(List.of(
-				Identifier.of(MOD_ID, "projectile/descry")
-		));
-		CustomModels.registerModelIds(List.of(
-				Identifier.of(MOD_ID, "projectile/orb")
-		));
 		if(SpellSchools.LIGHTNING.attributeEntry != null) {
 			SpellSchools.LIGHTNING.attributeEntry.value().setTracked(true);
-		}
-		if(FabricLoader.getInstance().isModLoaded("combat_roll")){
-			CombatRollCompat.register();
 		}
 		AutoConfig.register(ServerConfigWrapper.class, PartitioningSerializer.wrap(JanksonConfigSerializer::new));
 		config = AutoConfig.getConfigHolder(ServerConfigWrapper.class).getConfig().server;
 		SpellCustomDelivery.registerDeliveries();
         SpellCustomImpact.registerImpacts();
-
-
-		CustomModels.registerModelIds(List.of(
-				Identifier.of(MOD_ID, "projectile/feather")
-		));
-		CustomModels.registerModelIds(List.of(
-				Identifier.of(MOD_ID, "projectile/flamewaveprojectile")
-		));
-		CustomModels.registerModelIds(List.of(
-				Identifier.of(MOD_ID, "projectile/amethyst")
-		));
-		CustomModels.registerModelIds(List.of(
-				Identifier.of(MOD_ID, "projectile/gladius")
-		));
-		CustomModels.registerModelIds(List.of(
-				Identifier.of(MOD_ID, "projectile/shield")
-		));
-		CustomModels.registerModelIds(List.of(
-				Identifier.of(MOD_ID, "projectile/spear")
-		));
 		LOGGER.info("Hello Fabric world!");
 	}
     public static void registerAttributes(){
@@ -221,7 +174,7 @@ public class SpellbladesAndSuch  {
 		Registry.register(Registries.ITEM_GROUP, KEY, SPELLBLADES);
 
 		equipmentConfig  = new ConfigManager<>
-				("equipment", Default.itemConfig)
+				("equipment_v2", Default.itemConfig)
 				.builder()
 				.setDirectory(MOD_ID)
 				.sanitize(true)
@@ -229,7 +182,7 @@ public class SpellbladesAndSuch  {
 		equipmentConfig.refresh();
 
 		Items.register(equipmentConfig.value.weapons);
-		Armors.register(equipmentConfig.value.armor_sets);
+		//Armors.register(equipmentConfig.value.armor_sets);
 		MONKEYSTAFF = new MonkeyStaff(0,0,new Item.Settings().attributeModifiers(SwordItem.createAttributeModifiers(ToolMaterials.WOOD,0,0F)).maxDamage(2048));
 		RUNEBLAZE                = new Item(new Item.Settings().maxCount(64));
 		RUNEFROST  = new Item(new Item.Settings().maxCount(64));
@@ -239,15 +192,6 @@ public class SpellbladesAndSuch  {
 		Registry.register(Registries.ITEM,Identifier.of(MOD_ID,"runefrost_ingot"),RUNEFROST);
 		Registry.register(Registries.ITEM,Identifier.of(MOD_ID,"runegleam_ingot"),RUNEGLEAM);
 		Registry.register(Registries.ITEM,Identifier.of(MOD_ID,"monkeystaff"),MONKEYSTAFF);
-		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"frost_battlemage"),KEY);
-		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"fire_battlemage"),KEY);
-		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"arcane_battlemage"),KEY);
-        SpellBooks.createAndRegister(Identifier.of(MOD_ID,"lightning_battlemage"),KEY);
-        SpellBooks.createAndRegister(Identifier.of(MOD_ID,"runic_echoes"),KEY);
-
-		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"phoenix"),KEY);
-		SpellBooks.createAndRegister(Identifier.of(MOD_ID,"deathchill"),KEY);
-
 		ItemGroupEvents.modifyEntriesEvent(KEY).register((content) -> {
 			content.add(RUNEBLAZE);
 

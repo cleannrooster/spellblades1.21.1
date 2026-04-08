@@ -27,6 +27,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.event.SpellHandlers;
+import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.internals.SpellHelper;
@@ -71,7 +72,7 @@ public class SpellCustomDelivery {
                         if(realSpell.value().target.area != null){
                             Spell.Target.Area area = realSpell.value().target.area;
                             area.angle_degrees = 53.13F;
-                            entities.addAll( TargetHelper.targetsFromArea(playerEntity,playerEntity.getPos(),4,area, arg -> EntityRelations.actionAllowed(SpellTarget.FocusMode.AREA, SpellHelper.deliveryIntent(realSpell.value()).isPresent() ?  SpellHelper.deliveryIntent(realSpell.value()).get() : SpellTarget.Intent.HARMFUL,playerEntity,arg)));
+                            entities.addAll( TargetHelper.targetsFromArea(playerEntity,4,area, arg -> EntityRelations.actionAllowed(SpellTarget.FocusMode.AREA, SpellHelper.deliveryIntent(realSpell.value()).isPresent() ?  SpellHelper.deliveryIntent(realSpell.value()).get() : SpellTarget.Intent.HARMFUL,playerEntity,arg)));
                         }
                         SpellHelper.ImpactContext context = impactContext.power(new SpellPower.Result(realSpell.value().school, realSpell.value().school.getValue(SpellSchool.Trait.POWER, args), 1.0F, realSpell.value().school.getValue(SpellSchool.Trait.CRIT_DAMAGE, args)));
                         List<SpellHelper.DeliveryTarget> deliveryTargets = entities.stream().map(entity -> new SpellHelper.DeliveryTarget(entity,context)).toList();
@@ -113,7 +114,7 @@ public class SpellCustomDelivery {
                 playerEntity.setOnGround(false);
 
                 playerEntity.addStatusEffect(new StatusEffectInstance(SLAMMING, 100, 0, false, false));
-                imposeCooldown(playerEntity, SpellContainerSource.getFirstSourceOfSpell(Identifier.of(MOD_ID, "dragon_slam"), playerEntity), Identifier.of(MOD_ID, "dragon_slam"), SpellRegistry.from(playerEntity.getWorld()).getEntry(Identifier.of(MOD_ID, "dragon_slam")).get(), 1.0F);
+                imposeCooldown(playerEntity, SpellContainerSource.getFirstSourceOfSpell(Identifier.of(MOD_ID, "dragon_slam"), playerEntity), SpellRegistry.from(playerEntity.getWorld()).getEntry(Identifier.of(MOD_ID, "dragon_slam")).get(), 1.0F);
 
             }
             else{
@@ -132,7 +133,7 @@ public class SpellCustomDelivery {
                     return playerEntities;
                 });
 
-                AnimationHelper.sendAnimation((PlayerEntity) playerEntity, (Collection)trackingPlayers.get(), SpellCast.Animation.RELEASE, "spell_engine:two_handed_slam_spellblade_2", 1);
+                AnimationHelper.sendAnimation((PlayerEntity) playerEntity, (Collection)trackingPlayers.get(), SpellCast.Animation.RELEASE, PlayerAnimation.of("spell_engine:two_handed_slam_spellblade_2"), 1);
 
             }
                 return true;
@@ -180,9 +181,9 @@ public class SpellCustomDelivery {
                 SpellHelper.performImpacts(playerEntity.getWorld(), playerEntity, entity, playerEntity, SpellRegistry.from(playerEntity.getWorld()).getEntry(Identifier.of(MOD_ID,"flickering_flame")).get(),SpellRegistry.from(playerEntity.getWorld()).get(Identifier.of(MOD_ID,"flickering_flame")).impacts, impactContext);
                 SpellCasterEntity caster = (SpellCasterEntity) playerEntity;
                 ((WorldScheduler)playerEntity.getWorld()).schedule(1+(int)Math.ceil(4/playerEntity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_SPEED)),()->{
-                    caster.getCooldownManager().set(Identifier.of(MOD_ID, "flickering_flame"),0,true);
+                    caster.getCooldownManager().set(registryEntry,0,true);
 
-                    SpellHelper.performSpell(playerEntity.getWorld(),playerEntity,registryEntry, SpellTarget.SearchResult.of(TargetHelper.targetsFromArea(playerEntity,playerEntity.getPos(),SpellRegistry.from(playerEntity.getWorld()).get(Identifier.of(MOD_ID,"flickering_flame")).range,SpellRegistry.from(playerEntity.getWorld()).get(Identifier.of(MOD_ID, "flickering_flame")).target.area,
+                    SpellHelper.performSpell(playerEntity.getWorld(),playerEntity,registryEntry, SpellTarget.SearchResult.of(TargetHelper.targetsFromArea(playerEntity,SpellRegistry.from(playerEntity.getWorld()).get(Identifier.of(MOD_ID,"flickering_flame")).range,SpellRegistry.from(playerEntity.getWorld()).get(Identifier.of(MOD_ID, "flickering_flame")).target.area,
                             target -> EntityRelations.actionAllowed(SpellTarget.FocusMode.AREA, SpellTarget.Intent.HARMFUL.HARMFUL,playerEntity,target))), SpellCast.Action.RELEASE,1F);
                 });
                 return true;
@@ -190,7 +191,7 @@ public class SpellCustomDelivery {
             SpellCasterEntity caster = (SpellCasterEntity) playerEntity;
             ((WorldScheduler)playerEntity.getWorld()).schedule(1,()-> {
 
-                caster.getCooldownManager().set(Identifier.of(MOD_ID, "flickering_flame"), (int) (10*(1/playerEntity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_SPEED))+20 * (SpellHelper.getCooldownDuration(playerEntity, SpellRegistry.from(playerEntity.getWorld()).getEntry(Identifier.of(MOD_ID,"flickering_flame")).get()))));
+                caster.getCooldownManager().set(registryEntry, (int) (10*(1/playerEntity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_SPEED))+20 * (SpellHelper.getCooldownDuration(playerEntity, SpellRegistry.from(playerEntity.getWorld()).getEntry(Identifier.of(MOD_ID,"flickering_flame")).get()))));
             });
             ((ServerWorld)playerEntity.getWorld()).iterateEntities().forEach(iteratedEntity ->{
                 if(iteratedEntity instanceof LivingEntity living){

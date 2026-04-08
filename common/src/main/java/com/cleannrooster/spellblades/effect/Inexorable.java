@@ -27,7 +27,7 @@ public class Inexorable extends CustomEffect{
 
     @Override
     public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
-        ParticleHelper.play(entity.getWorld(),entity, SpellRegistry.from(entity.getWorld()).get(Identifier.of(MOD_ID,"particlesholy")).deliver.clouds.get(0).client_data.particles);
+      //  ParticleHelper.play(entity.getWorld(),entity, SpellRegistry.from(entity.getWorld()).get(Identifier.of(MOD_ID,"particlesholy")).deliver.clouds.get(0).client_data.particles);
         return super.applyUpdateEffect(entity, amplifier);
     }
 }

@@ -6,7 +6,9 @@
   "active": {
     "cast": {
       "duration": 0.25,
-      "animation": "spellbladenext:one_handed_projectile_charge",
+      "animation": {
+        "id": "spellbladenext:one_handed_projectile_charge"
+      },
       "sound": {
         "id": "spell_engine:generic_fire_casting"
       },
@@ -23,7 +25,9 @@
     }
   },
   "release": {
-    "animation": "spellbladenext:flourish",
+    "animation": {
+      "id": "spellbladenext:flourish"
+    },
     "sound": {
       "id": "minecraft:entity.player.attack.sweep"
     }

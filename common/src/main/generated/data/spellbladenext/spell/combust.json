@@ -6,7 +6,9 @@
   "active": {
     "cast": {
       "duration": 1.0,
-      "animation": "spellbladenext:one_handed_projectile_charge",
+      "animation": {
+        "id": "spellbladenext:one_handed_projectile_charge"
+      },
       "sound": {
         "id": "spell_engine:generic_fire_casting"
       },
@@ -51,7 +53,9 @@
     }
   },
   "release": {
-    "animation": "spellbladenext:one_handed_projectile_release",
+    "animation": {
+      "id": "spellbladenext:one_handed_projectile_release"
+    },
     "particles": [
       {
         "particle_id": "spell_engine:flame",

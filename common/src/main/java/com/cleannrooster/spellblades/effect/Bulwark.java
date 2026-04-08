@@ -44,15 +44,15 @@ public class Bulwark extends CustomEffect{
 
         int power = (int) ((int) SpellPower.getSpellPower(SpellSchools.HEALING, entity).baseValue()*1.25-1);
         if(entity instanceof PlayerEntity player && player.getWorld() instanceof ServerWorld serverWorld) {
-            if(!((SpellCasterEntity) player).getCooldownManager().isCoolingDown(Identifier.of(MOD_ID,"circle_of_healing"))) {
+            if(!((SpellCasterEntity) player).getCooldownManager().isCoolingDown(SpellRegistry.from(entity.getWorld()).getEntry(Identifier.of(MOD_ID,"circle_of_healing")).get())) {
                 ArrayList<Entity> targets = (ArrayList<Entity>) TargetHelper.targetsFromArea(
-                        player, player.getPos(), SpellRegistry.from(entity.getWorld()).get(Identifier.of(MOD_ID, "circle_of_healing")).range, SpellRegistry.from(entity.getWorld()).get(Identifier.of(MOD_ID, "circle_of_healing")).target.area,
+                        player,  SpellRegistry.from(entity.getWorld()).get(Identifier.of(MOD_ID, "circle_of_healing")).range, SpellRegistry.from(entity.getWorld()).get(Identifier.of(MOD_ID, "circle_of_healing")).target.area,
                         target -> EntityRelations.actionAllowed(SpellTarget.FocusMode.AREA, SpellTarget.Intent.HELPFUL, player, target));
                 targets.add(player);
 
                 SpellHelper.performSpell(entity.getWorld(), player, SpellRegistry.from(entity.getWorld()).getEntry(Identifier.of(MOD_ID, "circle_of_healing")).get(), SpellTarget.SearchResult.of(targets), SpellCast.Action.RELEASE, 1.0F);
                 for (Entity entity1 : TargetHelper.targetsFromArea(
-                        entity, entity.getPos(), SpellRegistry.from(entity.getWorld()).get(Identifier.of(MOD_ID, "circle_of_healing")).range, SpellRegistry.from(entity.getWorld()).get(Identifier.of(MOD_ID, "circle_of_healing")).target.area,
+                        entity,  SpellRegistry.from(entity.getWorld()).get(Identifier.of(MOD_ID, "circle_of_healing")).range, SpellRegistry.from(entity.getWorld()).get(Identifier.of(MOD_ID, "circle_of_healing")).target.area,
                         target -> EntityRelations.actionAllowed(SpellTarget.FocusMode.AREA, SpellTarget.Intent.HELPFUL, entity, target))) {
                     if (entity1 instanceof LivingEntity living) {
                         living.setAbsorptionAmount((float) Math.min(living.getMaxAbsorption(), living.getAbsorptionAmount() + 0.25 * SpellPower.getSpellPower(SpellSchools.HEALING, entity).randomValue()));

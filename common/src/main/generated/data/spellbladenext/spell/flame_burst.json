@@ -22,7 +22,9 @@
     ]
   },
   "release": {
-    "animation": "spellbladenext:one_handed_area_release",
+    "animation": {
+      "id": "spellbladenext:one_handed_area_release"
+    },
     "particles": [
       {
         "particle_id": "spell_engine:flame",

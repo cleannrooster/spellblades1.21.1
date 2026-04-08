@@ -1,6 +1,5 @@
 package com.cleannrooster.spellbladenext.data;
 
-import com.cleannrooster.spellblades.items.armor.Armors;
 import com.cleannrooster.spellblades.Spells.SpellbladeSpells;
 import com.cleannrooster.spellblades.items.Items;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -9,7 +8,6 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.registry.RegistryWrapper;
 import net.spell_engine.api.datagen.SpellGenerator;
 import net.spell_engine.rpg_series.datagen.RPGSeriesDataGen;
-import net.spell_engine.rpg_series.tags.RPGSeriesItemTags;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -44,7 +42,6 @@ public class SpellbladesDataGen implements DataGeneratorEntrypoint {
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
             generateWeaponTags(Items.entries);
-            generateArmorTags(Armors.entries, RPGSeriesItemTags.ArmorMetaType.MAGIC);
         }
     }
 

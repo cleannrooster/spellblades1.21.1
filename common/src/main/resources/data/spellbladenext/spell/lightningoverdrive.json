@@ -7,7 +7,7 @@
   "active":{
     "cast": {
       "duration": 1,
-      "animation": "spellbladenext:one_handed_area_charge",
+      "animation": {"id": "spellbladenext:one_handed_area_charge"},
       "sound": {
         "id": "spell_engine:generic_lightning_casting",
         "randomness": 0
@@ -25,7 +25,7 @@
     }
   },
   "release": {
-    "animation": "spellbladenext:one_handed_area_release",
+    "animation": {"id": "spellbladenext:one_handed_area_release"},
     "sound": {
       "id": "spell_engine:generic_lightning_release"
     }

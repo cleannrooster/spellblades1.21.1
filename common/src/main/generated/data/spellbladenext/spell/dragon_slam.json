@@ -5,7 +5,9 @@
   "learn": {},
   "active": {
     "cast": {
-      "animation": "spell_engine:vertspin",
+      "animation": {
+        "id": "spell_engine:vertspin"
+      },
       "sound": {
         "id": "spell_engine:generic_fire_casting"
       },

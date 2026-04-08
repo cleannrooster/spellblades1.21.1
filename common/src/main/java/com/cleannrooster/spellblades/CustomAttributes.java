@@ -12,7 +12,8 @@ public class CustomAttributes {
 
 
     public static void run(){
-        EPHEMERAL = Registry.registerReference(Registries.ATTRIBUTE, Identifier.of("spellbladenext", "ephemeral"), new ClampedEntityAttribute("attribute.name.spellbladenext.ephemeral", 100,100,9999));
+        if(EPHEMERAL == null)
+            EPHEMERAL = Registry.registerReference(Registries.ATTRIBUTE, Identifier.of("spellbladenext", "ephemeral"), new ClampedEntityAttribute("attribute.name.spellbladenext.ephemeral", 100,100,9999));
 
     }
 }

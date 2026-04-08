@@ -22,7 +22,9 @@
     ]
   },
   "release": {
-    "animation": "spellbladenext:one_handed_area_release",
+    "animation": {
+      "id": "spellbladenext:one_handed_area_release"
+    },
     "sound": {
       "id": "spell_engine:generic_frost_release"
     }

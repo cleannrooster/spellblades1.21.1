@@ -1,6 +1,5 @@
 package com.cleannrooster.spellblades.effect;
 
-import mod.azure.azurelib.common.internal.client.util.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -26,9 +25,9 @@ public class FeatherRenderer extends OrbitingEffectRenderer {
     private static final RenderLayer GLOWING_RENDER_LAYER;
 
     public FeatherRenderer() {
-        super(List.of(new OrbitingEffectRenderer.Model(GLOWING_RENDER_LAYER, 				Identifier.of(MOD_ID, "projectile/feather")
+        super(List.of(new OrbitingEffectRenderer.Model(GLOWING_RENDER_LAYER, 				Identifier.of(MOD_ID, "spell_projectile/feather")
         )), 1F, 1F);
-        this.models =List.of( new OrbitingEffectRenderer.Model(GLOWING_RENDER_LAYER, 				Identifier.of(MOD_ID, "projectile/feather")));
+        this.models =List.of( new OrbitingEffectRenderer.Model(GLOWING_RENDER_LAYER, 				Identifier.of(MOD_ID, "spell_projectile/feather")));
         this.scale = 1F;
         this.horizontalOffset = 1F;
     }
@@ -54,7 +53,7 @@ public class FeatherRenderer extends OrbitingEffectRenderer {
     }
     public void renderEffect(int amplifier, LivingEntity livingEntity, float delta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light) {
         matrixStack.push();
-        float time = (float)RenderUtils.getCurrentTick() + delta;
+        float time = (float)livingEntity.getWorld().getTime() + delta;
         float initialAngle = time * 2.25F - 45.0F;
         float horizontalOffset =  this.horizontalOffset * livingEntity.getScaleFactor();
 
