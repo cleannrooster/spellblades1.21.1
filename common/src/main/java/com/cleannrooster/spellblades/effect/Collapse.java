@@ -1,5 +1,6 @@
 package com.cleannrooster.spellblades.effect;
 
+import com.cleannrooster.spellblades.SpellbladesAndSuch;
 import com.cleannrooster.spellblades.Spells.SpellbladeSpells;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -52,6 +53,9 @@ public class Collapse extends CustomEffect{
         if(entity.getLastAttacker() != null) {
             SpellHelper.performImpacts(entity.getWorld(), entity.getLastAttacker(),entity, entity, SpellRegistry.from((entity.getWorld())).getEntry(Identifier.of("spellbladenext:collapse")).get(),
                     impacts,context);
+        }
+        if(entity.hasStatusEffect(SpellbladesAndSuch.COLLAPSE)){
+            entity.removeStatusEffect(SpellbladesAndSuch.COLLAPSE);
         }
         return super.applyUpdateEffect(entity, amplifier);
     }

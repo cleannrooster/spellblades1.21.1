@@ -55,15 +55,7 @@
           "min_speed": 0.2,
           "max_speed": 0.7
         }
-      ,
-        {
-          "particle_id": "spell_engine:smoke_medium",
-          "shape": "CIRCLE",
-          "origin": "CENTER",
-          "count": 10.0,
-          "min_speed": 0.5,
-          "max_speed": 0.9
-        }
+
       ]
     }
   ],
@@ -81,14 +73,6 @@
         "count": 100.0,
         "min_speed": 0.3,
         "max_speed": 0.9
-      },
-      {
-        "particle_id": "spell_engine:smoke_medium",
-        "shape": "CIRCLE",
-        "origin": "CENTER",
-        "count": 30.0,
-        "min_speed": 0.15,
-        "max_speed": 0.27
       }
     ],
     "sound": {

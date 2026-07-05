@@ -38,7 +38,7 @@
       },
       "particles": [
         {
-          "particle_id": "spell_engine:electric_arc_a",
+          "particle_id": "spell_engine:magic_spark_burst",
           "origin": "CENTER",
           "shape": "CIRCLE",
           "rotation": "LOOK",

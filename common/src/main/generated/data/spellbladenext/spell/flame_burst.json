@@ -14,10 +14,7 @@
   "passive": {
     "triggers": [
       {
-        "type": "MELEE_IMPACT",
-        "spell": {
-          "archetype": "MAGIC"
-        }
+        "type": "MELEE_IMPACT"
       }
     ]
   },
@@ -87,7 +84,7 @@
       },
       "particles": [
         {
-          "particle_id": "spell_engine:flame_spark",
+          "particle_id": "spell_engine:magic_spell_burst",
           "origin": "CENTER",
           "shape": "CIRCLE",
           "rotation": "LOOK",
@@ -104,7 +101,8 @@
           "count": 20.0,
           "min_speed": 0.2,
           "max_speed": 0.7,
-          "angle": 360.0
+          "angle": 360.0,
+          "color_rgba": 4278190335
         }
       ],
       "sound": {

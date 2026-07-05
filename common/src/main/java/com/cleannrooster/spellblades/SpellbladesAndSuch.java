@@ -13,6 +13,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 
+import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.annotation.Nullable;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.entity.*;
@@ -26,15 +27,35 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.config.ConfigFile;
 import net.spell_engine.api.effect.Synchronized;
+import net.spell_engine.api.event.CombatEvents;
+import net.spell_engine.api.spell.ExternalSpellSchools;
+import net.spell_engine.api.spell.Spell;
+import net.spell_engine.api.spell.event.SpellEvents;
+import net.spell_engine.api.spell.fx.ParticleBatch;
+import net.spell_engine.api.spell.fx.PlayerAnimation;
+import net.spell_engine.api.spell.fx.Sound;
+import net.spell_engine.api.spell.registry.SpellRegistry;
+import net.spell_engine.client.util.Color;
+import net.spell_engine.fx.SpellEngineParticles;
+import net.spell_engine.fx.SpellEngineSounds;
+import net.spell_engine.internals.SpellHelper;
+import net.spell_engine.internals.target.EntityRelations;
+import net.spell_engine.internals.target.SpellTarget;
+import net.spell_engine.utils.TargetHelper;
 import net.spell_power.api.*;
 import net.tiny_config.ConfigManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.cleannrooster.spellblades.CustomAttributes.EPHEMERAL;
+import static net.spell_power.api.SpellSchools.ARCANE;
 
 public class SpellbladesAndSuch  {
 	// This logger is used to write text to the console and the log file.
@@ -162,9 +183,67 @@ public class SpellbladesAndSuch  {
 		Synchronized.configure(FEATHERHEAL.value(),true);
 		Synchronized.configure(COLLAPSE.value(),true);
 		Synchronized.configure(DEATHCHILL.value(),true);
-		SpellbladeSpells.registerHandlers();
+		registerHandlers();
 
 	}
+
+
+
+
+
+
+
+    public static Spell.Impact createImpact(Spell.Impact.Action.Type type, float coeff, float knockback) {
+        Spell.Impact impact = new Spell.Impact();
+        impact.action = new Spell.Impact.Action();
+        impact.action.type = type;
+        if (type == net.spell_engine.api.spell.Spell.Impact.Action.Type.DAMAGE) {
+            impact.action.damage = new Spell.Impact.Action.Damage();
+            impact.action.damage.knockback = knockback;
+            impact.action.damage.spell_power_coefficient = coeff;
+        }
+
+        return impact;
+    }
+
+
+
+
+
+
+    public static Spell.Impact createFireImpact(float coeff, float knockback) {
+        Spell.Impact impact = createImpact(net.spell_engine.api.spell.Spell.Impact.Action.Type.DAMAGE, coeff, knockback);
+        impact.school = SpellSchools.FIRE;
+        ParticleBatch[] hitParticles = new ParticleBatch[]{new ParticleBatch(SpellEngineParticles.flame.id().toString(), net.spell_engine.api.spell.fx.ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER, ParticleBatch.Rotation.LOOK, 20.0F, 0.2F, 0.7F, 360.0F), new ParticleBatch("minecraft:smoke", net.spell_engine.api.spell.fx.ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER, ParticleBatch.Rotation.LOOK, 20.0F, 0.2F, 0.7F, 360.0F)};
+        impact.particles = hitParticles;
+        Sound sound = new Sound("minecraft:entity.player.hurt_on_fire");
+        impact.sound = sound;
+        return impact;
+    }
+
+
+
+    public static void registerHandlers() {
+
+        SpellEvents.COST_CONSUME.register((args) -> {
+            if (args.spell().getIdAsString().equals(SpellRegistry.from(args.caster().getWorld()).getEntry(Identifier.of(SpellbladesAndSuch.MOD_ID,"phoenix_dive")).get().getIdAsString())) {
+                Spell.AreaImpact impact = new Spell.AreaImpact();
+                impact.area = new Spell.Target.Area();
+                impact.radius = 8.0F;
+                List<Spell.Impact> list = new ArrayList();
+                list.add(createFireImpact(1.2F, 1.0F));
+                var entities = TargetHelper.targetsFromArea(args.caster().getWorld(),args.caster(),args.caster().getPos(),args.caster().getRotationVector(),8F,impact.area,
+                        e -> EntityRelations.actionAllowed(SpellTarget.FocusMode.AREA, SpellTarget.Intent.HARMFUL,args.caster(),e));
+                var burst = SpellRegistry.from(args.caster().getWorld()).getEntry(Identifier.of(SpellbladesAndSuch.MOD_ID,"flame_burst")).get();
+                for(Entity entity : entities) {
+
+                    SpellHelper.performImpacts(args.caster().getWorld(), args.caster(), entity,args.caster(),burst,burst.value().impacts, new SpellHelper.ImpactContext().position(args.caster().getPos()),false,null );
+
+                }
+            }
+
+        });
+    }
 	public static void registerItems(){
 
 		SPELLBLADES = FabricItemGroup.builder()

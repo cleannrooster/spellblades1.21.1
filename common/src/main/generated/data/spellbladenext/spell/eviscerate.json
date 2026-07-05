@@ -1,6 +1,6 @@
 {
   "school": "spell_power:frost",
-  "range": 8.0,
+  "range": 6.0,
   "tier": 4,
   "learn": {},
   "active": {
@@ -28,13 +28,10 @@
     }
   },
   "target": {
-    "type": "AREA",
-    "area": {}
-  },
-  "deliver": {
-    "type": "CUSTOM",
-    "custom": {
-      "handler": "spellbladenext:eviscerate"
+    "type": "AIM",
+    "aim": {
+      "required": true,
+      "sticky": true
     }
   },
   "impacts": [
@@ -49,14 +46,15 @@
       },
       "particles": [
         {
-          "particle_id": "spell_engine:magic_frost_impact_burst",
+          "particle_id": "spell_engine:magic_frost_burst",
           "origin": "CENTER",
           "shape": "CIRCLE",
           "rotation": "LOOK",
           "count": 20.0,
           "min_speed": 0.2,
           "max_speed": 0.7,
-          "angle": 360.0
+          "angle": 360.0,
+          "color_rgba": 1724710911
         }
       ],
       "sound": {
@@ -76,7 +74,7 @@
   ],
   "cost": {
     "cooldown": {
-      "duration": 4.0
+      "duration": 12.0
     },
     "item": {
       "id": "runes:frost_stone"

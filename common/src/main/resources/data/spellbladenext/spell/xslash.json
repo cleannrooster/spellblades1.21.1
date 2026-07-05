@@ -30,7 +30,7 @@
           "max_speed": 0
         }
       ],
-      "channel_ticks": 7
+      "channel_ticks": 3
     }
   },
   "release": {
@@ -71,14 +71,6 @@
           "count": 20.0,
           "min_speed": 0.2,
           "max_speed": 0.6
-        },
-        {
-          "particle_id": "spell_engine:smoke_medium",
-          "shape": "SPHERE",
-          "origin": "CENTER",
-          "count": 30.0,
-          "min_speed": 0.5,
-          "max_speed": 0.9
         }
       ],
       "sound": {
